@@ -1,0 +1,182 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
+
+class Product extends Model
+{
+    /** @use HasFactory<\Database\Factories\ProductFactory> */
+    use HasFactory;
+
+    protected $fillable = [
+        'caetgory_id',
+        'name',
+        'slug',
+        'description',
+        'price',
+        'discount_price',
+        'stock',
+        'weight',
+        'is_active',
+        'is_featured',
+    ];
+
+    protected $casts = [
+        'price' => 'decimal:2',
+        'discount_price' => 'decimal:2',
+        'is_active' => 'decimal:boolean',
+        'is_featured' => 'decimal:boolean',
+    ];
+
+    // ==================== BOOT ====================
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function($product){
+            if(empty($product->slug)){
+                $product->slug = Str::slug($product->name);
+
+                $count= static::where('slug', 'like', $product->slug.'%')->count();
+                if ($count > 0) {
+                    $product->slug .= '-' . ($count + 1);
+                }
+            }
+        });
+    }
+
+    // --------------- RELASI ------------------
+
+    /**
+     * produk masuk ke satu kategori
+     */
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    /**
+     * produik punya banyak gambar
+     * 
+     */
+    public function images()
+    {
+        return $this->hasMany(ProductImage::class)->orderBy('sort_order');
+    }
+
+    /**
+     * item pesanan mengandung produkk ini
+     */
+    public function orderItems()
+    {
+        return $this->hasMany(OrderItem::class);
+    }
+
+    // accesoris
+
+    /**
+     * harga normal yang di tampilkan
+     */
+    public function getDisplaPriceAttribute() : float {
+        return $this->discount_price ?? $this->price;
+    }
+
+    /**
+     * format harga yang tampil
+     * contoh : Rp 1.000.000
+     */
+    public function getFormattedPriceAttribute(): string{
+        return 'Rp' . number_format($this->display_price, 0, ',', '.');
+    }
+
+    /**
+     * format harga asli sebelum dikon
+     */
+    public function getFormatOriginalPriceAttribute() : string {
+        return 'Rp' . number_format($this->price, 0, ',', '.');
+    }
+
+    /**
+     * persentase diskon
+     */
+    public function getDiscountPercenatgeAttribute() : int {
+        if(!$this->has_discount){
+            return 0;
+        }
+        return round((($this->price - $this->discount_price) / $this->price) * 100);
+    }
+
+    /**
+     * Cek apakah produk memiliki diskon.
+     */
+    public function getHasDiscountAttribute(): bool
+    {
+        return $this->discount_price !== null
+            && $this->discount_price < $this->price;
+    }
+
+    /**
+     * URL gambar utama atau placeholder.
+     */
+    public function getImageUrlAttribute(): string
+    {
+        if ($this->primaryImage) {
+            return $this->primaryImage->image_url;
+        }
+        return asset('images/no-image.png');
+    }
+
+    /**
+     * cek apakah produk masih ada
+     */
+    public function getAvailableAttribute() : bool {
+        return $this->is_active && $this->stock > 0;
+    }
+
+    // ------------------------ SCOPE ------------------------
+
+    /**
+     * filater produk yang aktif
+     */
+    public function scopeActive($query)  {
+        return $query->where('is_active', true);
+    }
+
+    /**
+     * filter produk unggulan
+     */
+    public function scopeUnStock($query)  {
+        return $query->where('stock', '>', 0);
+    }
+
+    /**
+     * Filter berdasarkan kategori (menggunakan slug).
+     */
+    public function scopeByCategory($query, string $categorySlug)
+    {
+        return $query->whereHas('category', function ($q) use ($categorySlug) {
+            $q->where('slug', $categorySlug);
+        });
+    }
+
+    /**
+     * pencarian produk
+     */
+    public function scopeSearch($query, string $keyword) {
+        return $query->where(function ($q) use ($keyword) {
+            $q->where('name', 'like', '%' . $keyword . '%')
+                ->orWhere('description', 'like', '%' . $keyword . '%');
+        });
+    }
+
+    /**]
+     * filter berdasarkan range harga
+     */
+    public function scopePriceRange($query, float $min, float $max) {
+        return $query->whereBetween('price', [$min, $max]);
+    }
+}

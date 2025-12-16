@@ -21,6 +21,11 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
+        'google_id',
+        'avatar',
+        'phone',
+        'address',
     ];
 
     /**
@@ -45,4 +50,60 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    // ==================== RELATIONSHIPS ====================
+
+
+    public function cart ()
+    {
+        return $this->hasOne(Cart::class);
+    }
+
+    public function wishlist ()
+    {
+        return $this->hasMany(Wishlist::class);
+    }
+
+    /**
+     * User memiliki banyak pesanan.
+     */
+    public function order ()
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    /**
+     * Relasi many-to-many ke products melalui wishlists.
+     */
+    public function wishlistProducts()  {
+        return $this->belongsToMany(Product::class, 'wishlist')
+                    ->withTimestamps();
+    }
+
+    // ==================== HELPER METHODS ====================
+
+    /**
+     * Cek apakah user adalah admin.
+     */
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
+    }
+
+    /**
+     * Cek apakah user adalah customer.
+     */
+    public function isCustomer(): bool
+    {
+        return $this->role === 'customer';
+    }
+
+    /** cek apakah produk ada di wishlist user 
+     * 
+     * */
+        public function hasWislist(Product $product): bool
+        {
+            return $this->wishlist()
+                ->where('product_id', $product->id)
+                ->exists();
+        }
 }
