@@ -19,7 +19,7 @@ class Category extends Model
         'is_active',
     ];
 
-    protected $cast = [
+    protected $casts  = [
         'is_active' => 'boolean',
     ];
 
@@ -52,7 +52,7 @@ class Category extends Model
     // ==================== RELATIONSHIPS ====================
 
     /**
-     * Kategori memiliki banyak produk
+     * Semua produk dalam kategori
      */
     public function products()
     {
@@ -60,7 +60,7 @@ class Category extends Model
     }
 
     /**
-     * Hanya produk aktif yang tersedia
+     * Produk aktif & stok tersedia
      */
     public function activeProducts()
     {
@@ -68,6 +68,7 @@ class Category extends Model
             ->where('is_active', true)
             ->where('stock', '>', 0);
     }
+
 
     // ==================== SCOPES ====================
 

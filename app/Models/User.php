@@ -52,58 +52,43 @@ class User extends Authenticatable
     }
     // ==================== RELATIONSHIPS ====================
 
-
-    public function cart ()
+    public function cart()
     {
         return $this->hasOne(Cart::class);
     }
 
-    public function wishlist ()
+    public function wishlists()
     {
         return $this->hasMany(Wishlist::class);
     }
 
-    /**
-     * User memiliki banyak pesanan.
-     */
-    public function order ()
+    public function orders()
     {
         return $this->hasMany(Order::class);
     }
 
-    /**
-     * Relasi many-to-many ke products melalui wishlists.
-     */
-    public function wishlistProducts()  {
-        return $this->belongsToMany(Product::class, 'wishlist')
-                    ->withTimestamps();
+    public function wishlistProducts()
+    {
+        return $this->belongsToMany(Product::class, 'wishlists')
+            ->withTimestamps();
     }
 
     // ==================== HELPER METHODS ====================
 
-    /**
-     * Cek apakah user adalah admin.
-     */
     public function isAdmin(): bool
     {
         return $this->role === 'admin';
     }
 
-    /**
-     * Cek apakah user adalah customer.
-     */
     public function isCustomer(): bool
     {
         return $this->role === 'customer';
     }
 
-    /** cek apakah produk ada di wishlist user 
-     * 
-     * */
-        public function hasWislist(Product $product): bool
-        {
-            return $this->wishlist()
-                ->where('product_id', $product->id)
-                ->exists();
-        }
+    public function hasWishlist(Product $product): bool
+    {
+        return $this->wishlists()
+            ->where('product_id', $product->id)
+            ->exists();
+    }
 }

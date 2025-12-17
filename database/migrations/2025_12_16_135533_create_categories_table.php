@@ -12,14 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('categories', function (Blueprint $table) {
+
             // Primary key auto-increment
             $table->id();
 
-            // Nama kategori, max 100 karakter
+            // Nama kategori (maksimal 100 karakter)
             $table->string('name', 100);
 
-            // Slug untuk URL-friendly (contoh: fashion-pria)
-            // Unique agar tidak ada duplikat
+            // Slug kategori untuk URL (harus unik)
             $table->string('slug', 100)->unique();
 
             // Deskripsi kategori (opsional)
@@ -28,13 +28,13 @@ return new class extends Migration
             // Path gambar kategori (opsional)
             $table->string('image')->nullable();
 
-            // Status aktif/nonaktif
+            // Status kategori (aktif / nonaktif)
             $table->boolean('is_active')->default(true);
 
-            // Created_at dan updated_at
+            // Waktu pembuatan & update data
             $table->timestamps();
 
-            // Index untuk pencarian yang lebih cepat
+            // Index untuk optimasi query berdasarkan status
             $table->index('is_active');
         });
     }

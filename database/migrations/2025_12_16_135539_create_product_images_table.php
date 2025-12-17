@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('product_id')
                 ->constrained()
                 ->cascadeOnDelete();
+                
             // Path file gambar di storage
             $table->string('image_path');
 

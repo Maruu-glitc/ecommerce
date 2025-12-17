@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
@@ -36,5 +37,33 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
         $this->middleware('auth')->only('logout');
+    }
+
+    
+    protected function redirectTo(): string
+    {
+        $user = auth()->user();
+
+        if ($user->role === 'admin') {
+            return route('admin.dashboard');
+        }
+
+        return route('home');
+    }
+
+    // @param \Illuminate\Http\Request $request
+
+    protected function validatelogin($request): void
+    {
+        $request->validate([
+            $this->username() => 'required|string|email',
+
+            'password' => 'required|string|min:8',
+        ],[
+            'email.required' => 'Email harus di isi',
+            'email.email' => 'Email tidak valid',
+            'password.required' => 'Password harus di isi',
+            'password.min' => 'Password minimal 8 karakter',
+        ]);
     }
 }

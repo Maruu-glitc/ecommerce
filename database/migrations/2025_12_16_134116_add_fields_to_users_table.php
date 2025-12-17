@@ -12,28 +12,32 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
+
+            // Menentukan role user (customer / admin)
             $table->enum('role', ['customer', 'admin'])
-                    ->default('customer')
-                    ->after('password');
+                ->default('customer')
+                ->after('password');
 
-            // avatar user
-            $table->string('avatar')->nullable()->after('role');
+            // Menyimpan avatar / foto profil user
+            $table->string('avatar')
+                ->nullable()
+                ->after('role');
 
-            // id dari google OAuth (untuk login dengan google)
+            // ID Google OAuth untuk login via Google
             $table->string('google_id')
-                    ->nullable()
-                    ->unique()
-                    ->after('avatar');
+                ->nullable()
+                ->unique()
+                ->after('avatar');
 
-            // Untuk no telepon user
+            // Nomor telepon user
             $table->string('phone', 20)
-                    ->nullable()
-                    ->after('google_id');
+                ->nullable()
+                ->after('google_id');
 
-            // untuk alamat user
+            // Alamat lengkap user
             $table->text('address')
-                    ->nullable()
-                    ->after('phone');
+                ->nullable()
+                ->after('phone');
         });
     }
 
