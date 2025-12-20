@@ -33,17 +33,19 @@ class Category extends Model
     {
         parent::boot();
 
-        // Event creating di panggil  sebelum model di simpan
+        // Event: creating (Sebelum data disimpan ke DB)
+        // Kita gunakan untuk auto-generate slug dari name.
         static::creating(function ($category) {
             if (empty($category->slug)) {
+                // Contoh: "Elektronik & Gadget" -> "elektronik-gadget"
                 $category->slug = Str::slug($category->name);
             }
         });
 
-        // event Jika ada perubahan sebelum model di update
+        // Event: updating (Sebelum data yang diedit disimpan)
+        // Cek jika nama berubah, update juga slug-nya.
         static::updating(function ($category) {
-            // jika nama di ubah , maka ubah slug nya
-            if ($category->isDirty('name')) {
+            if ($category->isDirty('name')) { // isDirty() = apakah nilai berubah?
                 $category->slug = Str::slug($category->name);
             }
         });
@@ -102,4 +104,19 @@ class Category extends Model
         }
         return asset('images/category-placeholder.png');
     }
+
+    /**
+     * Accessor: Menghitung jumlah produk aktif.
+     * $category->products_count
+     */
+    public function getProductsCountAttribute(): int
+    {
+        // Tips: Untuk performa, sebaiknya gunakan withCount() di controller
+        // daripada menghitung manual di sini jika datanya banyak.
+        return $this->activeProducts()->count();
+    }
+
+    // ==================== BOOT (MODEL EVENTS) ====================
+
+    
 }
