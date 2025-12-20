@@ -1,5 +1,5 @@
 {{-- ======================================== FILE:resources/views/auth/login.blade.php FUNGSI: Halaman form login======================================== --}} 
-@extends('layouts.app') 
+@extends('layouts.app')
 {{-- ↑Menggunakan layout dari layouts/app.blade.php Halaman ini akan "masuk" ke bagian@yield('content') --}} 
 @section('content') 
 {{-- ↑ Mulai section yang akanditampilkan di @yield('content') --}}
@@ -92,7 +92,7 @@
                         ================== --}} {{-- Tombol ini akan diaktifkan di Hari 4
                         --}}
                         <div class="d-grid gap-2">
-                            <a href="{{ url('auth/google') }}" class="btn btn-outline-secondary">
+                            <a href="{{ url('auth/google') }}" class="btn " id="btnGoogle" >
                                 <img src="https://www.svgrepo.com/show/475656/google-color.svg" width="20"
                                     class="me-2" />
                                 Login dengan Google
@@ -113,3 +113,14 @@
     </div>
 </div>
 @endsection {{-- ↑ Akhir dari section content --}}
+
+<style>
+    #btnGoogle{
+        border-radius: 80px;
+        border: 1px solid rgba(73, 73, 73, 0.26);
+    }
+    #btnGoogle:hover{
+        border: 1px solid #1269bba8;
+        background: #2a80d113;
+    }
+</style>

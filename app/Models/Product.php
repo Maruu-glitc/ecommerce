@@ -69,6 +69,14 @@ class Product extends Model
     }
 
     /**
+     * Gambar utama produk.
+     */
+    public function primaryImage()
+    {
+        return $this->hasOne(ProductImage::class)->where('is_primary', true);
+    }
+
+    /**
      * item pesanan mengandung produkk ini
      */
     public function orderItems()
@@ -147,9 +155,17 @@ class Product extends Model
     }
 
     /**
+     * Filter produk unggulan.
+     */
+    public function scopeFeatured($query)
+    {
+        return $query->where('is_featured', true);
+    }
+
+    /**
      * filter produk unggulan
      */
-    public function scopeUnStock($query)  {
+    public function scopeinStock($query)  {
         return $query->where('stock', '>', 0);
     }
 

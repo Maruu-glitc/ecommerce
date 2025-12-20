@@ -8,6 +8,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class AdminMiddleware
@@ -26,9 +27,9 @@ class AdminMiddleware
         // ================================================
         // STEP 1: Cek apakah user sudah login
         // ================================================
-        if (!auth()->check()) {
-            // auth()->check() = return true jika sudah login, false jika belum
-            // !auth()->check() = NOT login = belum login
+        if (!Auth::check()) {
+            // Auth::check() = return true jika sudah login, false jika belum
+            // !Auth::check() = NOT login = belum login
 
             return redirect()->route('login');
             // ↑ Redirect ke halaman login
@@ -38,9 +39,9 @@ class AdminMiddleware
         // STEP 2: Cek apakah user adalah admin
         // ================================================
         if (auth()->user()->role !== 'admin') {
-            // auth()->user()        = Ambil data user yang login
-            // auth()->user()->role  = Ambil nilai kolom 'role'
-            // !== 'admin'           = Bukan admin
+            // Auth::user()        = Ambil data user yang login
+            // Auth::user()->role  = Ambil nilai kolom 'role'
+            // !== 'admin'         = Bukan admin
 
             abort(403, 'Anda tidak memiliki akses ke halaman ini.');
             // ↑ abort(403) = Tampilkan halaman error 403 (Forbidden)

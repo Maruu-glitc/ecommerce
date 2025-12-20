@@ -53,7 +53,7 @@ class Category extends Model
 
     /**
      * Semua produk dalam kategori
-     */
+     */ 
     public function products()
     {
         return $this->hasMany(Product::class);
