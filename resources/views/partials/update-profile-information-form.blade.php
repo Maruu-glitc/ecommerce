@@ -8,7 +8,7 @@
 
 <form method="post" action="{{ route('profile.update') }}">
     @csrf
-    @method('put')
+    @method('patch')
 
     {{-- Nama --}}
     <div class="mb-3">

@@ -11,9 +11,9 @@
     <div class="d-flex align-items-center gap-4">
         {{-- Avatar Preview --}}
         <div class="position-relative">
-            <img id="avatar-preview" class="rounded-circle object-fit-cover border" style="width: 100px; height: 100px;"
+            <img id="avatar-preview" class="rounded-circle object-fit-cover border" style="width: 100px; height: 100px; position: static"
             src="{{ auth()->user()->avatar_url }}"
-                {{-- src="{{ $user->avatar ? asset('storage/' . $user->avatar) : asset('images/default-avatar.png') }}" --}}
+                src="{{ $user->avatar ? asset('storage/' . $user->avatar) : asset('images/default-avatar.png') }}"
                 alt="{{ $user->name }}">
 
             @if($user->avatar)
@@ -29,7 +29,7 @@
         {{-- Upload Input --}}
         <div class="flex-grow-1">
             <input type="file" name="avatar" id="avatar" accept="image/*" onchange="previewAvatar(event)"
-                class="form-control @error('avatar') is-invalid @enderror">
+                class="form-control @error('avatar') is-invalid @enderror"  >
             @error('avatar')
             <div class="invalid-feedback">{{ $message }}</div>
             @enderror

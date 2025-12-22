@@ -91,7 +91,7 @@ class ProfileUpdateRequest extends FormRequest
             'email' => 'alamat email',
             'phone' => 'nomor telepon',
             'address' => 'alamat',
-            'avatar' => 'foto profil',
+            'avatar' => 'foto profile',
         ];
     }
 }

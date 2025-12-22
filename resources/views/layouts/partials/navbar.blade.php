@@ -156,11 +156,12 @@
                                                 aria-label="scrollable content" style="height: auto; overflow: hidden;">
                                                 <div class="simplebar-content" style="padding: 0px;">
                                                     
+                                                    <div class="pc-item {{ request()->routeIs('home')? '':'' }}"></div>
                                                     <a href="{{ route('home') }}" class="dropdown-item">
                                                         <i class="bx bx-home"></i>
                                                         Home
                                                     </a>
-                                                    <a href="../application/account-profile-v1.html"
+                                                    <a href=""
                                                         class="dropdown-item">
                                                         <i class="ti ti-settings"></i>
                                                         <span>Account Settings</span>
@@ -192,4 +193,4 @@
             </ul>
         </div>
     </div>
-    </header>
+</header>

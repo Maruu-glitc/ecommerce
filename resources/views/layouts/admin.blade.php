@@ -16,158 +16,105 @@ FUNGSI: Master layout untuk halaman admin
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-    <style>
-        .sidebar {
-            min-height: 100vh;
-            background: linear-gradient(180deg, #1e3a5f 0%, #0f172a 100%);
-        }
-
-        .sidebar .nav-link {
-            color: rgba(255, 255, 255, 0.7);
-            padding: 12px 20px;
-            border-radius: 8px;
-            margin: 4px 12px;
-            transition: all 0.2s;
-        }
-
-        .sidebar .nav-link:hover,
-        .sidebar .nav-link.active {
-            background: rgba(255, 255, 255, 0.1);
-            color: #fff;
-        }
-
-        .sidebar .nav-link i {
-            width: 24px;
-        }
-    </style>
+    <!-- [Favicon] icon -->
+    <link rel="icon" href="{{ asset('assets/images/favicon.svg') }}" type="image/x-icon" />
+    <!-- [Google Font] Family -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
+        id="main-font-link" />
+    
+    
+    <!-- [phosphor Icons] https://phosphoricons.com/ -->
+    <link rel="stylesheet" href="{{ asset('assets/fonts/phosphor/duotone/style.css') }}" />
+    <!-- [Tabler Icons] https://tablericons.com -->
+    <link rel="stylesheet" href="{{ asset('assets/fonts/tabler-icons.min.css') }}" />
+    <!-- [Feather Icons] https://feathericons.com -->
+    <link rel="stylesheet" href="{{ asset('assets/fonts/feather.css') }}" />
+    <link href='https://cdn.boxicons.com/3.0.6/fonts/basic/boxicons.min.css' rel='stylesheet'>
+    <!-- [Font Awesome Icons] https://fontawesome.com/icons -->
+    <link rel="stylesheet" href="{{ asset('assets/fonts/fontawesome.css') }}" />
+    <!-- [Material Icons] https://fonts.google.com/icons -->
+    <link rel="stylesheet" href="{{ asset('assets/fonts/material.css') }}" />
+    <!-- [Template CSS Files] -->
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" id="main-style-link" />
+    <link rel="stylesheet" href="{{ asset('assets/css/style-preset.css') }}" />  
+    
     @stack('styles')
 </head>
 
 <body class="bg-light">
-    <div class="d-flex">
-        {{-- Sidebar --}}
-        <div class="sidebar d-flex flex-column" style="width: 260px;">
-            {{-- Brand --}}
-            <div class="p-3 border-bottom border-secondary">
-                <a href="{{ route('admin.dashboard') }}"
-                    class="text-white text-decoration-none d-flex align-items-center">
-                    <i class="bi bi-shop fs-4 me-2"></i>
-                    <span class="fs-5 fw-bold">Admin Panel</span>
-                </a>
-            </div>
-
-            {{-- Navigation --}}
-            <nav class="flex-grow-1 py-3">
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a href="{{ route('admin.dashboard') }}"
-                            class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
-                            <i class="bi bi-speedometer2 me-2"></i> Dashboard
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a href="{{ route('admin.products.index') }}"
-                            class="nav-link {{ request()->routeIs('admin.products.*') ? 'active' : '' }}">
-                            <i class="bi bi-box-seam me-2"></i> Produk
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a href="{{ route('admin.categories.index') }}"
-                            class="nav-link {{ request()->routeIs('admin.categories.*') ? 'active' : '' }}">
-                            <i class="bi bi-folder me-2"></i> Kategori
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a href="{{ route('admin.orders.index') }}"
-                            class="nav-link {{ request()->routeIs('admin.orders.*') ? 'active' : '' }}">
-                            <i class="bi bi-receipt me-2"></i> Pesanan
-                            {{-- Logic PHP di View ini hanya untuk contoh.
-                            Best Practice: Gunakan View Composer atau inject variable dari Controller.
-                            Jangan query database langsung di Blade view di production app! --}}
-                            @php
-                            $pendingCount = \App\Models\Order::where('status', 'pending')
-                            ->where('payment_status', 'paid')->count();
-                            @endphp
-                            @if($pendingCount > 0)
-                            <span class="badge bg-warning text-dark ms-auto">{{ $pendingCount }}</span>
-                            @endif
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a href="{{ route('admin.users.index') }}"
-                            class="nav-link {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
-                            <i class="bi bi-people me-2"></i> Pengguna
-                        </a>
-                    </li>
-
-                    <li class="nav-item mt-3">
-                        <span class="nav-link text-muted small text-uppercase">Laporan</span>
-                    </li>
-
-                    <li class="nav-item">
-                        <a href="{{ route('admin.reports.sales') }}"
-                            class="nav-link {{ request()->routeIs('admin.reports.*') ? 'active' : '' }}">
-                            <i class="bi bi-graph-up me-2"></i> Laporan Penjualan
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-
-            {{-- User Info --}}
-            <div class="p-3 border-top border-secondary">
-                <div class="d-flex align-items-center text-white">
-                    <img src="{{ auth()->user()->avatar_url }}" class="rounded-circle me-2" width="36" height="36">
-                    <div class="flex-grow-1">
-                        <div class="small fw-medium">{{ auth()->user()->name }}</div>
-                        <div class="small text-muted">Administrator</div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="">
+        
 
         {{-- Main Content --}}
-        <div class="flex-grow-1">
-            {{-- Top Bar --}}
-            <header class="bg-white shadow-sm py-3 px-4 d-flex justify-content-between align-items-center">
-                <h4 class="mb-0">@yield('page-title', 'Dashboard')</h4>
-                <div class="d-flex align-items-center">
-                    <a href="{{ route('home') }}" class="btn btn-outline-secondary btn-sm me-2" target="_blank">
-                        <i class="bi bi-box-arrow-up-right me-1"></i> Lihat Toko
-                    </a>
-                    <form method="POST" action="{{ route('logout') }}" class="d-inline">
-                        @csrf
-                        <button type="submit" class="btn btn-outline-danger btn-sm">
-                            <i class="bi bi-box-arrow-right me-1"></i> Logout
-                        </button>
-                    </form>
-                </div>
-            </header>
+        <div class="">
+            
             @include('layouts.partials.navbar')
 
             {{-- Flash Messages --}}
-            <div class="px-4 pt-3">
-                @include('partials.flash-messages')
-            </div>
-
+            
             @include('layouts.partials.sidebar')
-
+            
             
             {{-- Page Content --}}
-            <main class="p-4">
-                @yield('content')
+            <main class="pc-container">
+                
+                <div class="px-4 pt-3">
+                    @include('partials.flash-messages')
+                </div>
+
+
+                
+                <div class="pc-content">
+                    @yield('content')
+                </div>
             </main>
             
-
-            @include('layouts.partials.footer')
         </div>
 
     </div>
 
     @stack('scripts')
+    <!-- Required Js -->
+    <script src="{{ asset('assets/js/plugins/popper.min.js') }}"></script>
+    <script src="{{ asset('assets/js/plugins/simplebar.min.js') }}"></script>
+    <script src="{{ asset('assets/js/plugins/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('assets/js/icon/custom-font.js') }}"></script>
+    <script src="{{ asset('assets/js/script.js') }}"></script>
+    <script src="{{ asset('assets/js/theme.js') }}"></script>
+    <script src="{{ asset('assets/js/plugins/feather.min.js') }}"></script>
+    
+    
+    <script>
+        layout_change('light');
+    </script>
+    
+    <script>
+        font_change('Roboto');
+    </script>
+    
+    <script>
+        change_box_container('false');
+    </script>
+    
+    <script>
+        layout_caption_change('true');
+    </script>
+    
+    <script>
+        layout_rtl_change('false');
+    </script>
+    
+    <script>
+        preset_change('preset-1');
+    </script>
+    
+    
+    
+    <!-- [Page Specific JS] start -->
+    <!-- Apex Chart -->
+    <script src="{{ asset('assets/js/plugins/apexcharts.min.js') }}"></script>
+    <script src="{{ asset('assets/js/pages/dashboard-default.js') }}"></script>
+    <!-- [Page Specific JS] end -->
 </body>
 
 </html>

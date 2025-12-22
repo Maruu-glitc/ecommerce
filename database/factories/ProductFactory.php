@@ -31,7 +31,10 @@ class ProductFactory extends Factory
             'slug' => Str::slug($name) . '-' . fake()->unique()->randomNumber(5),
             'description' => fake()->paragraphs(rand(2, 4), true),
             'price' => $price,
-            'discount_price' => $discountPrice,
+            'discount_price' => fake()->optional(0.3)->numberBetween(
+                (int)($price * 0.5), 
+                (int)($price * 0.9)
+            ),
             'stock' => fake()->numberBetween(0, 100),
             'weight' => fake()->numberBetween(100, 5000),
             'is_active' => fake()->boolean(90),    // 90% aktif
@@ -44,10 +47,20 @@ class ProductFactory extends Factory
      */
     public function featured(): static
     {
-        return $this->state(fn(array $attributes) => [
+        return $this->state(fn() => [
             'is_featured' => true,
             'is_active' => true,
         ]);
+    }
+
+    public function onSale(): static
+    {
+        return $this->state(function(array $attributes) {
+            $price = $attributes['price'];
+            return [
+                'discount_price' => (int) ($price * fake()->randomFloat(0.2, 0.5, 0.8)),
+            ];
+        });
     }
 
     /**
@@ -55,7 +68,7 @@ class ProductFactory extends Factory
      */
     public function outOfStock(): static
     {
-        return $this->state(fn(array $attributes) => [
+        return $this->state(fn() => [
             'stock' => 0,
         ]);
     }
