@@ -52,6 +52,19 @@ class User extends Authenticatable
     }
     // ==================== RELATIONSHIPS ====================
 
+    public function wishlist()
+    {
+        // Relasi User ke Product melalui tabel wishlists
+        return $this->belongsToMany(Product::class, 'wishlists')
+            ->withTimestamps(); // Agar created_at/updated_at di pivot terisi
+    }
+
+    // Helper untuk cek apakah user sudah wishlist produk tertentu
+    public function hasInWishlist(Product $product)
+    {
+        return $this->wishlists()->where('product_id', $product->id)->exists();
+    }
+
     public function cart()
     {
         return $this->hasOne(Cart::class);
@@ -85,12 +98,7 @@ class User extends Authenticatable
         return $this->role === 'customer';
     }
 
-    public function hasInWishlist(Product $product): bool
-    {
-        return $this->wishlists()
-            ->where('product_id', $product->id)
-            ->exists();
-    }
+   
 
 
     

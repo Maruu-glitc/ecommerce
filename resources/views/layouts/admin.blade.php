@@ -21,8 +21,8 @@ FUNGSI: Master layout untuk halaman admin
     <!-- [Google Font] Family -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
         id="main-font-link" />
-    
-    
+
+
     <!-- [phosphor Icons] https://phosphoricons.com/ -->
     <link rel="stylesheet" href="{{ asset('assets/fonts/phosphor/duotone/style.css') }}" />
     <!-- [Tabler Icons] https://tablericons.com -->
@@ -36,40 +36,41 @@ FUNGSI: Master layout untuk halaman admin
     <link rel="stylesheet" href="{{ asset('assets/fonts/material.css') }}" />
     <!-- [Template CSS Files] -->
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" id="main-style-link" />
-    <link rel="stylesheet" href="{{ asset('assets/css/style-preset.css') }}" />  
-    
+    <link rel="stylesheet" href="{{ asset('assets/css/style-preset.css') }}" />
+
     @stack('styles')
 </head>
 
-<body class="bg-light">
+<body>
     <div class="">
-        
-
-        {{-- Main Content --}}
-        <div class="">
-            
-            @include('layouts.partials.navbar')
-
-            {{-- Flash Messages --}}
-            
-            @include('layouts.partials.sidebar')
-            
-            
-            {{-- Page Content --}}
-            <main class="pc-container">
-                
-                <div class="px-4 pt-3">
-                    @include('partials.flash-messages')
-                </div>
 
 
-                
-                <div class="pc-content">
+
+        @include('layouts.partials.sidebar')
+
+        @include('layouts.partials.navbar')
+
+        {{-- Flash Messages --}}
+
+
+
+        {{-- Page Content --}}
+        <main class="pc-container">
+
+            <div class="px-4 pt-3">
+                @include('partials.flash-messages')
+            </div>
+
+
+
+            <div class="pc-content ">
+                <div class="row">
                     @yield('content')
                 </div>
-            </main>
-            
-        </div>
+            </div>
+        </main>
+
+
 
     </div>
 
@@ -82,39 +83,39 @@ FUNGSI: Master layout untuk halaman admin
     <script src="{{ asset('assets/js/script.js') }}"></script>
     <script src="{{ asset('assets/js/theme.js') }}"></script>
     <script src="{{ asset('assets/js/plugins/feather.min.js') }}"></script>
-    
-    
-    <script>
-        layout_change('light');
-    </script>
-    
-    <script>
-        font_change('Roboto');
-    </script>
-    
-    <script>
-        change_box_container('false');
-    </script>
-    
-    <script>
-        layout_caption_change('true');
-    </script>
-    
-    <script>
-        layout_rtl_change('false');
-    </script>
-    
-    <script>
-        preset_change('preset-1');
-    </script>
-    
-    
-    
-    <!-- [Page Specific JS] start -->
     <!-- Apex Chart -->
     <script src="{{ asset('assets/js/plugins/apexcharts.min.js') }}"></script>
     <script src="{{ asset('assets/js/pages/dashboard-default.js') }}"></script>
     <!-- [Page Specific JS] end -->
+
+    <script>
+        layout_change('light');
+    </script>
+
+    <script>
+        font_change('Roboto');
+    </script>
+
+    <script>
+        change_box_container('false');
+    </script>
+
+    <script>
+        layout_caption_change('true');
+    </script>
+
+    <script>
+        layout_rtl_change('false');
+    </script>
+
+    <script>
+        preset_change('preset-1');
+    </script>
+
+
+
+    <!-- [Page Specific JS] start -->
+
 </body>
 
 </html>
