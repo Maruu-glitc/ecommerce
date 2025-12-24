@@ -138,7 +138,7 @@ FUNGSI: Halaman detail produk
                     {{-- Product Details --}}
                     <div class="mb-3">
                         <h6>Deskripsi</h6>
-                        <p class="text-muted">{!! nl2br(e($product->description)) !!}</p>
+                        <p class="text-muted">{!! $product->description !!}</p>
                     </div>
 
                     <div class="row text-muted small">
@@ -158,18 +158,18 @@ FUNGSI: Halaman detail produk
 @push('scripts')
 <script>
     function incrementQty() {
-   const input = document.getElementById('quantity');
-   const max = parseInt(input.max);
-   if (parseInt(input.value) < max) {
-       input.value = parseInt(input.value) + 1;
-   }
-}
-function decrementQty() {
-   const input = document.getElementById('quantity');
-   if (parseInt(input.value) > 1) {
-       input.value = parseInt(input.value) - 1;
-   }
-}
+        const input = document.getElementById('quantity');
+        const max = parseInt(input.max);
+        if (parseInt(input.value) < max) {
+            input.value = parseInt(input.value) + 1;
+        }
+    }
+    function decrementQty() {
+        const input = document.getElementById('quantity');
+        if (parseInt(input.value) > 1) {
+            input.value = parseInt(input.value) - 1;
+        }
+    }
 </script>
 @endpush
 @endsection

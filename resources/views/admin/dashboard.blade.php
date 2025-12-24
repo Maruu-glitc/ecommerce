@@ -3,7 +3,7 @@
 <!-- [Head] start -->
 
 <head>
-  <title>Dashboard | Berry Dashboard </title>
+  <title>Dashboard | Berry Dashboard Template</title>
   <!-- [Meta] -->
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui" />
@@ -14,23 +14,17 @@
     content="Bootstrap admin template, Dashboard UI Kit, Dashboard Template, Backend Panel, react dashboard, angular dashboard" />
   <meta name="author" content="codedthemes" />
 
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  @vite(['resources/css/app.css', 'resources/js/app.js'])
-  
   <!-- [Favicon] icon -->
   <link rel="icon" href="{{ asset('assets/images/favicon.svg') }}" type="image/x-icon" />
   <!-- [Google Font] Family -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
     id="main-font-link" />
-  
-  
   <!-- [phosphor Icons] https://phosphoricons.com/ -->
   <link rel="stylesheet" href="{{ asset('assets/fonts/phosphor/duotone/style.css') }}" />
   <!-- [Tabler Icons] https://tablericons.com -->
   <link rel="stylesheet" href="{{ asset('assets/fonts/tabler-icons.min.css') }}" />
   <!-- [Feather Icons] https://feathericons.com -->
   <link rel="stylesheet" href="{{ asset('assets/fonts/feather.css') }}" />
-  <link href='https://cdn.boxicons.com/3.0.6/fonts/basic/boxicons.min.css' rel='stylesheet'>
   <!-- [Font Awesome Icons] https://fontawesome.com/icons -->
   <link rel="stylesheet" href="{{ asset('assets/fonts/fontawesome.css') }}" />
   <!-- [Material Icons] https://fonts.google.com/icons -->
@@ -38,10 +32,9 @@
   <!-- [Template CSS Files] -->
   <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" id="main-style-link" />
   <link rel="stylesheet" href="{{ asset('assets/css/style-preset.css') }}" />
- 
+
 </head>
 <!-- [Head] end -->
-
 <!-- [Body] Start -->
 
 <body>
@@ -57,8 +50,12 @@
   @include('layouts.partials.sidebar')
   <!-- [ Sidebar Menu ] end -->
 
-  <!-- [ Navbar ] start -->
-  @include('layouts.partials.navbar')
+  <!-- [ Header Topbar ] start -->
+  <header class="pc-header">
+    <div class="header-wrapper">
+      @include('layouts.partials.navbar')
+    </div>
+  </header>
   <!-- [ Header ] end -->
 
 
@@ -66,10 +63,7 @@
   <!-- [ Main Content ] start -->
   <div class="pc-container">
     <div class="pc-content">
-
       <!-- [ Main Content ] start -->
-
-      {{-- @yield('content') --}}
       <div class="row">
         <!-- [ sample-page ] start -->
         <div class="col-xl-4 col-md-6">
@@ -200,7 +194,7 @@
             </div>
           </div>
         </div>
-      
+  
         <div class="col-xl-8 col-md-12">
           <div class="card">
             <div class="card-body">
@@ -332,19 +326,10 @@
         </div>
         <!-- [ sample-page ] end -->
       </div>
-          <!-- [ Main Content ] start -->
-         
-          <!-- [ Main Content ] end -->
-        </div>
-        </div>
-
       <!-- [ Main Content ] end -->
-
     </div>
   </div>
-  
-  <!-- [ Footer ] end -->
-  @include('layouts.partials.footer')
+  <!-- [ Main Content ] end -->
 
   <!-- Required Js -->
   <script src="{{ asset('assets/js/plugins/popper.min.js') }}"></script>
@@ -354,40 +339,39 @@
   <script src="{{ asset('assets/js/script.js') }}"></script>
   <script src="{{ asset('assets/js/theme.js') }}"></script>
   <script src="{{ asset('assets/js/plugins/feather.min.js') }}"></script>
-  
-  
+
+
   <script>
     layout_change('light');
   </script>
-  
+
   <script>
     font_change('Roboto');
   </script>
-  
+
   <script>
     change_box_container('false');
   </script>
-  
+
   <script>
     layout_caption_change('true');
   </script>
-  
+
   <script>
     layout_rtl_change('false');
   </script>
-  
+
   <script>
     preset_change('preset-1');
   </script>
-  
-  
-  
+
+
+
   <!-- [Page Specific JS] start -->
   <!-- Apex Chart -->
   <script src="{{ asset('assets/js/plugins/apexcharts.min.js') }}"></script>
   <script src="{{ asset('assets/js/pages/dashboard-default.js') }}"></script>
   <!-- [Page Specific JS] end -->
- 
 </body>
 <!-- [Body] end -->
 

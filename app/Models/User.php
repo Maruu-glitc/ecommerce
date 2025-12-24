@@ -1,37 +1,35 @@
 <?php
+// app/Models/User.php
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Cart;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Storage;
+
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
     /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
+     * Kolom yang boleh diisi secara mass-assignment.
+     * Ini mencegah vulnerability mass-assignment.
      */
     protected $fillable = [
         'name',
         'email',
         'password',
         'role',
-        'google_id',
         'avatar',
+        'google_id',
         'phone',
         'address',
     ];
 
     /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
+     * Kolom yang disembunyikan saat serialisasi ke JSON/array.
      */
     protected $hidden = [
         'password',
@@ -39,48 +37,42 @@ class User extends Authenticatable
     ];
 
     /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
+     * Casting tipe data otomatis.
      */
     protected function casts(): array
     {
         return [
             'email_verified_at' => 'datetime',
-            'password' => 'hashed',
+            'password'          => 'hashed',
         ];
     }
+
     // ==================== RELATIONSHIPS ====================
 
-    public function wishlist()
-    {
-        // Relasi User ke Product melalui tabel wishlists
-        return $this->belongsToMany(Product::class, 'wishlists')
-            ->withTimestamps(); // Agar created_at/updated_at di pivot terisi
-    }
-
-    // Helper untuk cek apakah user sudah wishlist produk tertentu
-    public function hasInWishlist(Product $product)
-    {
-        return $this->wishlists()->where('product_id', $product->id)->exists();
-    }
-
+    /**
+     * User memiliki satu keranjang aktif.
+     */
     public function cart()
     {
         return $this->hasOne(Cart::class);
     }
 
-    public function wishlists()
-    {
-        return $this->hasMany(Wishlist::class);
-    }
+    /**
+     * User memiliki banyak item wishlist.
+     */
 
+    /**
+     * User memiliki banyak pesanan.
+     */
     public function orders()
     {
         return $this->hasMany(Order::class);
     }
 
-    public function wishlistProducts()
+    /**
+     * Relasi many-to-many ke products melalui wishlists.
+     */
+    public function wishlists()
     {
         return $this->belongsToMany(Product::class, 'wishlists')
             ->withTimestamps();
@@ -88,31 +80,32 @@ class User extends Authenticatable
 
     // ==================== HELPER METHODS ====================
 
+    /**
+     * Cek apakah user adalah admin.
+     */
     public function isAdmin(): bool
     {
         return $this->role === 'admin';
     }
 
+    /**
+     * Cek apakah user adalah customer.
+     */
     public function isCustomer(): bool
     {
         return $this->role === 'customer';
     }
 
-   
-
-
-    
-
-    // Tambahkan accessor untuk avatar URL
-
     /**
-     * Get the avatar URL.
-     * Accessor ini otomatis dipanggil saat kita akses $user->avatar_url
-     * Logika Prioritas:
-     * 1. Cek Storage Lokal: Apakah user upload file custom? Jika ya, return URL local storage.
-     * 2. Cek URL Eksternal: Apakah user login via Google? Jika ya, return URL dari Google.
-     * 3. Fallback: Gunakan Gravatar berdasarkan hash email agar user tidak tampil polos.
+     * Cek apakah produk ada di wishlist user.
      */
+    public function hasInWishlist(Product $product): bool
+    {
+        return $this->wishlists()
+            ->where('product_id', $product->id)
+            ->exists();
+    }
+
     public function getAvatarUrlAttribute(): string
     {
         // Prioritas 1: Avatar yang di-upload (file fisik ada di server)
@@ -142,7 +135,7 @@ class User extends Authenticatable
      */
     public function getInitialsAttribute(): string
     {
-        $words = explode(' ', $this->name);
+        $words    = explode(' ', $this->name);
         $initials = '';
 
         foreach ($words as $word) {

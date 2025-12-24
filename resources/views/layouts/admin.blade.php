@@ -1,35 +1,30 @@
-{{-- ================================================
-FILE: resources/views/layouts/admin.blade.php
-FUNGSI: Master layout untuk halaman admin
-================================================ --}}
-
-<!DOCTYPE html>
-<html lang="id">
+<!doctype html>
+<html lang="en">
+<!-- [Head] start -->
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-
-    <title>@yield('title') - Admin Panel</title>
-
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <title>Dashboard | Berry Dashboard Template</title>
+    <!-- [Meta] -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="description"
+        content="Berry is trending dashboard template made using Bootstrap 5 design framework. Berry is available in Bootstrap, React, CodeIgniter, Angular,  and .net Technologies." />
+    <meta name="keywords"
+        content="Bootstrap admin template, Dashboard UI Kit, Dashboard Template, Backend Panel, react dashboard, angular dashboard" />
+    <meta name="author" content="codedthemes" />
 
     <!-- [Favicon] icon -->
     <link rel="icon" href="{{ asset('assets/images/favicon.svg') }}" type="image/x-icon" />
     <!-- [Google Font] Family -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
         id="main-font-link" />
-
-
     <!-- [phosphor Icons] https://phosphoricons.com/ -->
     <link rel="stylesheet" href="{{ asset('assets/fonts/phosphor/duotone/style.css') }}" />
     <!-- [Tabler Icons] https://tablericons.com -->
     <link rel="stylesheet" href="{{ asset('assets/fonts/tabler-icons.min.css') }}" />
     <!-- [Feather Icons] https://feathericons.com -->
     <link rel="stylesheet" href="{{ asset('assets/fonts/feather.css') }}" />
-    <link href='https://cdn.boxicons.com/3.0.6/fonts/basic/boxicons.min.css' rel='stylesheet'>
     <!-- [Font Awesome Icons] https://fontawesome.com/icons -->
     <link rel="stylesheet" href="{{ asset('assets/fonts/fontawesome.css') }}" />
     <!-- [Material Icons] https://fonts.google.com/icons -->
@@ -38,43 +33,57 @@ FUNGSI: Master layout untuk halaman admin
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" id="main-style-link" />
     <link rel="stylesheet" href="{{ asset('assets/css/style-preset.css') }}" />
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     @stack('styles')
 </head>
+<!-- [Head] end -->
+<!-- [Body] Start -->
 
 <body>
-    <div class="">
+    <!-- [ Pre-loader ] start -->
+    <div class="loader-bg">
+        <div class="loader-track">
+            <div class="loader-fill"></div>
+        </div>
+    </div>
+    <!-- [ Pre-loader ] End -->
+
+    <!-- [ Sidebar Menu ] start -->
+    @include('layouts.partials.sidebar')
+    <!-- [ Sidebar Menu ] end -->
+
+    <!-- [ Header Topbar ] start -->
+    <header class="pc-header">
+        <div class="header-wrapper">
+            @include('layouts.partials.navbar')
+        </div>
+
+    </header>
+
+
+    <!-- [ Header ] end -->
 
 
 
-        @include('layouts.partials.sidebar')
-
-        @include('layouts.partials.navbar')
-
-        {{-- Flash Messages --}}
-
-
-
-        {{-- Page Content --}}
-        <main class="pc-container">
-
-            <div class="px-4 pt-3">
-                @include('partials.flash-messages')
-            </div>
-
-
-
-            <div class="pc-content ">
-                <div class="row">
+    <!-- [ Main Content ] start -->
+    <div class="pc-container">
+        <div class="pc-content">
+            <div class="row">
+                <div class="container mt-3">
+                    @include('partials.flash-messages') 
+                </div>
+                <div class="col-sm-12">
                     @yield('content')
                 </div>
             </div>
-        </main>
-
-
-
+            <!-- [ Main Content ] start -->
+            <!-- [ Main Content ] end -->
+        </div>
     </div>
+    <!-- [ Main Content ] end -->
 
-    @stack('scripts')
     <!-- Required Js -->
     <script src="{{ asset('assets/js/plugins/popper.min.js') }}"></script>
     <script src="{{ asset('assets/js/plugins/simplebar.min.js') }}"></script>
@@ -83,10 +92,7 @@ FUNGSI: Master layout untuk halaman admin
     <script src="{{ asset('assets/js/script.js') }}"></script>
     <script src="{{ asset('assets/js/theme.js') }}"></script>
     <script src="{{ asset('assets/js/plugins/feather.min.js') }}"></script>
-    <!-- Apex Chart -->
-    <script src="{{ asset('assets/js/plugins/apexcharts.min.js') }}"></script>
-    <script src="{{ asset('assets/js/pages/dashboard-default.js') }}"></script>
-    <!-- [Page Specific JS] end -->
+
 
     <script>
         layout_change('light');
@@ -115,7 +121,12 @@ FUNGSI: Master layout untuk halaman admin
 
 
     <!-- [Page Specific JS] start -->
-
+    <!-- Apex Chart -->
+    <script src="{{ asset('assets/js/plugins/apexcharts.min.js') }}"></script>
+    <script src="{{ asset('assets/js/pages/dashboard-default.js') }}"></script>
+    <!-- [Page Specific JS] end -->
+    @stack('scripts')
 </body>
+<!-- [Body] end -->
 
 </html>
