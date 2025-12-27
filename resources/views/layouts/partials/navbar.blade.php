@@ -38,9 +38,10 @@
                 </div>
             </li>
             <li class="pc-h-item d-none d-md-inline-flex">
-                <form class="header-search">
+                <form class="header-search" action="{{ route('search') }}" method="GET" >
                     <i data-feather="search" class="icon-search"></i>
-                    <input type="search" class="form-control" placeholder="Search here. . ." />
+                    <input type="search" class="form-control" placeholder="Search here. . ." value="{{ request('q') }}" />
+                    
                     <button class="btn btn-light-secondary btn-search"><i class="ti ti-adjustments-horizontal"></i></button>
                 </form>
             </li>
@@ -121,6 +122,10 @@
                         <hr />
                         <div class="profile-notification-scroll position-relative" style="max-height: calc(100vh - 280px)">
     
+                            <a href="{{ route('home') }}" class="dropdown-item">
+                                <i class="ti ti-home"></i>
+                                <span>Home</span>
+                            </a>
                             <a href="../application/account-profile-v1.html" class="dropdown-item">
                                 <i class="ti ti-settings"></i>
                                 <span>Account Settings</span>

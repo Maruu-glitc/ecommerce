@@ -9,12 +9,12 @@ FUNGSI: Halaman utama website
 
 @section('content')
 {{-- Hero Section --}}
-<section class="bg-primary text-white py-5">
+<section class="bg-info text-white py-5">
     <div class="container">
         <div class="row align-items-center">
             <div class="col-lg-6">
                 <h1 class="display-4 fw-bold mb-3">
-                    Belanja Online Mudah & Terpercaya
+                    Belanja Online Berbagai Kaos Mudah & Terpercaya
                 </h1>
                 <p class="lead mb-4">
                     Temukan berbagai produk berkualitas dengan harga terbaik.
@@ -25,8 +25,8 @@ FUNGSI: Halaman utama website
                 </a>
             </div>
             <div class="col-lg-6 d-none d-lg-block text-center">
-                <img src="{{ asset('images/hero-shopping.svg') }}" alt="Shopping" class="img-fluid"
-                    style="max-height: 400px;">
+                <img src="{{ asset('assets/images/kaos.jpg') }}" alt="Shopping" class="img-fluid"
+                    style="max-height: 400px; object-fit: cover; border-radius: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); margin-top: 20px;">
             </div>
         </div>
     </div>

@@ -14,8 +14,11 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MidtransNotificationController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\WishlistController;
 use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
@@ -28,6 +31,8 @@ use Illuminate\Support\Facades\Route;
 
 
 
+Route::get('/search', [SearchController::class, 'index'])
+    ->name('search');
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -159,6 +164,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
     Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
 
+    // Payment Routes
+    Route::get('/orders/{order}/pay', [PaymentController::class, 'show'])
+        ->name('orders.pay');
+    Route::get('/orders/{order}/success', [PaymentController::class, 'success'])
+        ->name('orders.success');
+    Route::get('/orders/{order}/pending', [PaymentController::class, 'pending'])
+        ->name('orders.pending');
     
 });
 
@@ -201,3 +213,76 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     // Route tambahan untuk AJAX Image Handling (jika diperlukan)
     // ...
 });
+
+
+
+// ============================================================
+// MIDTRANS WEBHOOK
+// Route ini HARUS public (tanpa auth middleware)
+// Karena diakses oleh SERVER Midtrans, bukan browser user
+// ============================================================
+Route::post('midtrans/notification', [MidtransNotificationController::class, 'handle'])
+    ->name('midtrans.notification');
+
+
+
+
+
+
+
+// routes/web.php (HAPUS SETELAH TESTING!)
+
+// use App\Services\MidtransService;
+
+// Route::get('/debug-midtrans', function () {
+//     // Cek apakah config terbaca
+//     $config = [
+//         'merchant_id'   => config('midtrans.merchant_id'),
+//         'client_key'    => config('midtrans.client_key'),
+//         'server_key'    => config('midtrans.server_key') ? '***SET***' : 'NOT SET',
+//         'is_production' => config('midtrans.is_production'),
+//     ];
+
+//     // Test buat dummy token
+//     try {
+//         $service = new MidtransService();
+
+//         // Buat dummy order untuk testing
+//         $dummyOrder = new \App\Models\Order();
+//         $dummyOrder->order_number = 'TEST-' . time();
+//         $dummyOrder->total_amount = 10000;
+//         $dummyOrder->shipping_cost = 0;
+//         $dummyOrder->shipping_name = 'Test User';
+//         $dummyOrder->shipping_phone = '08123456789';
+//         $dummyOrder->shipping_address = 'Jl. Test No. 123';
+//         $dummyOrder->user = (object) [
+//             'name'  => 'Tester',
+//             'email' => 'test@example.com',
+//             'phone' => '08123456789',
+//         ];
+//         // Dummy items
+//         $dummyOrder->items = collect([
+//             (object) [
+//                 'product_id'   => 1,
+//                 'product_name' => 'Produk Test',
+//                 'price'        => 10000,
+//                 'quantity'     => 1,
+//             ],
+//         ]);
+
+//         $token = $service->createSnapToken($dummyOrder);
+
+//         return response()->json([
+//             'status'  => 'SUCCESS',
+//             'message' => 'Berhasil terhubung ke Midtrans!',
+//             'config'  => $config,
+//             'token'   => $token,
+//         ]);
+//     } catch (\Exception $e) {
+//         return response()->json([
+//             'status'  => 'ERROR',
+//             'message' => $e->getMessage(),
+//             'config'  => $config,
+//         ], 500);
+//     }
+// });

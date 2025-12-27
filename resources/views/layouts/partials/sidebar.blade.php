@@ -17,10 +17,10 @@
                 <a href="/home" class="b-brand text-primary fw-bold " style="font-size: 30px">
                     <!-- ========   Change your logo from here   ============ -->
                     <i class="bi bi-bag-heart-fill"></i>
-                    <span>Temola Mart</span>
+                    <span>Distros Mart</span>
                 </a>
             </div>
-            <div class="navbar-content pc-trigger active simplebar-scrollable-y" data-simplebar="init">
+            <div class="navbar-content pc-trigger  simplebar-scrollable-y" data-simplebar="init">
                 <div class="simplebar-wrapper" style="margin: -10px 0px;">
                     <div class="simplebar-height-auto-observer-wrapper">
                         <div class="simplebar-height-auto-observer"></div>
@@ -30,12 +30,12 @@
                             <div class="simplebar-content-wrapper" tabindex="0" role="region"
                                 aria-label="scrollable content" style="height: 100%; overflow: hidden scroll;">
                                 <div class="simplebar-content" style="padding: 10px 0px;">
-                                    <ul class="pc-navbar" style="display: block;">
+                                    <ul class="pc-navbar {{ request()->routeIs('admin.*') ? 'active' : '' }}" style="display: block;">
                                         <li class="pc-item pc-caption">
                                             <label>Dashboard</label>
                                             <i class="ti ti-dashboard"></i>
                                         </li>
-                                        <li class="pc-item active">
+                                        <li class="pc-item ">
                                             <a href="{{ route('admin.dashboard') }}" class="pc-link"><span
                                                     class="pc-micon"><i class="ti ti-home"></i></span><span
                                                     class="pc-mtext">Dasboard</span></a>
@@ -57,7 +57,13 @@
                                                 <span class="pc-mtext">Kategori</span>
                                             </a>
                                         </li>
-    
+                                        <li class="pc-item">
+                                            <a href="{{ route('admin.orders.index') }}" class="pc-link">
+                                                <span class="pc-micon"><i class="bi bi-box"></i></span>
+                                                <span class="pc-mtext">Pesanan</span>
+                                            </a>
+                                        </li>
+                                        
     
     
                                         <li class="pc-item pc-hasmenu">
