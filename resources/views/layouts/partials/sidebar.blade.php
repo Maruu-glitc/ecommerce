@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,8 +9,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
         integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 </head>
+
 <body>
     <nav class="pc-sidebar pc-trigger">
         <div class="navbar-wrapper" style="display: block;">
@@ -30,17 +32,18 @@
                             <div class="simplebar-content-wrapper" tabindex="0" role="region"
                                 aria-label="scrollable content" style="height: 100%; overflow: hidden scroll;">
                                 <div class="simplebar-content" style="padding: 10px 0px;">
-                                    <ul class="pc-navbar {{ request()->routeIs('admin.*') ? 'active' : '' }}" style="display: block;">
+                                    <ul class="pc-navbar {{ request()->routeIs('admin.*') ? 'active' : '' }}"
+                                        style="display: block;">
                                         <li class="pc-item pc-caption">
                                             <label>Dashboard</label>
                                             <i class="ti ti-dashboard"></i>
                                         </li>
                                         <li class="pc-item ">
-                                            <a href="{{ route('admin.dashboard') }}" class="pc-link"><span
-                                                    class="pc-micon"><i class="ti ti-home"></i></span><span
+                                            <a href="{{ route('admin.dashboard') }}" class="pc-link"><span class="pc-micon"><i
+                                                        class="ti ti-home"></i></span><span
                                                     class="pc-mtext">Dasboard</span></a>
                                         </li>
-    
+
                                         <li class="pc-item pc-caption">
                                             <label>Main Menu</label>
                                             <i class="ti ti-apps"></i>
@@ -63,9 +66,9 @@
                                                 <span class="pc-mtext">Pesanan</span>
                                             </a>
                                         </li>
-                                        
-    
-    
+
+
+
                                         <li class="pc-item pc-hasmenu">
                                             <a href="#!" class="pc-link"><span class="pc-micon"><i
                                                         class="ti ti-menu"></i></span><span class="pc-mtext">Menu
@@ -78,18 +81,19 @@
                                                     </svg></span></a>
                                             <ul class="pc-submenu" style="display: none;">
                                                 <li class="pc-item"><a class="pc-link" href="#!">Level 2.1</a></li>
-    
-    
+
+
                                             </ul>
                                         </li>
-    
-    
-    
-    
+
+
+
+
                                     </ul>
-    
+
                                     <div class="w-100 text-center">
-                                        <div class="badge theme-version badge rounded-pill bg-light text-dark f-12"></div>
+                                        <div class="badge theme-version badge rounded-pill bg-light text-dark f-12">
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -106,6 +110,7 @@
                 </div>
             </div>
         </div>
-        </nav>
+    </nav>
 </body>
+
 </html>

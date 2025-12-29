@@ -6,6 +6,7 @@ use App\Models\Order;
 use App\Models\Payment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use App\Events\OrderPaidEvent;
 
 class MidtransNotificationController extends Controller
 {
@@ -25,7 +26,7 @@ class MidtransNotificationController extends Controller
         $transactionId = $payload['transaction_id'] ?? null;
 
         // validasi
-        if(!$orderId || !$transactionStatus || !$signatureKey) {
+        if (!$orderId || !$transactionStatus || !$signatureKey) {
             Log::warning('Midtrans Notification: Missing required fields', $payload);
             return response()->json(['message' => 'Invalid payload'], 400);
         }
@@ -227,5 +228,13 @@ class MidtransNotificationController extends Controller
         }
 
         // TODO: Logic tambahan untuk refund
+    }
+
+    private function setSuccess(Order $order)
+    {
+        $order->update([]);
+
+        // Fire & Forget
+        event(new OrderPaidEvent($order));
     }
 }

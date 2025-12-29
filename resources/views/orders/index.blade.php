@@ -1,77 +1,72 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container py-5">
-    <h1 class="h3 mb-4 fw-bold">Daftar Pesanan Saya</h1>
+<div class="container py-4">
+    <h1 class="h4 fw-semibold mb-4">Pesanan Saya</h1>
 
-    <div class="card shadow-sm">
+    <div class="card border-0 shadow-sm">
         <div class="card-body p-0">
-            <div class="table-responsive">
-                <table class="table table-hover align-middle mb-0">
-                    <thead class="table-light">
-                        <tr>
-                            <th>No. Order</th>
-                            <th>Tanggal</th>
-                            <th>Status</th>
-                            <th>Total</th>
-                            <th class="text-end">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse($orders as $order)
-                        <tr>
-                            <td class="fw-bold text-primary">
-                                #{{ $order->order_number }}
-                            </td>
 
-                            <td>
-                                {{ $order->created_at->format('d M Y H:i') }}
-                            </td>
+            @forelse($orders as $order)
+            <div class="d-flex justify-content-between align-items-center px-4 py-3 border-bottom">
 
-                            <td>
-                                <span class="badge
-                                    @if($order->status === 'pending') bg-warning text-dark
-                                    @elseif($order->status === 'processing') bg-info text-dark
-                                    @elseif($order->status === 'shipped') bg-primary
-                                    @elseif($order->status === 'delivered') bg-success
-                                    @elseif($order->status === 'cancelled') bg-danger
-                                    @else bg-secondary
-                                    @endif
-                                ">
-                                    @switch($order->status)
-                                    @case('pending') Pending @break
-                                    @case('processing') Diproses @break
-                                    @case('shipped') Dikirim @break
-                                    @case('delivered') Sampai @break
-                                    @case('cancelled') Batal @break
-                                    @default {{ ucfirst($order->status) }}
-                                    @endswitch
-                                </span>
-                            </td>
+                {{-- Info Order --}}
+                <div>
+                    <div class="fw-semibold">
+                        Order #{{ $order->order_number }}
+                    </div>
+                    <small class="text-muted">
+                        {{ $order->created_at->format('d M Y, H:i') }}
+                    </small>
+                </div>
 
-                            <td class="fw-bold">
-                                Rp {{ number_format($order->total_amount, 0, ',', '.') }}
-                            </td>
+                <div class="">
+                    {{ $order->image_url ? '<img src="' . $order->image_url . '" class="rounded" width="40">' : '' }}
+                </div>
 
-                            <td class="text-end">
-                                <a href="{{ route('orders.show', $order) }}" class="btn btn-sm btn-outline-primary">
-                                    Detail
-                                </a>
-                            </td>
-                        </tr>
-                        @empty
-                        <tr>
-                            <td colspan="5" class="text-center py-5 text-muted">
-                                Belum ada pesanan.
-                            </td>
-                        </tr>
-                        @endforelse
-                    </tbody>
-                </table>
+                {{-- Status --}}
+                <div>
+                    <span class="badge rounded-pill
+                            @if($order->status === 'pending') bg-warning-subtle text-warning p-2 px-3
+                            @elseif($order->status === 'processing') bg-info-subtle text-info p-2 px-3
+                            @elseif($order->status === 'shipped') bg-primary-subtle text-primary p-2 px-3
+                            @elseif($order->status === 'delivered') bg-success-subtle text-success p-2 px-3
+                            @elseif($order->status === 'cancelled') bg-danger-subtle text-danger p-2 px-3
+                            @else bg-secondary-subtle text-secondary
+                            @endif
+                        ">
+                        @switch($order->status)
+                        @case('pending') Pending @break
+                        @case('processing') Diproses @break
+                        @case('shipped') Dikirim @break
+                        @case('delivered') Sampai Tujuan @break
+                        @case('completed') Selesai @break
+                        @case('cancelled') Batal @break
+                        @default {{ ucfirst($order->status) }}
+                        @endswitch
+                    </span>
+                </div>
+
+                {{-- Total & Aksi --}}
+                <div class="text-end">
+                    <div class="fw-semibold">
+                        Rp {{ number_format($order->total_amount, 0, ',', '.') }}
+                    </div>
+                    <a href="{{ route('orders.show', $order) }}" class="btn btn-outline-primary btn-sm text-decoration-none px-3 mt-1">
+                        Lihat Detail →
+                    </a>
+                </div>
             </div>
+            @empty
+            <div class="text-center py-5 text-muted">
+                Belum ada pesanan
+            </div>
+            @endforelse
+
         </div>
 
-        <div class="card-footer bg-white">
+        {{-- Pagination --}}
+        <div class="card-footer bg-white border-0">
             {{ $orders->links() }}
         </div>
     </div>

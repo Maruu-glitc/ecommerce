@@ -80,17 +80,17 @@ FUNGSI: Halaman detail produk
                     </div>
 
                     {{-- Stock Status --}}
-                    <div class="mb-4">
+                    <div class="mb-4 ">
                         @if($product->stock > 10)
-                        <span class="badge bg-success">
+                        <span class="badge bg-success p-2">
                             <i class="bi bi-check-circle me-1"></i> Stok Tersedia
                         </span>
                         @elseif($product->stock > 0)
-                        <span class="badge bg-warning text-dark">
+                        <span class="badge bg-warning text-dark p-2">
                             <i class="bi bi-exclamation-triangle me-1"></i> Stok Tinggal {{ $product->stock }}
                         </span>
                         @else
-                        <span class="badge bg-danger">
+                        <span class="badge bg-danger p-2">
                             <i class="bi bi-x-circle me-1"></i> Stok Habis
                         </span>
                         @endif
@@ -113,15 +113,28 @@ FUNGSI: Halaman detail produk
                                         onclick="incrementQty()">+</button>
                                 </div>
                             </div>
-                            <div class="col">
-                                <button type="submit" class="btn btn-primary btn-lg w-100" @if($product->stock == 0)
+                            <div class="row mt-3 ms-lg-1">
+                                <button type="submit" id="btnK" class="btn btn-primary btn-lg w-100 fw-bold" @if($product->stock
+                                    == 0)
                                     disabled @endif>
                                     <i class="bi bi-cart-plus me-2"></i>
                                     Tambah ke Keranjang
                                 </button>
                             </div>
+                            {{-- <div class="row mt-3 ms-lg-1">
+                                <button type="submit" class="btn btn-outline-primary btn-lg w-100 fw-bold"
+                                    @if($product->stock == 0)
+                                    disabled @endif>
+                                    <i class="bi bi-cart-plus me-2"></i>
+                                    Beli Sekarang
+                                </button>
+                            </div> --}}
                         </div>
                     </form>
+
+                    {{-- Beli Sekarang --}}
+                    <a href="{{ route('checkout.index') }}" id="btnBeli" class="btn btn-lg w-100 fw-bold mb-4">
+                        Beli Sekarang </a>
 
                     {{-- Wishlist --}}
                     @auth
@@ -173,3 +186,37 @@ FUNGSI: Halaman detail produk
 </script>
 @endpush
 @endsection
+
+<style>
+    #btnK {
+        background: linear-gradient(135deg, #BDDDE4, #9FCAD6);
+        color: #1f2937;
+        /* abu gelap, lebih readable */
+        border: none;
+        transition: all .25s ease;
+    }
+    
+    #btnBeli {
+        background: linear-gradient(135deg, #BDDDE4, );
+        color: #1f2937;
+        /* abu gelap, lebih readable */
+        border-color: #9FCAD6;
+        transition: all .25s ease;
+    }
+
+    #btnK:hover {
+        background: linear-gradient(135deg, #9FCAD6, #BDDDE4);
+        transform: translateY(-1px);
+        box-shadow: 0 8px 20px rgba(159, 202, 214, 0.35);
+        color: #111827;
+    }
+
+    #btnBeli:hover{
+        background: #0000000b;
+    }
+
+    #btnK:active {
+        transform: translateY(0);
+        box-shadow: 0 4px 10px rgba(159, 202, 214, 0.25);
+    }
+</style>

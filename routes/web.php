@@ -180,31 +180,14 @@ Route::middleware('auth')->group(function () {
 // ================================================
 
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+
     // Dashboard
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+    
+    // Dashboard
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    // Produk CRUD
-    Route::resource('products', AdminProductController::class);
-
-    // Kategori CRUD
-    Route::resource('categories', AdminCategoryController::class);
-
-    // Manajemen Pesanan
-    Route::get('/orders', [AdminOrderController::class, 'index'])->name('orders.index');
-    Route::get('/orders/{order}', [AdminOrderController::class, 'show'])->name('orders.show');
-    Route::patch('/orders/{order}/status', [AdminOrderController::class, 'updateStatus'])->name('orders.updateStatus');
-});
-
-Route::middleware(['auth', 'admin']) ->prefix('admin')->name('admin.')->group(function () {
-    // Kategori 
-    Route::resource('categories', AdminCategoryController::class);
-
-    Route::resource('products', ProductController::class);
-});
-
-
-Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
-    // Kategori
+      // Kategori
     Route::resource('categories', CategoryController::class)->except(['show']); // Kategori biasanya tidak butuh show detail page
 
     // Produk
@@ -212,7 +195,16 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     // Route tambahan untuk AJAX Image Handling (jika diperlukan)
     // ...
+
+    // Manajemen Pesanan
+    Route::get('/orders', [AdminOrderController::class, 'index'])->name('orders.index');
+    Route::get('/orders/{order}', [AdminOrderController::class, 'show'])->name('orders.show');
+    Route::patch('/orders/{order}/status', [AdminOrderController::class, 'updateStatus'])->name('orders.updateStatus');
 });
+
+
+
+
 
 
 

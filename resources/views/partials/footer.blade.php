@@ -9,7 +9,7 @@ FUNGSI: Footer website
             {{-- Brand & Description --}}
             <div class="col-lg-4 col-md-6">
                 <h5 class="text-white mb-3">
-                    <i class="bi bi-bag-heart-fill me-2"></i>TokoOnline
+                    <i class="bi bi-bag-heart-fill me-2"></i>Distros Mart
                 </h5>
                 <p class="text-secondary">
                     Toko online terpercaya dengan berbagai produk berkualitas.
@@ -81,8 +81,8 @@ FUNGSI: Footer website
 
         <div class="row align-items-center">
             <div class="col-md-6 text-center text-md-start">
-                <p class="text-secondary mb-0 small">
-                    &copy; {{ date('Y') }} TokoOnline. All rights reserved.
+                <p class="text-secondary mb-0 small">   
+                    &copy; {{ date('Y') }} Distros Mart. All rights reserved.
                 </p>
             </div>
             <div class="col-md-6 text-center text-md-end mt-3 mt-md-0">

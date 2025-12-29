@@ -57,6 +57,10 @@
                             <span class="badge bg-warning text-dark">Pending</span>
                             @elseif($order->status == 'processing')
                             <span class="badge bg-info text-dark">Diproses</span>
+                            @elseif($order->status == 'shipped')
+                            <span class="badge bg-primary">Dikirim</span>
+                            @elseif($order->status == 'delivered')
+                            <span class="badge bg-success">Sampai Tujuan</span>
                             @elseif($order->status == 'completed')
                             <span class="badge bg-success">Selesai</span>
                             @elseif($order->status == 'cancelled')

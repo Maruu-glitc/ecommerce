@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('orders', function (Blueprint $table) {
+        Schema::create('orders', function (Blueprint $table) {  
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->string('order_number')->unique(); // ID unik, misal ORD-20231201-001
 
             // Status Pesanan
-            $table->enum('status', ['pending', 'processing', 'completed', 'cancelled'])->default('pending');
+            $table->enum('status', ['pending', 'shipped','processing','delivered', 'completed', 'cancelled'])->default('pending');
 
             // Status Pembayaran (PENTING: tambahkan ini)
             $table->enum('payment_status', ['unpaid', 'paid', 'failed'])->default('unpaid');

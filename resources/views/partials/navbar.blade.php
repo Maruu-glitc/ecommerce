@@ -6,7 +6,7 @@ FUNGSI: Navigation bar untuk customer
 <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
     <div class="container">
         {{-- Logo & Brand --}}
-        <a class="navbar-brand text-primary" href="{{ route('home') }}">
+        <a class="navbar-brand " href="{{ route('home') }}" style="color: #6b98a5;">
             {{-- <i class="bi bi-bag-heart-fill me-2"></i> --}}
             <img src="{{ asset('assets/images/kaosPNG.png') }}" width="80" height="80" alt="" srcset="">
             Distros Mart

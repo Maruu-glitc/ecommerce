@@ -1,378 +1,210 @@
-<!doctype html>
-<html lang="en">
-<!-- [Head] start -->
+@extends('layouts.admin')
 
-<head>
-  <title>Dashboard | Berry Dashboard Template</title>
-  <!-- [Meta] -->
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="description"
-    content="Berry is trending dashboard template made using Bootstrap 5 design framework. Berry is available in Bootstrap, React, CodeIgniter, Angular,  and .net Technologies." />
-  <meta name="keywords"
-    content="Bootstrap admin template, Dashboard UI Kit, Dashboard Template, Backend Panel, react dashboard, angular dashboard" />
-  <meta name="author" content="codedthemes" />
+@section('title', 'Dashboard')
 
-  <!-- [Favicon] icon -->
-  <link rel="icon" href="{{ asset('assets/images/favicon.svg') }}" type="image/x-icon" />
-  <!-- [Google Font] Family -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
-    id="main-font-link" />
-  <!-- [phosphor Icons] https://phosphoricons.com/ -->
-  <link rel="stylesheet" href="{{ asset('assets/fonts/phosphor/duotone/style.css') }}" />
-  <!-- [Tabler Icons] https://tablericons.com -->
-  <link rel="stylesheet" href="{{ asset('assets/fonts/tabler-icons.min.css') }}" />
-  <!-- [Feather Icons] https://feathericons.com -->
-  <link rel="stylesheet" href="{{ asset('assets/fonts/feather.css') }}" />
-  <!-- [Font Awesome Icons] https://fontawesome.com/icons -->
-  <link rel="stylesheet" href="{{ asset('assets/fonts/fontawesome.css') }}" />
-  <!-- [Material Icons] https://fonts.google.com/icons -->
-  <link rel="stylesheet" href="{{ asset('assets/fonts/material.css') }}" />
-  <!-- [Template CSS Files] -->
-  <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}" id="main-style-link" />
-  <link rel="stylesheet" href="{{ asset('assets/css/style-preset.css') }}" />
-
-</head>
-<!-- [Head] end -->
-<!-- [Body] Start -->
-
-<body>
-  <!-- [ Pre-loader ] start -->
-  <div class="loader-bg">
-    <div class="loader-track">
-      <div class="loader-fill"></div>
-    </div>
-  </div>
-  <!-- [ Pre-loader ] End -->
-
-  <!-- [ Sidebar Menu ] start -->
-  @include('layouts.partials.sidebar')
-  <!-- [ Sidebar Menu ] end -->
-
-  <!-- [ Header Topbar ] start -->
-  <header class="pc-header">
-    <div class="header-wrapper">
-      @include('layouts.partials.navbar')
-    </div>
-  </header>
-  <!-- [ Header ] end -->
-
-
-
-  <!-- [ Main Content ] start -->
-  <div class="pc-container">
-    <div class="pc-content">
-      <!-- [ Main Content ] start -->
-      <div class="row">
-        <!-- [ sample-page ] start -->
-        <div class="col-xl-4 col-md-6">
-          <div class="card bg-secondary-dark dashnum-card text-white overflow-hidden">
-            <span class="round small"></span>
-            <span class="round big"></span>
-            <div class="card-body">
-              <div class="row">
-                <div class="col">
-                  <div class="avtar avtar-lg">
-                    <i class="text-white ti ti-credit-card"></i>
-                  </div>
-                </div>
-                <div class="col-auto">
-                  <div class="btn-group">
-                    <a href="#" class="avtar avtar-s bg-secondary text-white dropdown-toggle arrow-none"
-                      data-bs-toggle="dropdown" aria-expanded="false">
-                      <i class="ti ti-dots"></i>
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                      <li><button class="dropdown-item">Import Card</button></li>
-                      <li><button class="dropdown-item">Export</button></li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <span class="text-white d-block f-34 f-w-500 my-2">
-                1350
-                <i class="ti ti-arrow-up-right-circle opacity-50"></i>
-              </span>
-              <p class="mb-0 opacity-50">Total Pending Orders</p>
-            </div>
+@section('content')
+<div class="row g-4 mb-4">
+  {{-- 1. Stats Cards Grid --}}
+  {{-- Revenue Card --}}
+  <div class="col-sm-6 col-xl-3">
+    <div class="card border-0 shadow-sm border-start border-4 border-success h-100">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <p class="text-muted text-uppercase fw-semibold mb-1" style="font-size: 0.8rem">Total Pendapatan</p>
+            <h4 class="fw-bold mb-0 text-success">
+              Rp {{ number_format($stats['total_revenue'], 0, ',', '.') }}
+            </h4>
+          </div>
+          <div class="bg-success bg-opacity-10 p-3 rounded">
+            <i class="bi bi-wallet2 text-success fs-3"></i>
           </div>
         </div>
-        <div class="col-xl-4 col-md-6">
-          <div class="card bg-primary-dark dashnum-card text-white overflow-hidden">
-            <span class="round small"></span>
-            <span class="round big"></span>
-            <div class="card-body">
-              <div class="row">
-                <div class="col">
-                  <div class="avtar avtar-lg">
-                    <i class="text-white ti ti-credit-card"></i>
-                  </div>
-                </div>
-                <div class="col-auto">
-                  <ul class="nav nav-pills justify-content-end mb-0" id="chart-tab-tab" role="tablist">
-                    <li class="nav-item" role="presentation">
-                      <button class="nav-link text-white active" id="chart-tab-home-tab" data-bs-toggle="pill"
-                        data-bs-target="#chart-tab-home" role="tab" aria-controls="chart-tab-home" aria-selected="true">
-                        Month
-                      </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                      <button class="nav-link text-white" id="chart-tab-profile-tab" data-bs-toggle="pill"
-                        data-bs-target="#chart-tab-profile" role="tab" aria-controls="chart-tab-profile"
-                        aria-selected="false">
-                        Year
-                      </button>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-              <div class="tab-content" id="chart-tab-tabContent">
-                <div class="tab-pane show active" id="chart-tab-home" role="tabpanel" aria-labelledby="chart-tab-home-tab"
-                  tabindex="0">
-                  <div class="row">
-                    <div class="col-6">
-                      <span class="text-white d-block f-34 f-w-500 my-2">
-                        $135
-                        <i class="ti ti-arrow-up-right-circle opacity-50"></i>
-                      </span>
-                      <p class="mb-0 opacity-50">Total Earning</p>
-                    </div>
-                    <div class="col-6">
-                      <div id="tab-chart-1"></div>
-                    </div>
-                  </div>
-                </div>
-                <div class="tab-pane" id="chart-tab-profile" role="tabpanel" aria-labelledby="chart-tab-profile-tab"
-                  tabindex="0">
-                  <div class="row">
-                    <div class="col-6">
-                      <span class="text-white d-block f-34 f-w-500 my-2">
-                        $291
-                        <i class="ti ti-arrow-down-right-circle opacity-50"></i>
-                      </span>
-                      <p class="mb-0 opacity-50">C/W Last Year</p>
-                    </div>
-                    <div class="col-6">
-                      <div id="tab-chart-2"></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-xl-4 col-md-12">
-          <div class="card bg-primary-dark dashnum-card dashnum-card-small text-white overflow-hidden">
-            <span class="round bg-primary small"></span>
-            <span class="round bg-primary big"></span>
-            <div class="card-body p-3">
-              <div class="d-flex align-items-center">
-                <div class="avtar avtar-lg">
-                  <i class="text-white ti ti-credit-card"></i>
-                </div>
-                <div class="ms-2">
-                  <h4 class="text-white mb-1">$203k</h4>
-                  <p class="mb-0 opacity-75 text-sm">Total Income</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="card dashnum-card dashnum-card-small overflow-hidden">
-            <span class="round bg-warning small"></span>
-            <span class="round bg-warning big"></span>
-            <div class="card-body p-3">
-              <div class="d-flex align-items-center">
-                <div class="avtar avtar-lg bg-light-warning">
-                  <i class="text-warning ti ti-credit-card"></i>
-                </div>
-                <div class="ms-2">
-                  <h4 class="mb-1">$203k</h4>
-                  <p class="mb-0 opacity-75 text-sm">Total Income</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-  
-        <div class="col-xl-8 col-md-12">
-          <div class="card">
-            <div class="card-body">
-              <div class="row mb-3 align-items-center">
-                <div class="col">
-                  <small class="text-muted">Total Growth</small>
-                  <h3>$2,324.00</h3>
-                </div>
-                <div class="col-auto">
-                  <select class="form-select p-r-35">
-                    <option>Today</option>
-                    <option selected>This Month</option>
-                    <option>This Year</option>
-                  </select>
-                </div>
-              </div>
-              <div id="growthchart"></div>
-            </div>
-          </div>
-        </div>
-        <div class="col-xl-4 col-md-12">
-          <div class="card">
-            <div class="card-body">
-              <div class="row mb-3 align-items-center">
-                <div class="col">
-                  <h4>Popular Stocks</h4>
-                </div>
-                <div class="col-auto"></div>
-              </div>
-              <div class="rounded bg-light-secondary overflow-hidden mb-3">
-                <div class="px-3 pt-3">
-                  <div class="row mb-1 align-items-start">
-                    <div class="col">
-                      <h5 class="text-secondary mb-0">Bajaj Finery</h5>
-                      <small class="text-muted">10% Profit</small>
-                    </div>
-                    <div class="col-auto">
-                      <h4 class="mb-0">$1839.00</h4>
-                    </div>
-                  </div>
-                </div>
-                <div id="bajajchart"></div>
-              </div>
-              <ul class="list-group list-group-flush">
-                <li class="list-group-item px-0">
-                  <div class="row align-items-start">
-                    <div class="col">
-                      <h5 class="mb-0">Bajaj Finery</h5>
-                      <small class="text-success">10% Profit</small>
-                    </div>
-                    <div class="col-auto">
-                      <h4 class="mb-0">
-                        $1839.00
-                        <span class="ms-2 align-top avtar avtar-xxs bg-light-success"><i
-                            class="ti ti-chevron-up text-success"></i></span>
-                      </h4>
-                    </div>
-                  </div>
-                </li>
-                <li class="list-group-item px-0">
-                  <div class="row align-items-start">
-                    <div class="col">
-                      <h5 class="mb-0">TTML</h5>
-                      <small class="text-danger">10% Profit</small>
-                    </div>
-                    <div class="col-auto">
-                      <h4 class="mb-0">
-                        $100.00
-                        <span class="ms-2 align-top avtar avtar-xxs bg-light-danger"><i
-                            class="ti ti-chevron-down text-danger"></i></span>
-                      </h4>
-                    </div>
-                  </div>
-                </li>
-                <li class="list-group-item px-0">
-                  <div class="row align-items-start">
-                    <div class="col">
-                      <h5 class="mb-0">Reliance</h5>
-                      <small class="text-success">10% Profit</small>
-                    </div>
-                    <div class="col-auto">
-                      <h4 class="mb-0">
-                        $200.00
-                        <span class="ms-2 align-top avtar avtar-xxs bg-light-success"><i
-                            class="ti ti-chevron-up text-success"></i></span>
-                      </h4>
-                    </div>
-                  </div>
-                </li>
-                <li class="list-group-item px-0">
-                  <div class="row align-items-start">
-                    <div class="col">
-                      <h5 class="mb-0">TTML</h5>
-                      <small class="text-danger">10% Profit</small>
-                    </div>
-                    <div class="col-auto">
-                      <h4 class="mb-0">
-                        $189.00
-                        <span class="ms-2 align-top avtar avtar-xxs bg-light-danger"><i
-                            class="ti ti-chevron-down text-danger"></i></span>
-                      </h4>
-                    </div>
-                  </div>
-                </li>
-                <li class="list-group-item px-0">
-                  <div class="row align-items-start">
-                    <div class="col">
-                      <h5 class="mb-0">Stolon</h5>
-                      <small class="text-danger">10% Profit</small>
-                    </div>
-                    <div class="col-auto">
-                      <h4 class="mb-0">
-                        $189.00
-                        <span class="ms-2 align-top avtar avtar-xxs bg-light-danger"><i
-                            class="ti ti-chevron-down text-danger"></i></span>
-                      </h4>
-                    </div>
-                  </div>
-                </li>
-              </ul>
-              <div class="text-center">
-                <a href="#!" class="b-b-primary text-primary">
-                  View all
-                  <i class="ti ti-chevron-right"></i>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- [ sample-page ] end -->
       </div>
-      <!-- [ Main Content ] end -->
     </div>
   </div>
-  <!-- [ Main Content ] end -->
 
-  <!-- Required Js -->
-  <script src="{{ asset('assets/js/plugins/popper.min.js') }}"></script>
-  <script src="{{ asset('assets/js/plugins/simplebar.min.js') }}"></script>
-  <script src="{{ asset('assets/js/plugins/bootstrap.min.js') }}"></script>
-  <script src="{{ asset('assets/js/icon/custom-font.js') }}"></script>
-  <script src="{{ asset('assets/js/script.js') }}"></script>
-  <script src="{{ asset('assets/js/theme.js') }}"></script>
-  <script src="{{ asset('assets/js/plugins/feather.min.js') }}"></script>
+  {{-- Pending Action Card --}}
+  <div class="col-sm-6 col-xl-3">
+    <div class="card border-0 shadow-sm border-start border-4 border-warning h-100">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <p class="text-muted text-uppercase fw-semibold mb-1" style="font-size: 0.8rem">Perlu Diproses</p>
+            <h4 class="fw-bold mb-0 text-warning">
+              {{ $stats['pending_orders'] }}
+            </h4>
+          </div>
+          <div class="bg-warning bg-opacity-10 p-3 rounded">
+            <i class="bi bi-box-seam text-warning fs-3"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
+  {{-- Low Stock Card --}}
+  <div class="col-sm-6 col-xl-3">
+    <div class="card border-0 shadow-sm border-start border-4 border-danger h-100">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <p class="text-muted text-uppercase fw-semibold mb-1" style="font-size: 0.8rem">Stok Menipis</p>
+            <h4 class="fw-bold mb-0 text-danger">
+              {{ $stats['low_stock'] }}
+            </h4>
+          </div>
+          <div class="bg-danger bg-opacity-10 p-3 rounded">
+            <i class="bi bi-exclamation-triangle text-danger fs-3"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-  <script>
-    layout_change('light');
-  </script>
+  {{-- Total Products --}}
+  <div class="col-sm-6 col-xl-3">
+    <div class="card border-0 shadow-sm border-start border-4 border-primary h-100">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center">
+          <div>
+            <p class="text-muted text-uppercase fw-semibold mb-1" style="font-size: 0.8rem">Total Produk</p>
+            <h4 class="fw-bold mb-0 text-primary">
+              {{ $stats['total_products'] }}
+            </h4>
+          </div>
+          <div class="bg-primary bg-opacity-10 p-3 rounded">
+            <i class="bi bi-tags text-primary fs-3"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-  <script>
-    font_change('Roboto');
-  </script>
+<div class="row g-4">
+  {{-- 2. Revenue Chart --}}
+  <div class="col-lg-8">
+    <div class="card border-0 shadow-sm h-100">
+      <div class="card-header bg-white py-3">
+        <h5 class="card-title mb-0">Grafik Penjualan (7 Hari)</h5>
+      </div>
+      <div class="card-body">
+        <canvas id="revenueChart" height="100"></canvas>
+      </div>
+    </div>
+  </div>
 
-  <script>
-    change_box_container('false');
-  </script>
+  {{-- 3. Recent Orders --}}
+  <div class="col-lg-4">
+    <div class="card border-0 shadow-sm h-100">
+      <div class="card-header bg-white py-3">
+        <h5 class="card-title mb-0">Pesanan Terbaru</h5>
+      </div>
+      <div class="card-body p-0">
+        <div class="list-group list-group-flush">
+          @foreach($recentOrders as $order)
+          <div class="list-group-item d-flex justify-content-between align-items-center px-4 py-3">
+            <div>
+              <div class="fw-bold text-primary">#{{ $order->order_number }}</div>
+              <small class="text-muted">{{ $order->user->name }}</small>
+            </div>
+            <div class="text-end">
+              <div class="fw-bold">Rp {{ number_format($order->total_amount, 0, ',', '.') }}</div>
+              <span
+                class="badge rounded-pill
+                                        {{ $order->payment_status == 'paid' ? 'bg-success bg-opacity-10 text-success' : 'bg-secondary bg-opacity-10 text-secondary' }}">
+                {{ ucfirst($order->status) }}
+              </span>
+            </div>
+          </div>
+          @endforeach
+        </div>
+      </div>
+      <div class="card-footer bg-white text-center py-3">
+        <a href="{{ route('admin.orders.index') }}" class="text-decoration-none fw-bold">
+          Lihat Semua Pesanan &rarr;
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
 
-  <script>
-    layout_caption_change('true');
-  </script>
+{{-- 4. Top Selling Products --}}
+<div class="card border-0 shadow-sm mt-4">
+  <div class="card-header bg-white py-3">
+    <h5 class="card-title mb-0">Produk Terlaris</h5>
+  </div>
+  <div class="card-body">
+    <div class="row g-4">
+      @foreach($topProducts as $product)
+      <div class="col-6 col-md-2 text-center">
+        <div class="card h-100 border-0 hover-shadow transition">
+          <img src="{{ $product->image_url }}" class="card-img-top rounded mb-2"
+            style="max-height: 100px; object-fit: cover;">
+          <h6 class="card-title text-truncate" style="font-size: 0.9rem">{{ $product->name }}</h6>
+          <small class="text-muted">{{ $product->sold }} terjual</small>
+        </div>
+      </div>
+      @endforeach
+    </div>
+  </div>
+</div>
 
-  <script>
-    layout_rtl_change('false');
-  </script>
+{{-- Script Chart.js --}}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  const ctx = document.getElementById('revenueChart').getContext('2d');
 
-  <script>
-    preset_change('preset-1');
-  </script>
+        // Data dari Controller (Blade to JS)
+        const labels = {!! json_encode($revenueChart->pluck('date')) !!};
+        const data = {!! json_encode($revenueChart->pluck('total')) !!};
 
-
-
-  <!-- [Page Specific JS] start -->
-  <!-- Apex Chart -->
-  <script src="{{ asset('assets/js/plugins/apexcharts.min.js') }}"></script>
-  <script src="{{ asset('assets/js/pages/dashboard-default.js') }}"></script>
-  <!-- [Page Specific JS] end -->
-</body>
-<!-- [Body] end -->
-
-</html>
+        new Chart(ctx, {
+            type: 'line', // Jenis grafik: Line chart
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Pendapatan (Rp)',
+                    data: data,
+                    borderColor: '#0d6efd', // Bootstrap Primary Color
+                    backgroundColor: 'rgba(13, 110, 253, 0.1)',
+                    borderWidth: 2,
+                    tension: 0.3, // Membuat garis sedikit melengkung (smooth)
+                    fill: true,
+                    pointRadius: 4,
+                    pointHoverRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false, // Penting agar Chart menyesuaikan container
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                // Format Tooltip jadi Rupiah
+                                return 'Rp ' + new Intl.NumberFormat('id-ID').format(context.raw);
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: { borderDash: [2, 4] },
+                        ticks: {
+                            callback: function(value) {
+                                return 'Rp ' + new Intl.NumberFormat('id-ID', { notation: "compact" }).format(value);
+                            }
+                        }
+                    },
+                    x: {
+                        grid: { display: false }
+                    }
+                }
+            }
+        });
+</script>
+@endsection

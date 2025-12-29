@@ -65,6 +65,9 @@
                                 (Dikirim)</option>
                             <option value="delivered" {{ $order->status == 'delivered' ? 'selected' : '' }}>Delivered
                                 (Sampai Tujuan)</option>
+                            <option value=" {{ $order->status }}" {{ $order->status == 'completed' ? 'selected' : '' }}> Completed
+                                (Selesai)
+                            </option>
                             <option value="cancelled" {{ $order->status == 'cancelled' ? 'selected' : '' }}>Cancelled
                                 (Batalkan & Restock)</option>
                         </select>
