@@ -24,17 +24,8 @@ class ProductController extends Controller
      */
     public function index(Request $request): View
     {
-        $products =  Product::query()
-            ->with(['category', 'primaryImage'])
-            ->when($request->search, function ($query, $search) {
-                $query->search($search);
-            })
-            ->when($request->category, function ($query, $categoryId) {
-                $query->where('category_id', $categoryId);
-            })
-            ->latest()
-            ->paginate(15)
-            ->withQueryString();
+        // Hemat Memori
+        $products = Product::select('id', 'name', 'price', 'slug', 'image')->get();
 
         $categories = Category::active()->orderBy('name')->get();
 

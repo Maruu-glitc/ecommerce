@@ -21,5 +21,10 @@ class SendOrderPaidEmail implements ShouldQueue // <--- PENTING
             ->send(new OrderPaid($event->order));
 
         // Opsional: Kirim notif ke Admin juga
+        Mail::to(env('ADMIN_EMAIL'))->send(new OrderPaid($event->order));
+
+        // TODO: Kirim email konfirmasi pembayaran
+        // event(new PaymentSuccessful($order));
+
     }
 }

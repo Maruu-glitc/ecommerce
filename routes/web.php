@@ -67,11 +67,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])
         ->name('home');
 
-    Route::get('profile', [ProfileController::class, 'edit'])
-        ->name('profile.edit');
-
-    route::put('profile', [ProfileController::class, 'update'])
-        ->name('profile.update');
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::delete('/profile/avatar', [ProfileController::class, 'deleteAvatar'])->name('profile.avatar.destroy');
+    Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password.update');
 });
 
 // ========================================
@@ -119,11 +119,7 @@ Route::controller(GoogleController::class)->group(function () {
 
 // routes/web.php
 
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::delete('/profile/avatar', [ProfileController::class, 'deleteAvatar'])->name('profile.avatar.destroy');
-    Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password.update');
+   
 
 // Katalog Produk
 Route::get('/products', [CatalogController::class, 'index'])->name('catalog.index');
@@ -278,3 +274,17 @@ Route::post('midtrans/notification', [MidtransNotificationController::class, 'ha
 //         ], 500);
 //     }
 // });
+
+
+// #TEST EMAIL
+
+use Illuminate\Support\Facades\Mail;
+
+Route::get('/test-email', function () {
+    Mail::raw('Halo, ini adalah email percobaan dari Laravel 12 ke Mailtrap!', function ($message) {
+        $message->to('test@example.com')
+            ->subject('Test Koneksi Mailtrap');
+    });
+
+    return "Email berhasil dikirim! Silakan cek dashboard Mailtrap Anda.";
+});

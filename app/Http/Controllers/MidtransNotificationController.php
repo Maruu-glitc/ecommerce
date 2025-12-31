@@ -173,6 +173,8 @@ class MidtransNotificationController extends Controller
 
         // TODO: Kirim email konfirmasi pembayaran
         // event(new PaymentSuccessful($order));
+        $order->update([]);
+        event(new OrderPaidEvent($order));
     }
 
     /**
@@ -214,6 +216,8 @@ class MidtransNotificationController extends Controller
         }
 
         // TODO: Kirim email notifikasi pembayaran gagal
+        // event(new PaymentFailed($order));
+
     }
 
     /**

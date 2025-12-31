@@ -18,9 +18,10 @@
     <x-mail::button :url="route('orders.show', $order)">
         Lihat Detail Pesanan
     </x-mail::button>
-
+    <div align="center">
     Jika ada pertanyaan, silakan balas email ini.
 
     Salam,<br>
     {{ config('app.name') }}
+    </div>
 </x-mail::message>

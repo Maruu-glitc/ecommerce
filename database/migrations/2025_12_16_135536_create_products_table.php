@@ -19,15 +19,16 @@ return new class extends Migration
             // Relasi ke tabel categories
             $table->foreignId('category_id')
                 ->constrained()
+                ->index()
                 ->cascadeOnDelete();
 
             // Informasi dasar produk
             $table->string('name');
-            $table->string('slug')->unique();
+            $table->string('slug')->unique()->index();
             $table->text('description')->nullable();
 
             // Harga produk (decimal aman untuk uang)
-            $table->decimal('price', 12, 2);
+            $table->decimal('price', 12, 2)->index();
             $table->decimal('discount_price', 12, 2)->nullable();
 
             // Stok barang

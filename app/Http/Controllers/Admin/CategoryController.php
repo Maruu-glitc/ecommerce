@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -14,14 +15,19 @@ class CategoryController extends Controller
     /**
      * Menampilkan daftar kategori.
      */
+    // CategoryController store/update/delete
+
     public function index()
     {
-        // Mengambil data kategori dengan pagination.
-        // withCount('products'): Menghitung jumlah produk di setiap kategori.
-        // Teknik ini jauh lebih efisien daripada memanggil $category->products->count() di view (N+1 Problem).
-        $categories = Category::withCount('products')
-            ->latest() // Urutkan dari yang terbaru (created_at desc)
-            ->paginate(10); // Batasi 10 item per halaman
+
+        // Sesudah (Cek Cache dulu)
+        // Logika:
+        // 1. Cek apakah ada data dengan key 'global_categories' di RAM (Cache)?
+        // 2. Jika ADA, kembalikan langsung (tanpa sentuh DB). Cepat!
+        // 3. Jika TIDAK ADA, jalankan function(), simpan hasilnya ke Cache selama 3600 detik (1 jam), lalu kembalikan.
+        $categories = Cache::remember('global_categories', 3600, function () {
+            return Category::withCount('products')->get(); // Sekalian Eager Load count produk
+        });
 
         return view('admin.categories.index', compact('categories'));
     }
@@ -31,6 +37,9 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
+        // CategoryController store/update/delete
+        Cache::forget('global_categories');
+
         // 1. Validasi Input
         $validated = $request->validate([
             // 'unique:categories': Pastikan nama belum dipakai di tabel categories
@@ -65,6 +74,9 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
+        // CategoryController store/update/delete
+        Cache::forget('global_categories');
+
         // 1. Validasi Input
         $validated = $request->validate([
             // PENTING: Pada validasi unique saat update, kita harus mengecualikan ID kategori ini sendiri.
@@ -102,6 +114,9 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
+        // CategoryController store/update/delete
+        Cache::forget('global_categories');
+
         // 1. Safeguard (Pencegahan)
         // Jangan hapus kategori jika masih ada produk di dalamnya.
         // Ini mencegah produk menjadi "yatim piatu" (orphan data) yang tidak punya kategori.
