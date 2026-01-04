@@ -6,7 +6,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
-
+use App\Http\Controllers\Admin\ReportController;
 
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Auth\GoogleController;
@@ -99,6 +99,8 @@ Route::middleware(['auth', 'admin'])
 
         // CRUD Produk: /admin/products, /admin/products/create, dll
         Route::resource('/products', AdminProductController::class);
+
+        Route::get('/reports/sales', [\App\Http\Controllers\Admin\ReportController::class, 'sales'])->name('reports.sales');
         // ↑ resource() membuat 7 route sekaligus:
         // - GET    /admin/products          → index   (admin.products.index)
         // - GET    /admin/products/create   → create  (admin.products.create)

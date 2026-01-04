@@ -66,6 +66,12 @@
                                                 <span class="pc-mtext">Pesanan</span>
                                             </a>
                                         </li>
+                                        <li class="pc-item">
+                                            <a href="{{ route('admin.reports.sales') }}" class="pc-link">
+                                                <span class="pc-micon"><i class="bi bi-people"></i></span>
+                                                <span class="pc-mtext">Laporan Penjualan</span>
+                                            </a>
+                                        </li>
 
 
 
