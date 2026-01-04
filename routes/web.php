@@ -100,7 +100,7 @@ Route::middleware(['auth', 'admin'])
         // CRUD Produk: /admin/products, /admin/products/create, dll
         Route::resource('/products', AdminProductController::class);
 
-        Route::get('/reports/sales', [\App\Http\Controllers\Admin\ReportController::class, 'sales'])->name('reports.sales');
+        Route::get('/reports/sales', [ReportController::class, 'sales'])->name('reports.sales');
         // ↑ resource() membuat 7 route sekaligus:
         // - GET    /admin/products          → index   (admin.products.index)
         // - GET    /admin/products/create   → create  (admin.products.create)
@@ -109,6 +109,7 @@ Route::middleware(['auth', 'admin'])
         // - GET    /admin/products/{id}/edit→ edit    (admin.products.edit)
         // - PUT    /admin/products/{id}     → update  (admin.products.update)
         // - DELETE /admin/products/{id}     → destroy (admin.products.destroy)
+        Route::resource('reports', ReportController::class)->only(['index', 'sales']);
     });
 
 Route::controller(GoogleController::class)->group(function () {
@@ -157,6 +158,8 @@ Route::middleware('auth')->group(function () {
     // Checkout
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
     Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
+    // Batasi 5 request per menit
+    Route::post('/login', [LoginController::class, 'login'])->middleware('throttle:5,1');
 
     // Pesanan Saya
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
