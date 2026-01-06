@@ -3,6 +3,8 @@
 <!-- [Head] start -->
 
 <head>
+    @stack('styles')
+
     <title>Dashboard | Berry Dashboard Template</title>
     <!-- [Meta] -->
     <meta charset="utf-8" />
@@ -36,7 +38,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
         integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    @stack('styles')
+
 
     {{-- @vite(['resources/css/app.css', 'resources/js/app.js']) --}}
 </head>
@@ -74,7 +76,7 @@
         <div class="pc-content">
             <div class="row">
                 <div class="container mt-3">
-                    @include('partials.flash-messages') 
+                    @include('partials.flash-messages')
                 </div>
                 <div class="col-sm-12">
                     @yield('content')
@@ -129,6 +131,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.5.0/chart.min.js"
         integrity="sha512-n/G+dROKbKL3GVngGWmWfwK0yPctjZQM752diVYnXZtD/48agpUKLIn0xDQL9ydZ91x6BiOmTIFwWjjFi2kEFg=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
     <!-- [Page Specific JS] end -->
     @stack('scripts')
 </body>

@@ -25,7 +25,18 @@ class ProductController extends Controller
     public function index(Request $request): View
     {
         // Hemat Memori
-        $products = Product::select('id', 'name', 'price', 'slug', 'image')->get();
+        // $products = Product::select('id', 'name', 'price', 'slug', 'image')->get();
+        $products =  Product::query()
+            ->with(['category', 'primaryImage'])
+            ->when($request->search, function ($query, $search) {
+                $query->search($search);
+            })
+            ->when($request->category, function ($query, $categoryId) {
+                $query->where('category_id', $categoryId);
+            })
+            ->latest()
+            ->paginate(15)
+            ->withQueryString();
 
         $categories = Category::active()->orderBy('name')->get();
 
@@ -218,4 +229,3 @@ class ProductController extends Controller
         $product->images()->where('id', $imageId)->update(['is_primary' => true]);
     }
 }
-

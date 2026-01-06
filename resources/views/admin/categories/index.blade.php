@@ -71,7 +71,7 @@
                                     </td>
                                     <td class="text-end pe-4">
                                         <button class="btn btn-sm btn-outline-warning me-1" data-bs-toggle="modal"
-                                            data-bs-target="#editModal{{ $category->id }}">
+                                            data-bs-target="#editModal-{{ $category->id }}">
                                             <i class="bi bi-pencil"></i>
                                         </button>
                                         <form action="{{ route('admin.categories.destroy', $category) }}" method="POST"
@@ -86,7 +86,7 @@
                                 </tr>
 
                                 {{-- EDIT MODAL per Loop Item --}}
-                                <div class="modal fade" id="editModal{{ $category->id }}" tabindex="-1">
+                                <div class="modal fade" id="editModal-{{ $category->id }}" tabindex="-1">
                                     <div class="modal-dialog">
                                         <form class="modal-content"
                                             action="{{ route('admin.categories.update', $category) }}" method="POST"
@@ -94,7 +94,7 @@
                                             @csrf
                                             @method('PUT')
                                             <div class="modal-header">
-                                                <h5 class="modal-title">Edit Kategori</h5>
+                                                <h5 class="modal-title">Edit Kategori {{ $category->name }}</h5>
                                                 <button type="button" class="btn-close"
                                                     data-bs-dismiss="modal"></button>
                                             </div>
@@ -169,6 +169,71 @@
             </form>
         </div>
     </div>
+
+    {{-- EDIT MODAL --}}
+<!-- <div class="modal fade" id="editModal-{{ $category->id }}" tabindex="-1">
+    <div class="modal-dialog">
+        <form class="modal-content"
+              action="{{ route('admin.categories.update', $category->id) }}"
+              method="POST"
+              enctype="multipart/form-data">
+            @csrf
+            @method('PUT')
+
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Kategori {{ $category->name }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                {{-- Nama --}}
+                <div class="mb-3">
+                    <label class="form-label">Nama Kategori <span class="text-danger">*</span></label>
+                    <input type="text"
+                           name="name"
+                           class="form-control"
+                           value="{{ $category->name }}"
+                           required>
+                </div>
+
+                {{-- Gambar --}}
+                <div class="mb-3">
+                    <label class="form-label">Gambar Cover</label>
+
+                    @if ($category->image)
+                        <div class="mb-2">
+                            <img src="{{ asset('storage/'.$category->image) }}"
+                                 alt="Category Image"
+                                 class="img-thumbnail"
+                                 width="120">
+                        </div>
+                    @endif
+
+                    <input type="file" name="image" class="form-control">
+                    <small class="text-muted">Kosongkan jika tidak ingin mengganti gambar</small>
+                </div>
+
+                {{-- Status --}}
+                <div class="form-check form-switch">
+                    <input class="form-check-input"
+                           type="checkbox"
+                           name="is_active"
+                           value="1"
+                           {{ $category->is_active ? 'checked' : '' }}>
+                    <label class="form-check-label">Aktif</label>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                <button type="submit" class="btn btn-primary">Update Kategori</button>
+            </div>
+        </form>
+    </div>
+</div> -->
+
 </div>
+
+
 
 @endsection

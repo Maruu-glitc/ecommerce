@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\ReportController;
 
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Auth\GoogleController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\CheckoutController;
@@ -34,9 +35,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/search', [SearchController::class, 'index'])
     ->name('search');
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
 
 
 Route::get('/tentang', function () {
@@ -158,8 +156,9 @@ Route::middleware('auth')->group(function () {
     // Checkout
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
     Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
+
     // Batasi 5 request per menit
-    Route::post('/login', [LoginController::class, 'login'])->middleware('throttle:5,1');
+    // Route::post('/login', [LoginController::class, 'login'])->middleware('throttle:5,1');
 
     // Pesanan Saya
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');

@@ -21,7 +21,28 @@
                 </div>
 
                 <div class="">
+                   
+                  
+
                     {{ $order->image_url ? '<img src="' . $order->image_url . '" class="rounded" width="40">' : '' }}
+                </div>
+
+                {{-- Payment status --}}
+                <div>
+                    <span class="badge rounded-pill
+                            @if($order->payment_status === 'pending') bg-warning-subtle text-warning p-2 px-3
+                            @elseif($order->payment_status === 'paid') bg-success-subtle text-success p-2 px-3
+                            @elseif($order->payment_status === 'unpaid') bg-danger-subtle text-danger p-2 px-3
+                            @else bg-secondary-subtle text-secondary
+                            @endif
+                        ">
+                        @switch($order->payment_status)
+                        @case('pending') Pending @break
+                        @case('paid') Paid @break
+                        @case('unpaid') Unpaid @break
+                        @default {{ ucfirst($order->payment_status) }}
+                        @endswitch
+                    </span>
                 </div>
 
                 {{-- Status --}}

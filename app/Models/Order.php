@@ -27,11 +27,17 @@ class Order extends Model
     {
         return $this->belongsTo(User::class);
     }
-    
+
     public function items()
     {
         return $this->hasMany(OrderItem::class);
     }
 
-    
+    // App\Models\Order.php
+    public function getImageAttribute()
+    {
+        return $this->image_url
+            ? asset('storage/' . $this->image_url)
+            : null;
+    }
 }
