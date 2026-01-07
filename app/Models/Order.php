@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
 class Order extends Model
 {
@@ -33,11 +35,34 @@ class Order extends Model
         return $this->hasMany(OrderItem::class);
     }
 
+    // public function primaryProductImage(): HasOne
+    // {
+    //     return $this->hasOne(ProductImage::class)->where('is_primary', true);
+    // }
+
     // App\Models\Order.php
-    public function getImageAttribute()
+    public function getImageUrlAttribute()
     {
-        return $this->image_url
-            ? asset('storage/' . $this->image_url)
-            : null;
+        $item = $this->items->first();
+
+        if (!$item || !$item->product || !$item->product->primaryImage) {
+            return null;
+        }
+
+        return asset('storage/' . $item->product->primaryImage->image_path);
+    }
+
+
+
+    public function primaryProductImage()
+    {
+        return $this->hasOneThrough(
+            ProductImage::class,
+            OrderItem::class,
+            'order_id',     // FK di order_items
+            'product_id',   // FK di product_images
+            'id',           // PK di orders
+            'product_id'    // FK di order_items
+        )->where('is_primary', true);
     }
 }

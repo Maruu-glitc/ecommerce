@@ -4,6 +4,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Models\ProductImage;
 use Illuminate\Http\Request;
 use App\Services\MidtransService;
 class OrderController extends Controller
@@ -17,10 +18,9 @@ class OrderController extends Controller
         // Kita hanya mengambil order milik user yg sedang login menggunakan relasi hasMany.
         // auth()->user()->orders() akan otomatis memfilter: WHERE user_id = current_user_id
         $orders = auth()->user()->orders()
-            ->with(['items.product']) // Eager Load nested: Order -> OrderItems -> Product
+            ->with(['items.product.primaryImage']) // Eager Load nested: Order -> OrderItems -> Product
             ->latest() // Urutkan dari pesanan terbaru
             ->paginate(10);
-
         return view('orders.index', compact('orders'));
     }
 

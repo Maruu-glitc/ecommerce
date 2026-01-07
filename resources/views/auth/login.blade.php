@@ -72,7 +72,7 @@
     /* Background */
     .login-wrapper {
         min-height: 100vh;
-        background: linear-gradient(135deg, #8CA9FF, #ffffff);
+        background: linear-gradient(135deg, #7faab6, #ffffff);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -110,7 +110,7 @@
         border: 1px solid #e5e7eb;
     }
     .form-control:focus {
-        border-color: #8CA9FF;
+        border-color: #7faab6;
         box-shadow: 0 0 0 3px rgba(140,169,255,.25);
     }
     
@@ -123,7 +123,7 @@
         margin: 15px 0;
     }
     .remember-row a {
-        color: #8CA9FF;
+        color: #7faab6;
         text-decoration: none;
     }
     
@@ -133,14 +133,14 @@
         border: none;
         padding: 12px;
         border-radius: 14px;
-        background: linear-gradient(135deg, #8CA9FF, #6f8cff);
+        background: linear-gradient(135deg, #a8d3df, #7faab6);
         color: #fff;
         font-weight: 600;
         transition: .3s;
     }
     .btn-login:hover {
         transform: translateY(-2px);
-        box-shadow: 0 10px 20px rgba(140,169,255,.4);
+        box-shadow: 0 10px 20px #6c889045;
     }
     
     /* Divider */
@@ -180,7 +180,7 @@
         font-size: 14px;
     }
     .register-text a {
-        color: #8CA9FF;
+        color: #a8d3df;
         font-weight: 600;
         text-decoration: none;
     }

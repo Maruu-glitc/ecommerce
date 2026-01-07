@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+
 <div class="auth-wrapper">
     <div class="auth-card">
         {{-- Header --}}
@@ -72,7 +73,7 @@
     /* Wrapper */
     .auth-wrapper {
         min-height: 100vh;
-        background: linear-gradient(135deg, #8CA9FF, #ffffff);
+        background: linear-gradient(135deg, #7faab6, #ffffff);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -123,7 +124,7 @@
         border: none;
         padding: 13px;
         border-radius: 16px;
-        background: linear-gradient(135deg, #8CA9FF, #6f8cff);
+        background: linear-gradient(135deg, #7faab6, #a8d3df);
         color: #ffffff;
         font-weight: 600;
         transition: .3s ease;
@@ -149,7 +150,7 @@
     }
 
     .switch-text a {
-        color: #8CA9FF;
+        color: #7faab6;
         font-weight: 600;
         text-decoration: none;
     }

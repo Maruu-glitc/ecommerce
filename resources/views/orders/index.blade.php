@@ -3,86 +3,103 @@
 @section('content')
 <div class="container py-4">
     <h1 class="h4 fw-semibold mb-4">Pesanan Saya</h1>
-
+    <a href="/"></a>
     <div class="card border-0 shadow-sm">
-        <div class="card-body p-0">
+        <div class="card-body p-0 table-responsive">
 
-            @forelse($orders as $order)
-            <div class="d-flex justify-content-between align-items-center px-4 py-3 border-bottom">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>Order</th>
+                        <th>Tanggal</th>
+                        <th>Produk</th>
+                        <th>Status Bayar</th>
+                        <th>Status Pesanan</th>
+                        <th class="text-end">Total</th>
+                        <th class="text-end">Aksi</th>
+                    </tr>
+                </thead>
 
-                {{-- Info Order --}}
-                <div>
-                    <div class="fw-semibold">
-                        Order #{{ $order->order_number }}
-                    </div>
-                    <small class="text-muted">
-                        {{ $order->created_at->format('d M Y, H:i') }}
-                    </small>
-                </div>
+                <tbody class="m-3">
+                    @forelse($orders as $order)
+                    <tr>
+                        {{-- Order Number --}}
+                        <td class="fw-semibold">
+                            #{{ $order->order_number }}
+                        </td>
 
-                <div class="">
-                   
-                  
+                        {{-- Tanggal --}}
+                        <td class="text-muted">
+                            {{ $order->created_at->format('d M Y, H:i') }}
+                        </td>
 
-                    {{ $order->image_url ? '<img src="' . $order->image_url . '" class="rounded" width="40">' : '' }}
-                </div>
-
-                {{-- Payment status --}}
-                <div>
-                    <span class="badge rounded-pill
-                            @if($order->payment_status === 'pending') bg-warning-subtle text-warning p-2 px-3
-                            @elseif($order->payment_status === 'paid') bg-success-subtle text-success p-2 px-3
-                            @elseif($order->payment_status === 'unpaid') bg-danger-subtle text-danger p-2 px-3
-                            @else bg-secondary-subtle text-secondary
+                        {{-- Produk / Thumbnail --}}
+                        <td>
+                            @if($order->image_url)
+                                <img src="{{ $order->image_url }}" class="rounded" width="70">
+                            @else
+                                <span class="text-muted">-</span>
                             @endif
-                        ">
-                        @switch($order->payment_status)
-                        @case('pending') Pending @break
-                        @case('paid') Paid @break
-                        @case('unpaid') Unpaid @break
-                        @default {{ ucfirst($order->payment_status) }}
-                        @endswitch
-                    </span>
-                </div>
+                        </td>
 
-                {{-- Status --}}
-                <div>
-                    <span class="badge rounded-pill
-                            @if($order->status === 'pending') bg-warning-subtle text-warning p-2 px-3
-                            @elseif($order->status === 'processing') bg-info-subtle text-info p-2 px-3
-                            @elseif($order->status === 'shipped') bg-primary-subtle text-primary p-2 px-3
-                            @elseif($order->status === 'delivered') bg-success-subtle text-success p-2 px-3
-                            @elseif($order->status === 'cancelled') bg-danger-subtle text-danger p-2 px-3
-                            @else bg-secondary-subtle text-secondary
-                            @endif
-                        ">
-                        @switch($order->status)
-                        @case('pending') Pending @break
-                        @case('processing') Diproses @break
-                        @case('shipped') Dikirim @break
-                        @case('delivered') Sampai Tujuan @break
-                        @case('completed') Selesai @break
-                        @case('cancelled') Batal @break
-                        @default {{ ucfirst($order->status) }}
-                        @endswitch
-                    </span>
-                </div>
+                        {{-- Payment Status --}}
+                        <td>
+                            <span class="badge rounded-pill
+                                @if($order->payment_status === 'pending') bg-warning-subtle text-warning
+                                @elseif($order->payment_status === 'paid') bg-success-subtle text-success
+                                @elseif($order->payment_status === 'unpaid') bg-danger-subtle text-danger
+                                @else bg-secondary-subtle text-secondary
+                                @endif
+                                px-3 py-2">
+                                {{ ucfirst($order->payment_status) }}
+                            </span>
+                        </td>
 
-                {{-- Total & Aksi --}}
-                <div class="text-end">
-                    <div class="fw-semibold">
-                        Rp {{ number_format($order->total_amount, 0, ',', '.') }}
-                    </div>
-                    <a href="{{ route('orders.show', $order) }}" class="btn btn-outline-primary btn-sm text-decoration-none px-3 mt-1">
-                        Lihat Detail →
-                    </a>
-                </div>
-            </div>
-            @empty
-            <div class="text-center py-5 text-muted">
-                Belum ada pesanan
-            </div>
-            @endforelse
+                        {{-- Order Status --}}
+                        <td>
+                            <span class="badge rounded-pill
+                                @if($order->status === 'pending') bg-warning-subtle text-warning
+                                @elseif($order->status === 'processing') bg-info-subtle text-info
+                                @elseif($order->status === 'shipped') bg-primary-subtle text-primary
+                                @elseif($order->status === 'delivered') bg-success-subtle text-success
+                                @elseif($order->status === 'cancelled') bg-danger-subtle text-danger
+                                @else bg-secondary-subtle text-secondary
+                                @endif
+                                px-3 py-2">
+                                @switch($order->status)
+                                    @case('pending') Pending @break
+                                    @case('processing') Diproses @break
+                                    @case('shipped') Dikirim @break
+                                    @case('delivered') Sampai @break
+                                    @case('completed') Selesai @break
+                                    @case('cancelled') Batal @break
+                                    @default {{ ucfirst($order->status) }}
+                                @endswitch
+                            </span>
+                        </td>
+
+                        {{-- Total --}}
+                        <td class="text-end fw-semibold">
+                            Rp {{ number_format($order->total_amount, 0, ',', '.') }}
+                        </td>
+
+                        {{-- Aksi --}}
+                        <td class="text-end">
+                            <a href="{{ route('orders.show', $order) }}"
+                               class="btn btn-outline-primary btn-sm px-3">
+                                Detail →
+                            </a>
+                        </td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="7" class="text-center py-5 text-muted">
+                            Belum ada pesanan
+                        </td>
+                    </tr>
+                    @endforelse
+                </tbody>
+            </table>
 
         </div>
 

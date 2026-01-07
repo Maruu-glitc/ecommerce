@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Storage;
 
 class ProductImage extends Model
-{
+{   
     protected $fillable = [
         'product_id',
         'image_path',

@@ -1,45 +1,58 @@
 {{-- ================================================
 FILE: resources/views/partials/flash-messages.blade.php
-FUNGSI: Menampilkan notifikasi flash messages
+FUNGSI: Menampilkan notifikasi flash messages (SweetAlert2)
 ================================================ --}}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-{{-- Success Message --}}
 @if(session('success'))
-<div class="alert alert-success alert-dismissible fade show" role="alert">
-    <i class="bi bi-check-circle me-2"></i>
-    {{ session('success') }}
-    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-</div>
+<script>
+    Swal.fire({
+        icon: 'success',
+        iconColor: '#ABE0F0',
+        title: 'Berhasil',
+        text: @json(session('success')),
+        timer: 3000,
+        showConfirmButton: false
+    });
+</script>
 @endif
 
-{{-- Error Message --}}
 @if(session('error'))
-<div class="alert alert-danger alert-dismissible fade show" role="alert">
-    <i class="bi bi-exclamation-triangle me-2"></i>
-    {{ session('error') }}
-    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-</div>
+<script>
+    Swal.fire({
+        icon: 'error',
+        title: 'Gagal',
+        text: @json(session('error')),
+        confirmButtonColor: '#d33',
+        confirmButtonText: 'OK'
+    });
+</script>
 @endif
 
-{{-- Info Message --}}
 @if(session('info'))
-<div class="alert alert-info alert-dismissible fade show" role="alert">
-    <i class="bi bi-info-circle me-2"></i>
-    {{ session('info') }}
-    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-</div>
+<script>
+    Swal.fire({
+        icon: 'info',
+        title: 'Informasi',
+        text: @json(session('info')),
+        confirmButtonText: 'OK'
+    });
+</script>
 @endif
 
-{{-- Validation Errors --}}
 @if($errors->any())
-<div class="alert alert-danger alert-dismissible fade show" role="alert">
-    <i class="bi bi-exclamation-triangle me-2"></i>
-    <strong>Terjadi kesalahan:</strong>
-    <ul class="mb-0 mt-2">
-        @foreach($errors->all() as $error)
-        <li>{{ $error }}</li>
-        @endforeach
-    </ul>
-    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-</div>
+<script>
+    Swal.fire({
+        icon: 'error',
+        title: 'Terjadi Kesalahan',
+        html: `
+            <ul style="text-align:left;">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        `,
+        confirmButtonText: 'Perbaiki'
+    });
+</script>
 @endif

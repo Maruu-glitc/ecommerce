@@ -107,7 +107,7 @@
             <li class="dropdown pc-h-item header-user-profile">
                 <a class="pc-head-link head-link-primary dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown" href="#"
                     role="button" aria-haspopup="false" aria-expanded="false">
-                    <img src="../assets/images/user/avatar-2.jpg" alt="user-image" class="user-avtar" />
+                    <img src="{{ auth()->user()->avatar_url}}" alt="user-image" class="user-avtar" />
                     <span>
                         <i class="ti ti-settings"></i>
                     </span>
@@ -116,7 +116,7 @@
                     <div class="dropdown-header">
                         <h4>
                             Good Morning,
-                            <span class="small " style="color: #451bfdaf;">{{ auth()->user()->name }}</span>
+                            <span class="fw-bold medium" style="color: #451bfdaf;">{{ auth()->user()->name }}</span>
                         </h4>
                         <p class="text-muted">Project Admin</p>
                         <hr />

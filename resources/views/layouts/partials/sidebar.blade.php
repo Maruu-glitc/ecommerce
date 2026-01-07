@@ -16,7 +16,7 @@
     <nav class="pc-sidebar pc-trigger">
         <div class="navbar-wrapper" style="display: block;">
             <div class="m-header">
-                <a href="/home" class="b-brand text-primary fw-bold " style="font-size: 30px">
+                <a href="/home" class="fw-bold" style="font-size: 30px; color: #6b98a5;">
                     <!-- ========   Change your logo from here   ============ -->
                     <i class="bi bi-bag-heart-fill"></i>
                     <span>Distros Mart</span>

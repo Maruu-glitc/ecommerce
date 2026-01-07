@@ -3,7 +3,7 @@ FILE: resources/views/partials/footer.blade.php
 FUNGSI: Footer website
 ================================================ --}}
 
-<footer class="bg-dark text-light pt-5 pb-3 mt-5">
+<footer class=" text-light pt-5 pb-3 mt-5" style="background-color: #203E4A;">
     <div class="container">
         <div class="row g-4">
             {{-- Brand & Description --}}
