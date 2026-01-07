@@ -97,7 +97,7 @@
                 <div class="card-header bg-white py-3">
                     <h5 class="card-title mb-0">Grafik Penjualan (7 Hari)</h5>
                 </div>
-                <div class="card-body">
+                <div class="card-body"> 
                     <div class="chart-container">
                         <canvas id="revenueChart" height="100"></canvas>
                     </div>
