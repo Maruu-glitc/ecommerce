@@ -26,7 +26,12 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 
+Route::get('dashhome', function () {
+    return view('dashhome');
+})->name('dashhome');
 
+route::get('dashhome', [HomeController::class, 'index'])
+    ->name('dashhome');
 
 
 

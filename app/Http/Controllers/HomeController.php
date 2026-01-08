@@ -70,14 +70,23 @@ class HomeController extends Controller
             ->take(8)
             ->get();
 
+        $bestSellingProducts = Product::query()
+            ->with(['category', 'primaryImage'])
+            ->active()
+            ->inStock()
+            ->latest() // Order by created_at DESC
+            ->take(8)
+            ->get();
+
         // ================================================
         // KIRIM DATA KE VIEW
         // compact() membuat array ['key' => $key]
         // ================================================
-        return view('home', compact(
+        return view('dashhome', compact(
             'categories',
             'featuredProducts',
-            'latestProducts'
+            'latestProducts',
+            'bestSellingProducts'
         ));
     }
 }

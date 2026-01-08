@@ -117,7 +117,8 @@
                 @foreach($products as $i => $product)
                 <div class="col-6 col-md-4 col-lg-3 fade-up"
                      style="transition-delay: {{ $i * 0.06 }}s">
-                    @include('partials.product-card', ['product' => $product])
+                    {{-- @include('partials.product-card', ['product' => $product]) --}}
+                    @include('partials.product-template', ['product' => $product])
                 </div>
                 @endforeach
             </div>
@@ -182,7 +183,7 @@ nav[role="navigation"] p {
     text-align: center;
 }
 
-}
+}   
 
 </style>
 @endsection
