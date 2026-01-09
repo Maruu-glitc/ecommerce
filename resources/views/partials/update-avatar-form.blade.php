@@ -1,47 +1,87 @@
 {{-- resources/views/profile/partials/update-avatar-form.blade.php --}}
 
-<p class="text-muted small">
-    Upload foto profil kamu. Format yang didukung: JPG, PNG, WebP. Maksimal 2MB.
+<style>
+    .avatar-wrapper {
+        position: relative;
+        width: 110px;
+        height: 110px;
+    }
+
+    .avatar-wrapper img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 2px solid #f1f1f1;
+    }
+
+    .avatar-delete {
+        position: absolute;
+        top: -6px;
+        right: -6px;
+        width: 26px;
+        height: 26px;
+        padding: 0;
+        border-radius: 50%;
+        line-height: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+</style>
+
+<p class="text-muted small mb-3">
+    Upload foto profil kamu. Format: JPG, PNG, WebP. Maksimal 2MB.
 </p>
 
-<form method="post" action="{{ route('profile.avatar') }}" enctype="multipart/form-data">
+<form method="POST" action="{{ route('profile.avatar') }}" enctype="multipart/form-data">
     @csrf
-    @method('post')
 
-    <div class="d-flex align-items-center gap-4">
+    <div class="d-flex align-items-center gap-4 flex-wrap">
+
         {{-- Avatar Preview --}}
-        <div class="position-relative">
-            <img id="avatar-preview" class="rounded-circle object-fit-cover border" style="width: 100px; height: 100px; position: static"
-            src="{{ auth()->user()->avatar_url }}"
-                src="{{ $user->avatar ? asset('storage/' . $user->avatar) : asset('images/default-avatar.png') }}"
+        <div class="avatar-wrapper">
+            <img
+                id="avatar-preview"
+                src="{{ $user->avatar
+                        ? asset('storage/' . $user->avatar)
+                        : asset('images/default-avatar.png') }}"
                 alt="{{ $user->name }}">
 
-            @if($user->avatar)
-            <button type="button"
-                onclick="if(confirm('Hapus foto profil?')) document.getElementById('delete-avatar-form').submit()"
-                class="btn btn-danger btn-sm rounded-circle position-absolute top-0 start-100 translate-middle p-1"
-                style="width: 24px; height: 24px; line-height: 1;" title="Hapus foto">
-                &times;
-            </button>
+            @if ($user->avatar)
+                <button type="button"
+                    onclick="if(confirm('Hapus foto profil?')) document.getElementById('delete-avatar-form').submit()"
+                    class="btn btn-danger avatar-delete"
+                    title="Hapus foto">
+                    &times;
+                </button>
             @endif
         </div>
 
         {{-- Upload Input --}}
         <div class="flex-grow-1">
-            <input type="file" name="avatar" id="avatar" accept="image/*" onchange="previewAvatar(event)"
-                class="form-control @error('avatar') is-invalid @enderror"  >
+            <label class="form-label fw-semibold">Pilih Foto Baru</label>
+            <input type="file"
+                name="avatar"
+                accept="image/*"
+                onchange="previewAvatar(event)"
+                class="form-control @error('avatar') is-invalid @enderror">
+
             @error('avatar')
-            <div class="invalid-feedback">{{ $message }}</div>
+                <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
+
     </div>
 
-    <div class="mt-3">
-        <button type="submit" class="btn btn-primary">Simpan Foto</button>
+    <div class="mt-4">
+        <button type="submit" class="btn btn-primary">
+            <i class="bi bi-upload me-1"></i> Simpan Foto
+        </button>
     </div>
 </form>
 
-{{-- Hidden Form Delete Avatar --}}
+{{-- Form Hapus Avatar --}}
 <form id="delete-avatar-form" action="{{ route('profile.avatar.destroy') }}" method="POST" class="d-none">
     @csrf
     @method('DELETE')
@@ -50,12 +90,12 @@
 <script>
     function previewAvatar(event) {
         const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                document.getElementById('avatar-preview').src = e.target.result;
-            }
-            reader.readAsDataURL(file);
-        }
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = e => {
+            document.getElementById('avatar-preview').src = e.target.result;
+        };
+        reader.readAsDataURL(file);
     }
 </script>

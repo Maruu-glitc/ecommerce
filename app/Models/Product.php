@@ -224,6 +224,16 @@ class Product extends Model
         return $this->weight . ' gram';
     }
 
+    public function getFinalPriceAttribute()
+    {
+        if ($this->discount_price && $this->discount_price > 0) {
+            return $this->discount_price;
+        }
+
+        return $this->price;
+    }
+
+
     // ==================== QUERY SCOPES ====================
 
     /**
