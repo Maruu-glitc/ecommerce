@@ -542,6 +542,7 @@
                                         <use xlink:href="#star-solid"></use>
                                     </svg> 4.5</span>
                                 <span class="price">$18.00</span>
+                                
                                 <div class="d-flex align-items-center justify-content-between">
                                     <div class="input-group product-qty">
                                         <span class="input-group-btn">

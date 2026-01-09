@@ -73,6 +73,7 @@
                                     <th>Produk</th>
                                     <th class="text-center">Qty</th>
                                     <th class="text-end">Harga</th>
+                                    <th class="text-center">Diskon</th>
                                     <th class="text-end">Subtotal</th>
                                 </tr>
                             </thead>
@@ -85,6 +86,15 @@
                                         Rp {{ number_format($item->discount_price ?? $item->price, 0, ',', '.') }}
                                     </td>
 
+                                    <td class="text-center">
+                                        @if($item->product->discount_price)
+                                            <span class="badge badge-brand">
+                                                Rp {{ number_format($item->price - $item->product->discount_price, 0, ',', '.') }}
+                                            </span>
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
                                     
                                     <td class="text-end fw-semibold">
                                         Rp {{ number_format($item->subtotal, 0, ',', '.') }}

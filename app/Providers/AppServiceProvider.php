@@ -3,26 +3,19 @@
 namespace App\Providers;
 
 use App\Models\Product;
-use App\Models\User;
+use App\Models\Wishlist;
 use App\Observers\ProductObserver;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\View;
-use App\Models\Wishlist;
 
 class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     */
     public function register(): void
     {
         //
     }
 
-    /**
-     * Bootstrap any application services.
-     */
     public function boot(): void
     {
         // Observer Produk
@@ -31,32 +24,39 @@ class AppServiceProvider extends ServiceProvider
         // Pagination Bootstrap 5
         Paginator::useBootstrapFive();
 
-        // 🔥 SHARE DATA CART KE SEMUA VIEW
+        // ================= GLOBAL VIEW DATA =================
         View::composer('*', function ($view) {
-            if (auth()->check() && auth()->user()->cart) {
 
-                $cart = auth()->user()->cart->load('items.product');
+            // Default aman (guest)
+            $cart = null;
+            $totalQty = 0;
+            $totalPrice = 0;
+            $wishlistCount = 0;
 
-                $totalQty = $cart->items->sum('quantity');
+            if (auth()->check()) {
 
-                $totalPrice = $cart->items->sum(function ($item) {
-                    return $item->product->price * $item->quantity;
-                });
+                // CART
+                $cart = auth()->user()
+                    ->cart()
+                    ->with('items.product')
+                    ->first();
 
-                // ❤️ WISHLIST
-                $wishlistCount = auth()->user()->wishlists()->count();
+                if ($cart) {
+                    $totalQty = $cart->items->sum('quantity');
 
-                $view->with([
-                    'cart' => $cart,
-                    'totalQty' => $totalQty,
-                    'totalPrice' => $totalPrice,
-                ]);
+                    $totalPrice = $cart->items->sum('subtotal');
+                }
 
-                // ===== WISHLIST =====
+                // WISHLIST
                 $wishlistCount = Wishlist::where('user_id', auth()->id())->count();
-
-                $view->with('wishlistCount', $wishlistCount);
             }
+
+            $view->with(compact(
+                'cart',
+                'totalQty',
+                'totalPrice',
+                'wishlistCount'
+            ));
         });
     }
 }
