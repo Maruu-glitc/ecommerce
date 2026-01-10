@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.distro')
 
 @section('content')
 <div class="container py-5 text-center">

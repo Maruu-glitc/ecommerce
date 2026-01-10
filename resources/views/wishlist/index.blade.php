@@ -1,6 +1,6 @@
 {{-- resources/views/wishlist/index.blade.php --}}
 
-@extends('layouts.app')
+@extends('layouts.distro')
 
 @section('title', 'Wishlist Saya')
 

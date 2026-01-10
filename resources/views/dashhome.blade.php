@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>FoodMart - Free eCommerce Grocery Store HTML Website Template</title>
+    <title>Distro Mart | Ecommerce</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,6 +23,22 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap"
         rel="stylesheet">
+    <style>
+        .category-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 12px;
+        }
+
+        .category-item img {
+            transition: transform .3s ease;
+        }
+
+        .category-item:hover img {
+            transform: scale(1.1);
+        }
+    </style>
 
 </head>
 
@@ -100,15 +116,16 @@
     <!-- End Loading Action -->
 
 
-   
+
     <!-- Navbar -->
     @include('layouts.template.navbar')
     <!-- End Navbar -->
 
     <!-- Content gambar -->
-    @include('layouts.template.iklan')
     <!-- End content gambar -->
     @include('partials.flash-messages')
+
+    @include('layouts.template.iklan')
     <!-- Category Section -->
     <section class="py-5 overflow-hidden">
         <div class="container-fluid">
@@ -136,57 +153,28 @@
 
                     <div class="category-carousel swiper">
                         <div class="swiper-wrapper">
-                            <a href="index.html" class="nav-link category-item swiper-slide">
-                                <img src="images/icon-vegetables-broccoli.png" alt="Category Thumbnail">
-                                <h3 class="category-title">Fruits & Veges</h3>
-                            </a>
-                            <a href="index.html" class="nav-link category-item swiper-slide">
-                                <img src="images/icon-bread-baguette.png" alt="Category Thumbnail">
-                                <h3 class="category-title">Breads & Sweets</h3>
-                            </a>
-                            <a href="index.html" class="nav-link category-item swiper-slide">
-                                <img src="images/icon-soft-drinks-bottle.png" alt="Category Thumbnail">
-                                <h3 class="category-title">Fruits & Veges</h3>
-                            </a>
-                            <a href="index.html" class="nav-link category-item swiper-slide">
-                                <img src="images/icon-wine-glass-bottle.png" alt="Category Thumbnail">
-                                <h3 class="category-title">Fruits & Veges</h3>
-                            </a>
-                            <a href="index.html" class="nav-link category-item swiper-slide">
-                                <img src="images/icon-animal-products-drumsticks.png" alt="Category Thumbnail">
-                                <h3 class="category-title">Fruits & Veges</h3>
-                            </a>
-                            <a href="index.html" class="nav-link category-item swiper-slide">
-                                <img src="images/icon-bread-herb-flour.png" alt="Category Thumbnail">
-                                <h3 class="category-title">Fruits & Veges</h3>
-                            </a>
-                            <a href="index.html" class="nav-link category-item swiper-slide">
-                                <img src="images/icon-vegetables-broccoli.png" alt="Category Thumbnail">
-                                <h3 class="category-title">Fruits & Veges</h3>
-                            </a>
-                            <a href="index.html" class="nav-link category-item swiper-slide">
-                                <img src="images/icon-vegetables-broccoli.png" alt="Category Thumbnail">
-                                <h3 class="category-title">Fruits & Veges</h3>
-                            </a>
-                            <a href="index.html" class="nav-link category-item swiper-slide">
-                                <img src="images/icon-vegetables-broccoli.png" alt="Category Thumbnail">
-                                <h3 class="category-title">Fruits & Veges</h3>
-                            </a>
-                            <a href="index.html" class="nav-link category-item swiper-slide">
-                                <img src="images/icon-vegetables-broccoli.png" alt="Category Thumbnail">
-                                <h3 class="category-title">Fruits & Veges</h3>
-                            </a>
-                            <a href="index.html" class="nav-link category-item swiper-slide">
-                                <img src="images/icon-vegetables-broccoli.png" alt="Category Thumbnail">
-                                <h3 class="category-title">Fruits & Veges</h3>
-                            </a>
-                            <a href="index.html" class="nav-link category-item swiper-slide">
-                                <img src="images/icon-vegetables-broccoli.png" alt="Category Thumbnail">
-                                <h3 class="category-title">Fruits & Veges</h3>
-                            </a>
+
+                            @foreach ($categories as $category)
+                                <a href="{{ route('catalog.index', ['category' => $category->slug]) }}"
+                                    class="nav-link category-item swiper-slide text-center text-decoration-none">
+
+                                    <img src="{{ $category->image_url }}" alt="{{ $category->name }}"
+                                        class="mb-2 rounded-2" width="190" height="190"
+                                        style="object-fit:cover">
+
+                                    <h3 class="category-title mb-1">
+                                        {{ $category->name }}
+                                    </h3>
+
+                                    <small class="text-muted">
+                                        {{ $category->products_count }} produk
+                                    </small>
+                                </a>
+                            @endforeach
 
                         </div>
                     </div>
+
 
                 </div>
             </div>
@@ -207,7 +195,7 @@
 
                     <div class="bootstrap-tabs product-tabs">
                         <div class="tabs-header d-flex justify-content-between border-bottom my-5">
-                            <h3>Produk Trending</h3>
+                            <h3>Semua Produk</h3>
                             <nav>
                                 <div class="nav nav-tabs" id="nav-tab" role="tablist">
                                     <a href="#" class="nav-link text-uppercase fs-6 active" id="nav-all-tab"
@@ -227,15 +215,14 @@
                                 <div
                                     class="product-grid row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
 
-
-
-
-                                    {{-- produk --}}
                                     @foreach ($latestProducts as $product)
-                                        @include('partials.product-template', ['product' => $product])
+                                        <div class="col mb-4">
+                                            @include('partials.product-template', ['product' => $product])
+                                        </div>
                                     @endforeach
 
                                 </div>
+
                                 <!-- / product-grid -->
 
                             </div>
@@ -431,7 +418,7 @@
                     <div class="products-carousel swiper">
                         <div class="swiper-wrapper">
 
-                            @foreach ($latestProducts as $product)
+                            @foreach ($bestSellingProducts as $product)
                                 <div class="swiper-slide">
                                     @include('partials.product-template', ['product' => $product])
                                 </div>
@@ -453,47 +440,54 @@
     <section class="py-5">
         <div class="container-fluid">
 
-            <div class="bg-secondary py-5 my-5 rounded-5"
-                style="background: url('images/bg-leaves-img-pattern.png') no-repeat;">
-                <div class="container my-5">
-                    <div class="row">
-                        <div class="col-md-6 p-5">
-                            <div class="section-header">
-                                <h2 class="section-title display-4">Get <span class="text-primary">25% Discount</span>
-                                    on your first purchase</h2>
+            @guest
+                <div class="bg-secondary py-5 my-5 rounded-5"
+                    style="background: url('images/bg-leaves-img-pattern.png') no-repeat;">
+                    <div class="container my-5">
+                        <div class="row">
+                            <div class="col-md-6 p-5">
+                                <div class="section-header">
+                                    <h2 class="section-title display-4">
+                                        Get <span class="text-primary">25% Discount</span>
+                                        on your first purchase
+                                    </h2>
+                                </div>
+                                <p>
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                                    Dictumst amet, metus, sit massa posuere maecenas.
+                                </p>
                             </div>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Dictumst amet, metus, sit massa
-                                posuere maecenas. At tellus ut nunc amet vel egestas.</p>
-                        </div>
-                        <div class="col-md-6 p-5">
-                            <form>
-                                <div class="mb-3">
-                                    <label for="name" class="form-label">Name</label>
-                                    <input type="text" class="form-control form-control-lg" name="name"
-                                        id="name" placeholder="Name">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="" class="form-label">Email</label>
-                                    <input type="email" class="form-control form-control-lg" name="email"
-                                        id="email" placeholder="abc@mail.com">
-                                </div>
-                                <div class="form-check form-check-inline mb-3">
-                                    <label class="form-check-label" for="subscribe">
-                                        <input class="form-check-input" type="checkbox" id="subscribe"
-                                            value="subscribe">
-                                        Subscribe to the newsletter</label>
-                                </div>
-                                <div class="d-grid gap-2">
-                                    <button type="submit" class="btn btn-dark btn-lg">Submit</button>
-                                </div>
-                            </form>
 
-                        </div>
+                            <div class="col-md-6 p-5">
+                                <form>
+                                    <div class="mb-3">
+                                        <label class="form-label">Name</label>
+                                        <input type="text" class="form-control form-control-lg" placeholder="Name">
+                                    </div>
 
+                                    <div class="mb-3">
+                                        <label class="form-label">Email</label>
+                                        <input type="email" class="form-control form-control-lg"
+                                            placeholder="abc@mail.com">
+                                    </div>
+
+                                    <div class="form-check mb-3">
+                                        <input class="form-check-input" type="checkbox" id="subscribe">
+                                        <label class="form-check-label" for="subscribe">
+                                            Subscribe to the newsletter
+                                        </label>
+                                    </div>
+
+                                    <div class="d-grid">
+                                        <button class="btn btn-dark btn-lg">Submit</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
                     </div>
-
                 </div>
-            </div>
+            @endguest
+
 
         </div>
     </section>
@@ -507,7 +501,7 @@
 
                     <div class="section-header d-flex justify-content-between">
 
-                        <h2 class="section-title">Produk Terpopular</h2>
+                        <h2 class="section-title">Produk Unggulan</h2>
 
                         <div class="d-flex align-items-center">
                             <a href="#" class="btn-link text-decoration-none">Lihat semua Produk →</a>
@@ -526,93 +520,11 @@
                     <div class="products-carousel swiper">
                         <div class="swiper-wrapper">
 
-
-                            <div class="product-item swiper-slide">
-                                <a href="#" class="btn-wishlist"><svg width="24" height="24">
-                                        <use xlink:href="#heart"></use>
-                                    </svg></a>
-                                <figure>
-                                    <a href="index.html" title="Product Title">
-                                        <img src="images/thumb-bananas.png" class="tab-image">
-                                    </a>
-                                </figure>
-                                <h3>Sunstar Fresh Melon Juice</h3>
-                                <span class="qty">1 Unit</span><span class="rating"><svg width="24"
-                                        height="24" class="text-primary">
-                                        <use xlink:href="#star-solid"></use>
-                                    </svg> 4.5</span>
-                                <span class="price">$18.00</span>
-                                
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <div class="input-group product-qty">
-                                        <span class="input-group-btn">
-                                            <button type="button"
-                                                class="quantity-left-minus btn btn-danger btn-number"
-                                                data-type="minus">
-                                                <svg width="16" height="16">
-                                                    <use xlink:href="#minus"></use>
-                                                </svg>
-                                            </button>
-                                        </span>
-                                        <input type="text" id="quantity" name="quantity"
-                                            class="form-control input-number" value="1">
-                                        <span class="input-group-btn">
-                                            <button type="button"
-                                                class="quantity-right-plus btn btn-success btn-number"
-                                                data-type="plus">
-                                                <svg width="16" height="16">
-                                                    <use xlink:href="#plus"></use>
-                                                </svg>
-                                            </button>
-                                        </span>
-                                    </div>
-                                    <a href="#" class="nav-link">Add to Cart <iconify-icon
-                                            icon="uil:shopping-cart"></a>
+                            @foreach ($featuredProducts as $product)
+                                <div class="swiper-slide">
+                                    @include('partials.product-template', ['product' => $product])
                                 </div>
-                            </div>
-
-                            <div class="product-item swiper-slide">
-                                <a href="#" class="btn-wishlist"><svg width="24" height="24">
-                                        <use xlink:href="#heart"></use>
-                                    </svg></a>
-                                <figure>
-                                    <a href="index.html" title="Product Title">
-                                        <img src="images/thumb-bananas.png" class="tab-image">
-                                    </a>
-                                </figure>
-                                <h3>Sunstar Fresh Melon Juice</h3>
-                                <span class="qty">1 Unit</span><span class="rating"><svg width="24"
-                                        height="24" class="text-primary">
-                                        <use xlink:href="#star-solid"></use>
-                                    </svg> 4.5</span>
-                                <span class="price">$18.00</span>
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <div class="input-group product-qty">
-                                        <span class="input-group-btn">
-                                            <button type="button"
-                                                class="quantity-left-minus btn btn-danger btn-number"
-                                                data-type="minus">
-                                                <svg width="16" height="16">
-                                                    <use xlink:href="#minus"></use>
-                                                </svg>
-                                            </button>
-                                        </span>
-                                        <input type="text" id="quantity" name="quantity"
-                                            class="form-control input-number" value="1">
-                                        <span class="input-group-btn">
-                                            <button type="button"
-                                                class="quantity-right-plus btn btn-success btn-number"
-                                                data-type="plus">
-                                                <svg width="16" height="16">
-                                                    <use xlink:href="#plus"></use>
-                                                </svg>
-                                            </button>
-                                        </span>
-                                    </div>
-                                    <a href="#" class="nav-link">Add to Cart <iconify-icon
-                                            icon="uil:shopping-cart"></a>
-                                </div>
-                            </div>
+                            @endforeach
 
                         </div>
                     </div>
@@ -632,10 +544,10 @@
 
                     <div class="section-header d-flex justify-content-between">
 
-                        <h2 class="section-title">Produk Keluaran Terbaru</h2>
+                        <h2 class="section-title">Produk Terbaru</h2>
 
                         <div class="d-flex align-items-center">
-                            <a href="#" class="btn-link text-decoration-none">Lihat Semua Kategori →</a>
+                            <a href="#" class="btn-link text-decoration-none">Lihat Semua Produk →</a>
                             <div class="swiper-buttons">
                                 <button class="swiper-prev products-carousel-prev btn btn-primary">❮</button>
                                 <button class="swiper-next products-carousel-next btn btn-primary">❯</button>
@@ -651,137 +563,11 @@
                     <div class="products-carousel swiper">
                         <div class="swiper-wrapper">
 
-                            <div class="product-item swiper-slide">
-                                <a href="#" class="btn-wishlist"><svg width="24" height="24">
-                                        <use xlink:href="#heart"></use>
-                                    </svg></a>
-                                <figure>
-                                    <a href="index.html" title="Product Title">
-                                        <img src="images/thumb-tomatoes.png" class="tab-image">
-                                    </a>
-                                </figure>
-                                <h3>Sunstar Fresh Melon Juice</h3>
-                                <span class="qty">1 Unit</span><span class="rating"><svg width="24"
-                                        height="24" class="text-primary">
-                                        <use xlink:href="#star-solid"></use>
-                                    </svg> 4.5</span>
-                                <span class="price">$18.00</span>
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <div class="input-group product-qty">
-                                        <span class="input-group-btn">
-                                            <button type="button"
-                                                class="quantity-left-minus btn btn-danger btn-number"
-                                                data-type="minus">
-                                                <svg width="16" height="16">
-                                                    <use xlink:href="#minus"></use>
-                                                </svg>
-                                            </button>
-                                        </span>
-                                        <input type="text" id="quantity" name="quantity"
-                                            class="form-control input-number" value="1">
-                                        <span class="input-group-btn">
-                                            <button type="button"
-                                                class="quantity-right-plus btn btn-success btn-number"
-                                                data-type="plus">
-                                                <svg width="16" height="16">
-                                                    <use xlink:href="#plus"></use>
-                                                </svg>
-                                            </button>
-                                        </span>
-                                    </div>
-                                    <a href="#" class="nav-link">Add to Cart <iconify-icon
-                                            icon="uil:shopping-cart"></a>
+                            @foreach ($latestProducts as $product)
+                                <div class="swiper-slide">
+                                    @include('partials.product-template', ['product' => $product])
                                 </div>
-                            </div>
-
-                            <div class="product-item swiper-slide">
-                                <a href="#" class="btn-wishlist"><svg width="24" height="24">
-                                        <use xlink:href="#heart"></use>
-                                    </svg></a>
-                                <figure>
-                                    <a href="index.html" title="Product Title">
-                                        <img src="images/thumb-tomatoketchup.png" class="tab-image">
-                                    </a>
-                                </figure>
-                                <h3>Sunstar Fresh Melon Juice</h3>
-                                <span class="qty">1 Unit</span><span class="rating"><svg width="24"
-                                        height="24" class="text-primary">
-                                        <use xlink:href="#star-solid"></use>
-                                    </svg> 4.5</span>
-                                <span class="price">$18.00</span>
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <div class="input-group product-qty">
-                                        <span class="input-group-btn">
-                                            <button type="button"
-                                                class="quantity-left-minus btn btn-danger btn-number"
-                                                data-type="minus">
-                                                <svg width="16" height="16">
-                                                    <use xlink:href="#minus"></use>
-                                                </svg>
-                                            </button>
-                                        </span>
-                                        <input type="text" id="quantity" name="quantity"
-                                            class="form-control input-number" value="1">
-                                        <span class="input-group-btn">
-                                            <button type="button"
-                                                class="quantity-right-plus btn btn-success btn-number"
-                                                data-type="plus">
-                                                <svg width="16" height="16">
-                                                    <use xlink:href="#plus"></use>
-                                                </svg>
-                                            </button>
-                                        </span>
-                                    </div>
-                                    <a href="#" class="nav-link">Add to Cart <iconify-icon
-                                            icon="uil:shopping-cart"></a>
-                                </div>
-                            </div>
-
-                            <div class="product-item swiper-slide">
-                                <a href="#" class="btn-wishlist"><svg width="24" height="24">
-                                        <use xlink:href="#heart"></use>
-                                    </svg></a>
-                                <figure>
-                                    <a href="index.html" title="Product Title">
-                                        <img src="images/thumb-bananas.png" class="tab-image">
-                                    </a>
-                                </figure>
-                                <h3>Sunstar Fresh Melon Juice</h3>
-                                <span class="qty">1 Unit</span><span class="rating"><svg width="24"
-                                        height="24" class="text-primary">
-                                        <use xlink:href="#star-solid"></use>
-                                    </svg> 4.5</span>
-                                <span class="price">$18.00</span>
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <div class="input-group product-qty">
-                                        <span class="input-group-btn">
-                                            <button type="button"
-                                                class="quantity-left-minus btn btn-danger btn-number"
-                                                data-type="minus">
-                                                <svg width="16" height="16">
-                                                    <use xlink:href="#minus"></use>
-                                                </svg>
-                                            </button>
-                                        </span>
-                                        <input type="text" id="quantity" name="quantity"
-                                            class="form-control input-number" value="1">
-                                        <span class="input-group-btn">
-                                            <button type="button"
-                                                class="quantity-right-plus btn btn-success btn-number"
-                                                data-type="plus">
-                                                <svg width="16" height="16">
-                                                    <use xlink:href="#plus"></use>
-                                                </svg>
-                                            </button>
-                                        </span>
-                                    </div>
-                                    <a href="#" class="nav-link">Add to Cart <iconify-icon
-                                            icon="uil:shopping-cart"></a>
-                                </div>
-                            </div>
-
-
-
+                            @endforeach
                         </div>
                     </div>
                     <!-- / products-carousel -->
@@ -792,156 +578,27 @@
     </section>
     <!-- End Produk Keluaran Terbaru Section -->
 
-    <section id="latest-blog" class="py-5">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="section-header d-flex align-items-center justify-content-between my-5">
-                    <h2 class="section-title">Our Recent Blog</h2>
-                    <div class="btn-wrap align-right">
-                        <a href="#" class="d-flex align-items-center nav-link">Read All Articles <svg
-                                width="24" height="24">
-                                <use xlink:href="#arrow-right"></use>
-                            </svg></a>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-4">
-                    <article class="post-item card border-0 shadow-sm p-3">
-                        <div class="image-holder zoom-effect">
-                            <a href="#">
-                                <img src="images/post-thumb-1.jpg" alt="post" class="card-img-top">
-                            </a>
-                        </div>
-                        <div class="card-body">
-                            <div class="post-meta d-flex text-uppercase gap-3 my-2 align-items-center">
-                                <div class="meta-date"><svg width="16" height="16">
-                                        <use xlink:href="#calendar"></use>
-                                    </svg>22 Aug 2021</div>
-                                <div class="meta-categories"><svg width="16" height="16">
-                                        <use xlink:href="#category"></use>
-                                    </svg>tips & tricks</div>
-                            </div>
-                            <div class="post-header">
-                                <h3 class="post-title">
-                                    <a href="#" class="text-decoration-none">Top 10 casual look ideas to dress
-                                        up your kids</a>
-                                </h3>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipi elit. Aliquet eleifend viverra enim
-                                    tincidunt donec quam. A in arcu, hendrerit neque dolor morbi...</p>
-                            </div>
-                        </div>
-                    </article>
-                </div>
-                <div class="col-md-4">
-                    <article class="post-item card border-0 shadow-sm p-3">
-                        <div class="image-holder zoom-effect">
-                            <a href="#">
-                                <img src="images/post-thumb-2.jpg" alt="post" class="card-img-top">
-                            </a>
-                        </div>
-                        <div class="card-body">
-                            <div class="post-meta d-flex text-uppercase gap-3 my-2 align-items-center">
-                                <div class="meta-date"><svg width="16" height="16">
-                                        <use xlink:href="#calendar"></use>
-                                    </svg>25 Aug 2021</div>
-                                <div class="meta-categories"><svg width="16" height="16">
-                                        <use xlink:href="#category"></use>
-                                    </svg>trending</div>
-                            </div>
-                            <div class="post-header">
-                                <h3 class="post-title">
-                                    <a href="#" class="text-decoration-none">Latest trends of wearing street
-                                        wears supremely</a>
-                                </h3>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipi elit. Aliquet eleifend viverra enim
-                                    tincidunt donec quam. A in arcu, hendrerit neque dolor morbi...</p>
-                            </div>
-                        </div>
-                    </article>
-                </div>
-                <div class="col-md-4">
-                    <article class="post-item card border-0 shadow-sm p-3">
-                        <div class="image-holder zoom-effect">
-                            <a href="#">
-                                <img src="images/post-thumb-3.jpg" alt="post" class="card-img-top">
-                            </a>
-                        </div>
-                        <div class="card-body">
-                            <div class="post-meta d-flex text-uppercase gap-3 my-2 align-items-center">
-                                <div class="meta-date"><svg width="16" height="16">
-                                        <use xlink:href="#calendar"></use>
-                                    </svg>28 Aug 2021</div>
-                                <div class="meta-categories"><svg width="16" height="16">
-                                        <use xlink:href="#category"></use>
-                                    </svg>inspiration</div>
-                            </div>
-                            <div class="post-header">
-                                <h3 class="post-title">
-                                    <a href="#" class="text-decoration-none">10 Different Types of comfortable
-                                        clothes ideas for women</a>
-                                </h3>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipi elit. Aliquet eleifend viverra enim
-                                    tincidunt donec quam. A in arcu, hendrerit neque dolor morbi...</p>
-                            </div>
-                        </div>
-                    </article>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <section class="py-5 my-5">
-        <div class="container-fluid">
 
-            <div class="bg-warning py-5 rounded-5"
-                style="background-image: url('images/bg-pattern-2.png') no-repeat;">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <img src="images/phone.png" alt="phone" class="image-float img-fluid">
-                        </div>
-                        <div class="col-md-8">
-                            <h2 class="my-5">Shop faster with foodmart App</h2>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sagittis sed ptibus liberolectus
-                                nonet psryroin. Amet sed lorem posuere sit iaculis amet, ac urna. Adipiscing fames
-                                semper erat ac in suspendisse iaculis. Amet blandit tortor praesent ante vitae. A, enim
-                                pretiummi senectus magna. Sagittis sed ptibus liberolectus non et psryroin.</p>
-                            <div class="d-flex gap-2 flex-wrap">
-                                <img src="images/app-store.jpg" alt="app-store">
-                                <img src="images/google-play.jpg" alt="google-play">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
-        </div>
-    </section>
 
     <section class="py-5">
         <div class="container-fluid">
-            <h2 class="my-5">People are also looking for</h2>
-            <a href="#" class="btn btn-warning me-2 mb-2">Blue diamon almonds</a>
-            <a href="#" class="btn btn-warning me-2 mb-2">Angie’s Boomchickapop Corn</a>
-            <a href="#" class="btn btn-warning me-2 mb-2">Salty kettle Corn</a>
-            <a href="#" class="btn btn-warning me-2 mb-2">Chobani Greek Yogurt</a>
-            <a href="#" class="btn btn-warning me-2 mb-2">Sweet Vanilla Yogurt</a>
-            <a href="#" class="btn btn-warning me-2 mb-2">Foster Farms Takeout Crispy wings</a>
-            <a href="#" class="btn btn-warning me-2 mb-2">Warrior Blend Organic</a>
-            <a href="#" class="btn btn-warning me-2 mb-2">Chao Cheese Creamy</a>
-            <a href="#" class="btn btn-warning me-2 mb-2">Chicken meatballs</a>
-            <a href="#" class="btn btn-warning me-2 mb-2">Blue diamon almonds</a>
-            <a href="#" class="btn btn-warning me-2 mb-2">Angie’s Boomchickapop Corn</a>
-            <a href="#" class="btn btn-warning me-2 mb-2">Salty kettle Corn</a>
-            <a href="#" class="btn btn-warning me-2 mb-2">Chobani Greek Yogurt</a>
-            <a href="#" class="btn btn-warning me-2 mb-2">Sweet Vanilla Yogurt</a>
-            <a href="#" class="btn btn-warning me-2 mb-2">Foster Farms Takeout Crispy wings</a>
-            <a href="#" class="btn btn-warning me-2 mb-2">Warrior Blend Organic</a>
-            <a href="#" class="btn btn-warning me-2 mb-2">Chao Cheese Creamy</a>
-            <a href="#" class="btn btn-warning me-2 mb-2">Chicken meatballs</a>
+            <h2 class="my-5">Pencarian Populer</h2>
+
+            <a href="#" class="btn btn-warning me-2 mb-2">Kaos Distro Terbaru</a>
+            <a href="#" class="btn btn-warning me-2 mb-2">Kaos Oversize</a>
+            <a href="#" class="btn btn-warning me-2 mb-2">Kaos Streetwear</a>
+            <a href="#" class="btn btn-warning me-2 mb-2">Kaos Hitam Polos</a>
+            <a href="#" class="btn btn-warning me-2 mb-2">Kaos Graphic Tee</a>
+            <a href="#" class="btn btn-warning me-2 mb-2">Kaos Limited Edition</a>
+            <a href="#" class="btn btn-warning me-2 mb-2">Kaos Cotton Combed 30s</a>
+            <a href="#" class="btn btn-warning me-2 mb-2">Kaos Anime</a>
+            <a href="#" class="btn btn-warning me-2 mb-2">Kaos Band</a>
+            <a href="#" class="btn btn-warning me-2 mb-2">Kaos Lokal Brand</a>
         </div>
     </section>
+
 
     <section class="py-5">
         <div class="container-fluid">
@@ -958,8 +615,10 @@
                             </div>
                             <div class="col-md-10">
                                 <div class="card-body p-0">
-                                    <h5>Free delivery</h5>
-                                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipi elit.</p>
+                                    <h5>Gratis Ongkir</h5>
+                                    <p class="card-text">
+                                        Gratis biaya pengiriman untuk pembelian kaos dengan syarat dan ketentuan berlaku.
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -977,8 +636,10 @@
                             </div>
                             <div class="col-md-10">
                                 <div class="card-body p-0">
-                                    <h5>100% secure payment</h5>
-                                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipi elit.</p>
+                                    <h5>100% Pembayaran Aman</h5>
+                                    <p class="card-text">
+                                        Mendukung transfer bank dan e-wallet dengan sistem pembayaran yang aman.
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -996,8 +657,11 @@
                             </div>
                             <div class="col-md-10">
                                 <div class="card-body p-0">
-                                    <h5>Quality guarantee</h5>
-                                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipi elit.</p>
+                                    <h5>kualitas Terbaik</h5>
+                                    <p class="card-text">
+                                        Menggunakan bahan katun berkualitas, nyaman dipakai dan tidak mudah luntur.
+
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -1008,15 +672,19 @@
                         <div class="row">
                             <div class="col-md-2 text-dark">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
-                                    viewBox="0 0 24 24">
-                                    <path fill="currentColor"
-                                        d="M12 8.35a3.07 3.07 0 0 0-3.54.53a3 3 0 0 0 0 4.24L11.29 16a1 1 0 0 0 1.42 0l2.83-2.83a3 3 0 0 0 0-4.24A3.07 3.07 0 0 0 12 8.35Zm2.12 3.36L12 13.83l-2.12-2.12a1 1 0 0 1 0-1.42a1 1 0 0 1 1.41 0a1 1 0 0 0 1.42 0a1 1 0 0 1 1.41 0a1 1 0 0 1 0 1.42ZM12 2A10 10 0 0 0 2 12a9.89 9.89 0 0 0 2.26 6.33l-2 2a1 1 0 0 0-.21 1.09A1 1 0 0 0 3 22h9a10 10 0 0 0 0-20Zm0 18H5.41l.93-.93a1 1 0 0 0 0-1.41A8 8 0 1 1 12 20Z" />
+                                    fill="currentColor" viewBox="0 0 24 24">
+                                    <!--Boxicons v3.0.7 https://boxicons.com | License  https://docs.boxicons.com/free-->
+                                    <path
+                                        d="M12 2C6.49 2 2 6.49 2 12v5c0 .55.45 1 1 1h3c.55 0 1-.45 1-1v-5c0-.55-.45-1-1-1H4.07C4.56 7.06 7.93 4 12 4s7.44 3.06 7.93 7H18c-.55 0-1 .45-1 1v5c0 .55.45 1 1 1h2v1c0 .55-.45 1-1 1h-4c0-.55-.45-1-1-1h-4c-.55 0-1 .45-1 1v1c0 .55.45 1 1 1h9c1.65 0 3-1.35 3-3v-7c0-5.51-4.49-10-10-10">
+                                    </path>
                                 </svg>
                             </div>
                             <div class="col-md-10">
                                 <div class="card-body p-0">
-                                    <h5>guaranteed savings</h5>
-                                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipi elit.</p>
+                                    <h5>Service Terpercaya</h5>
+                                    <p class="card-text">
+                                        Layanan pelanggan siap membantu dan merespon pesanan dengan cepat.
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -1034,8 +702,10 @@
                             </div>
                             <div class="col-md-10">
                                 <div class="card-body p-0">
-                                    <h5>Daily offers</h5>
-                                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipi elit.</p>
+                                    <h5>Promo Harian</h5>
+                                    <p class="card-text">
+                                        Dapatkan diskon dan penawaran spesial kaos terbaru setiap hari.
+                                    </p>
                                 </div>
                             </div>
                         </div>

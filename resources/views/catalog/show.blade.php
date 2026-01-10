@@ -1,52 +1,44 @@
 {{-- ================================================
 FILE: resources/views/catalog/show.blade.php
-FUNGSI: Halaman detail produk
+FUNGSI: Halaman detail produk (Refined Foodmart Style)
 ================================================ --}}
 
-@extends('layouts.app')
+@extends('layouts.distro')
 
 @section('title', $product->name)
 
 @section('content')
-<div class="container py-4">
+<div class="container py-5">
     {{-- Breadcrumb --}}
     <nav aria-label="breadcrumb" class="mb-4">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('catalog.index') }}">Katalog</a></li>
-            <li class="breadcrumb-item">
-                <a href="{{ route('catalog.index', ['category' => $product->category->slug]) }}">
-                    {{ $product->category->name }}
-                </a>
-            </li>
-            <li class="breadcrumb-item active">{{ Str::limit($product->name, 30) }}</li>
+        <ol class="breadcrumb small p-0 m-0">
+            <li class="breadcrumb-item"><a href="{{ route('home') }}" class="text-decoration-none text-muted">Home</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('catalog.index') }}" class="text-decoration-none text-muted">Katalog</a></li>
+            <li class="breadcrumb-item active fw-bold text-primary">{{ $product->category->name }}</li>
         </ol>
     </nav>
 
-    <div class="row">
-        {{-- Product Images --}}
-        <div class="col-lg-6 mb-4">
-            <div class="card border-0 shadow-sm">
-                {{-- Main Image --}}
-                <div class="position-relative">
-                    <img src="{{ $product->image_url }}" id="main-image" class="card-img-top" alt="{{ $product->name }}"
-                        style="height: 400px; object-fit: contain; background: #f8f9fa;">
-
+    <div class="row g-4">
+        {{-- ================= IMAGE SECTION ================= --}}
+        <div class="col-lg-7">
+            <div class="card border-0 bg-white overflow-hidden main-product-card">
+                <div class="image-display-container">
+                    <img src="{{ $product->image_url }}" id="main-image" 
+                         class="img-fluid" alt="{{ $product->name }}">
+                    
                     @if($product->has_discount)
-                    <span class="badge bg-danger position-absolute top-0 start-0 m-3 fs-6">
-                        -{{ $product->discount_percentage }}%
-                    </span>
+                    <div class="discount-label">-{{ $product->discount_percentage }}%</div>
                     @endif
                 </div>
 
-                {{-- Thumbnail Gallery --}}
                 @if($product->images->count() > 1)
-                <div class="card-body">
-                    <div class="d-flex gap-2 overflow-auto">
+                <div class="p-3 bg-white border-top">
+                    <div class="d-flex gap-2 overflow-auto thumb-gallery">
                         @foreach($product->images as $image)
-                        <img src="{{ asset('storage/' . $image->image_path) }}" class="rounded border cursor-pointer"
-                            style="width: 80px; height: 80px; object-fit: cover; cursor: pointer;"
-                            onclick="document.getElementById('main-image').src = this.src">
+                        <img src="{{ asset('storage/' . $image->image_path) }}" 
+                             class="img-thumbnail thumb-item" 
+                             onclick="document.getElementById('main-image').src = this.src"
+                             alt="Thumbnail">
                         @endforeach
                     </div>
                 </div>
@@ -54,113 +46,92 @@ FUNGSI: Halaman detail produk
             </div>
         </div>
 
-        {{-- Product Info --}}
-        <div class="col-lg-6">
-            <div class="card border-0 shadow-sm">
-                <div class="card-body">
-                    {{-- Category --}}
-                    <a href="{{ route('catalog.index', ['category' => $product->category->slug]) }}"
-                        class="badge bg-light text-dark text-decoration-none mb-2">
+        {{-- ================= INFO SECTION ================= --}}
+        <div class="col-lg-5">
+            <div class="product-info-wrapper h-100">
+                {{-- Header Info --}}
+                <div class="mb-4">
+                    <span class="text-uppercase tracking-wider text-muted small fw-bold mb-2 d-block">
                         {{ $product->category->name }}
-                    </a>
-
-                    {{-- Title --}}
-                    <h2 class="mb-3">{{ $product->name }}</h2>
-
-                    {{-- Price --}}
-                    <div class="mb-4">
+                    </span>
+                    <h1 class="display-6 fw-bold mb-2 text-dark">{{ $product->name }}</h1>
+                    
+                    <div class="d-flex align-items-baseline gap-2 mt-3">
+                        <h2 class="fw-bold text-primary mb-0">{{ $product->formatted_price }}</h2>
                         @if($product->has_discount)
-                        <div class="text-muted text-decoration-line-through">
+                        <span class="text-muted text-decoration-line-through fs-5">
                             {{ $product->formatted_original_price }}
-                        </div>
-                        @endif
-                        <div class="h3 text-primary fw-bold mb-0">
-                            {{ $product->formatted_price }}
-                        </div>
-                    </div>
-
-                    {{-- Stock Status --}}
-                    <div class="mb-4 ">
-                        @if($product->stock > 10)
-                        <span class="badge bg-success p-2">
-                            <i class="bi bi-check-circle me-1"></i> Stok Tersedia
-                        </span>
-                        @elseif($product->stock > 0)
-                        <span class="badge bg-warning text-dark p-2">
-                            <i class="bi bi-exclamation-triangle me-1"></i> Stok Tinggal {{ $product->stock }}
-                        </span>
-                        @else
-                        <span class="badge bg-danger p-2">
-                            <i class="bi bi-x-circle me-1"></i> Stok Habis
                         </span>
                         @endif
                     </div>
+                </div>
 
-                    {{-- Add to Cart Form --}}
-                    <form action="{{ route('cart.add') }}" method="POST" class="mb-4">
-                        @csrf
-                        <input type="hidden" name="product_id" value="{{ $product->id }}">
-
-                        <div class="row g-3 align-items-end">
-                            <div class="col-auto">
-                                <label class="form-label">Jumlah</label>
-                                <div class="input-group" style="width: 140px;">
-                                    <button type="button" class="btn btn-outline-secondary"
-                                        onclick="decrementQty()">-</button>
-                                    <input type="number" name="quantity" id="quantity" value="1" min="1"
-                                        max="{{ $product->stock }}" class="form-control text-center">
-                                    <button type="button" class="btn btn-outline-secondary"
-                                        onclick="incrementQty()">+</button>
-                                </div>
-                            </div>
-                            <div class="row mt-3 ms-lg-1">
-                                <button type="submit" id="btnK" class="btn btn-primary btn-lg w-100 fw-bold" @if($product->stock
-                                    == 0)
-                                    disabled @endif>
-                                    <i class="bi bi-cart-plus me-2"></i>
-                                    Tambah ke Keranjang
-                                </button>
-                            </div>
-                            {{-- <div class="row mt-3 ms-lg-1">
-                                <button type="submit" class="btn btn-outline-primary btn-lg w-100 fw-bold"
-                                    @if($product->stock == 0)
-                                    disabled @endif>
-                                    <i class="bi bi-cart-plus me-2"></i>
-                                    Beli Sekarang
-                                </button>
-                            </div> --}}
+                <div class="mb-4">
+                    <p class="text-muted lh-base">{!! $product->description !!}</p>
+                    <div class="small text-muted border-top border-bottom py-2">
+                        <div class="row">
+                            <div class="col-6"><strong>SKU:</strong> PROD-{{ $product->id }}</div>
+                            <div class="col-6 text-end"><strong>Berat:</strong> {{ $product->weight }}g</div>
                         </div>
-                    </form>
+                    </div>
+                </div>
 
-                    {{-- Beli Sekarang --}}
-                    <a href="{{ route('checkout.index') }}" id="btnBeli" class="btn btn-lg w-100 fw-bold mb-4">
-                        Beli Sekarang </a>
-
-                    {{-- Wishlist --}}
-                    @auth
-                    <button type="button" onclick="toggleWishlist({{ $product->id }})"
-                        class="btn btn-outline-danger mb-4 wishlist-btn-{{ $product->id }}">
-                        <i
-                            class="bi {{ auth()->user()->hasInWishlist($product) ? 'bi-heart-fill' : 'bi-heart' }} me-2"></i>
-                        {{ auth()->user()->hasInWishlist($product) ? 'Hapus dari Wishlist' : 'Tambah ke Wishlist' }}
-                    </button>
-                    @endauth
-
-                    <hr>
-
-                    {{-- Product Details --}}
-                    <div class="mb-3">
-                        <h6>Deskripsi</h6>
-                        <p class="text-muted">{!! $product->description !!}</p>
+                {{-- Action Area --}}
+                <form action="{{ route('cart.add') }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="product_id" value="{{ $product->id }}">
+                    
+                    {{-- Quantity Selector --}}
+                    <div class="mb-4">
+                        <label class="form-label small fw-bold text-uppercase">Jumlah Pesanan</label>
+                        <div class="input-group quantity-grid" style="width: 160px;">
+                            <button class="btn btn-outline-secondary btn-qty" type="button" onclick="decrementQty()">-</button>
+                            <input type="number" name="quantity" id="quantity" class="form-control text-center fw-bold" 
+                                   value="1" min="1" max="{{ $product->stock }}">
+                            <button class="btn btn-outline-secondary btn-qty" type="button" onclick="incrementQty()">+</button>
+                        </div>
+                        <small class="text-{{ $product->stock > 0 ? 'success' : 'danger' }} mt-2 d-block fw-semibold">
+                            Stock: {{ $product->stock }} {{ $product->stock > 0 ? 'Tersedia' : 'Habis' }}
+                        </small>
                     </div>
 
-                    <div class="row text-muted small">
-                        <div class="col-6 mb-2">
-                            <i class="bi bi-box me-2"></i> Berat: {{ $product->weight }} gram
+                    {{-- Grid Tombol Aksi --}}
+                    <div class="row g-2">
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-foodmart w-100 py-3 fw-bold text-uppercase"
+                                    @if($product->stock == 0) disabled @endif>
+                                <i class="bi bi-cart-plus me-2"></i> Tambah ke Keranjang
+                            </button>
                         </div>
-                        <div class="col-6 mb-2">
-                            <i class="bi bi-tag me-2"></i> SKU: PROD-{{ $product->id }}
+                        <div class="col-8">
+                            <a href="{{ route('checkout.index') }}" class="btn btn-dark w-100 py-3 fw-bold text-uppercase">
+                                <i class="bi bi-bag-check me-2"></i> Beli Sekarang
+                            </a>
                         </div>
+                        <div class="col-4">
+                            @auth
+                            <button type="button" onclick="toggleWishlist({{ $product->id }})" 
+                                    class="btn btn-outline-danger w-100 h-100 py-3">
+                                <i class="bi {{ auth()->user()->hasInWishlist($product) ? 'bi-heart-fill' : 'bi-heart' }}"></i>
+                            </button>
+                            @endauth
+                        </div>
+                    </div>
+                </form>
+
+                {{-- Trust Badges --}}
+                <div class="mt-5 d-flex gap-4 p-3 bg-light rounded-3">
+                    <div class="text-center small">
+                        <i class="bi bi-shield-check fs-4 d-block text-primary"></i>
+                        <span>Original</span>
+                    </div>
+                    <div class="text-center small">
+                        <i class="bi bi-truck fs-4 d-block text-primary"></i>
+                        <span>Fast Delivery</span>
+                    </div>
+                    <div class="text-center small">
+                        <i class="bi bi-arrow-repeat fs-4 d-block text-primary"></i>
+                        <span>Easy Return</span>
                     </div>
                 </div>
             </div>
@@ -168,55 +139,114 @@ FUNGSI: Halaman detail produk
     </div>
 </div>
 
+<style>
+/* Reset & Foodmart Theme */
+:root {
+    --fm-primary: #9FCAD6;
+    --fm-dark: #2D3436;
+    --fm-border-radius: 8px; /* Square with slight radius */
+}
+
+.main-product-card {
+    border-radius: var(--fm-border-radius);
+    border: 1px solid #eee !important;
+}
+
+/* Image Container: Memastikan gambar pas di card */
+.image-display-container {
+    height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #ffffff;
+    padding: 2rem;
+    position: relative;
+}
+
+.image-display-container img {
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain; /* Gambar tidak terpotong */
+}
+
+.discount-label {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: #ff4757;
+    color: white;
+    padding: 5px 15px;
+    font-weight: bold;
+    border-radius: 4px;
+}
+
+/* Gallery Thumbnails */
+.thumb-item {
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+    cursor: pointer;
+    border-radius: 4px;
+    border: 2px solid transparent;
+}
+
+.thumb-item:hover {
+    border-color: var(--fm-primary);
+}
+
+/* Tombol / Button Styles */
+.btn {
+    border-radius: var(--fm-border-radius) !important;
+    transition: all 0.2s ease;
+    border-width: 2px;
+}
+
+.btn-foodmart {
+    background-color: var(--fm-primary);
+    border-color: var(--fm-primary);
+    color: #fff;
+}
+
+.btn-foodmart:hover {
+    background-color: #8bb7c2;
+    border-color: #8bb7c2;
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+.btn-qty {
+    border-color: #dee2e6;
+    background: #f8f9fa;
+}
+
+/* Typography */
+.tracking-wider {
+    letter-spacing: 0.1em;
+}
+
+/* Custom Input Number */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+</style>
+
 @push('scripts')
 <script>
-    function incrementQty() {
-        const input = document.getElementById('quantity');
-        const max = parseInt(input.max);
-        if (parseInt(input.value) < max) {
-            input.value = parseInt(input.value) + 1;
-        }
+function incrementQty() {
+    const input = document.getElementById('quantity');
+    const max = parseInt(input.max);
+    if (parseInt(input.value) < max) {
+        input.value = parseInt(input.value) + 1;
     }
-    function decrementQty() {
-        const input = document.getElementById('quantity');
-        if (parseInt(input.value) > 1) {
-            input.value = parseInt(input.value) - 1;
-        }
+}
+function decrementQty() {
+    const input = document.getElementById('quantity');
+    if (parseInt(input.value) > 1) {
+        input.value = parseInt(input.value) - 1;
     }
+}
 </script>
 @endpush
 @endsection
-
-<style>
-    #btnK {
-        background: linear-gradient(135deg, #BDDDE4, #9FCAD6);
-        color: #1f2937;
-        /* abu gelap, lebih readable */
-        border: none;
-        transition: all .25s ease;
-    }
-    
-    #btnBeli {
-        background: linear-gradient(135deg, #BDDDE4, );
-        color: #1f2937;
-        /* abu gelap, lebih readable */
-        border-color: #9FCAD6;
-        transition: all .25s ease;
-    }
-
-    #btnK:hover {
-        background: linear-gradient(135deg, #9FCAD6, #BDDDE4);
-        transform: translateY(-1px);
-        box-shadow: 0 8px 20px rgba(159, 202, 214, 0.35);
-        color: #111827;
-    }
-
-    #btnBeli:hover{
-        background: #0000000b;
-    }
-
-    #btnK:active {
-        transform: translateY(0);
-        box-shadow: 0 4px 10px rgba(159, 202, 214, 0.25);
-    }
-</style>

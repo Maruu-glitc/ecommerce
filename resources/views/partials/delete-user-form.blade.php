@@ -5,7 +5,7 @@
 </p>
 
 <!-- Button trigger modal -->
-<button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#confirmUserDeletionModal">
+<button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#confirmUserDeletionModal">
     Hapus Akun
 </button>
 
@@ -37,7 +37,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                <button type="submit" class="btn btn-danger">Hapus Akun</button>
+                <button type="submit" class="btn text-white" style="background-color: red">Hapus Akun</button>
             </div>
         </form>
     </div>

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.distro')
 
 @section('content')
 
@@ -115,9 +115,9 @@
             </div>
 
             {{-- 5. Hapus Akun --}}
-            <div class="card danger-card profile-card">
-                <div class="card-header text-danger d-flex align-items-center">
-                    <div class="section-icon bg-danger text-white">
+            <div class="card danger-card profile-card" style="background: rgba(255, 0, 0, 0.13)">
+                <div class="card-header  d-flex align-items-center" style="color: red">
+                    <div class="section-icon  text-white" style="background: red">
                         <i class="bi bi-trash"></i>
                     </div>
                     Hapus Akun
