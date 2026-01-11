@@ -39,7 +39,7 @@
             transform: scale(1.1);
         }
     </style>
-
+    @stack('styles')
 </head>
 
 <body>
@@ -121,11 +121,16 @@
     @include('layouts.template.navbar')
     <!-- End Navbar -->
 
-    <!-- Content gambar -->
-    <!-- End content gambar -->
+   {{-- Pesan notifikasi --}}
     @include('partials.flash-messages')
 
+
+
+    {{--  Banner promosi --}}
     @include('layouts.template.iklan')
+
+
+
     <!-- Category Section -->
     <section class="py-5 overflow-hidden">
         <div class="container-fluid">
@@ -149,10 +154,10 @@
 
             <!-- Category Carousel -->
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-12 ">
 
                     <div class="category-carousel swiper">
-                        <div class="swiper-wrapper">
+                        <div class="swiper-wrapper justify-content-center">
 
                             @foreach ($categories as $category)
                                 <a href="{{ route('catalog.index', ['category' => $category->slug]) }}"
@@ -174,12 +179,9 @@
 
                         </div>
                     </div>
-
-
                 </div>
             </div>
             <!-- Category Carousel end -->
-
         </div>
     </section>
     <!-- end Category Section -->
@@ -728,6 +730,7 @@
     </script>
     <script src="{{ asset('js/plugins.js') }}"></script>
     <script src="{{ asset('js/script.js') }}"></script>
+
 </body>
 
 </html>

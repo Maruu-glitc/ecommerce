@@ -7,7 +7,7 @@
             class="card-img-top position-absolute top-0 start-0 w-100 h-100 object-fit-cover">
 
         @if($product->has_discount)
-        <span class="position-absolute top-0 start-0 m-2 badge bg-danger">
+        <span class="position-absolute top-0 start-0 m-2 badge " style="background-color: #ff4081;">
             -{{ $product->discount_percentage }}%
         </span>
         @endif
@@ -23,10 +23,10 @@
         </h6>
         <div class="mt-auto">
             @if($product->has_discount)
-            <p class="fw-bold text-danger mb-0">{{ $product->formatted_price }}</p>
-            <small class="text-decoration-line-through text-muted">{{ $product->formatted_original_price }}</small>
+            <p class="fw-bold text-dark mb-0">{{ $product->formatted_price }}</p>
+            <small class="text-decoration-line-through " style="color:#ff4081;">{{ $product->formatted_original_price }}</small>
             @else
-            <p class="fw-bold text-primary mb-0">{{ $product->formatted_price }}</p>
+            <p class="fw-bold text-primary mb-0" style="color:#ff4081; ">{{ $product->formatted_price }}</p>
             @endif
         </div>
     </div>

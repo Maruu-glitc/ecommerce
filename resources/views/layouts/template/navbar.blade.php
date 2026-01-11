@@ -34,7 +34,7 @@
             {{-- LOGO --}}
             <div class="col-sm-4 col-lg-3 text-center text-sm-start">
                 <a href="{{ url('/') }}">
-                    <img src="{{asset('images/logoDistro2.png')}}" class="img-fluid" alt="logo" width="210">
+                    <img src="{{ asset('images/logoDistro2.png') }}" class="img-fluid" alt="logo" width="210">
                 </a>
             </div>
 
@@ -75,7 +75,8 @@
                         {{-- USER --}}
                         <li class="dropdown">
                             <a class=" p-3 dropdown-toggle" data-bs-toggle="dropdown">
-                                <img src="{{ auth()->user()->avatar_url }}" alt="{{auth()->user()->name}}" width="40" height="40" class="rounded-circle">
+                                <img src="{{ auth()->user()->avatar_url }}" alt="{{ auth()->user()->name }}" width="40"
+                                    height="40" class="rounded-circle">
                             </a>
 
                             <ul class="dropdown-menu dropdown-menu-end shadow-sm">
@@ -175,6 +176,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
     </div>
 
+    {{-- Keranjang sidebar --}}
     <div class="offcanvas-body">
 
         @if (isset($cart) && $cart->items->count())
@@ -186,14 +188,24 @@
 
                         <div>
                             <div class="fw-semibold">{{ $item->product->name }}</div>
+                            <small class="text-muted text-decoration-line-through " style="margin-left: 10px">
+                                Rp{{ number_format($item->product->price, 0) }}
+                            </small>
+                        </div>
+
+                        <div>
+                            <div>
+                                <span class="fw-bold">
+                                    Rp{{ number_format($item->product->final_price * $item->quantity, 0) }}
+                                </span>
+                            </div>
+
+
+
                             <small class="text-muted">
                                 {{ $item->quantity }} × Rp{{ number_format($item->product->final_price, 0) }}
                             </small>
                         </div>
-
-                        <span class="fw-bold">
-                            Rp{{ number_format($item->product->final_price * $item->quantity, 0) }}
-                        </span>
 
                     </li>
                 @endforeach
@@ -209,90 +221,98 @@
                 Checkout
             </a>
 
-            <a href="{{ route('cart.index') }}" class="btn btn-secondary w-100 mt-3">
+            <a href="{{ route('cart.index') }}" class="btn btn-dark w-100 mt-3">
                 Lihat Keranjang
             </a>
         @else
             <p class="text-center text-muted mt-4">
                 Keranjang masih kosong
             </p>
-            
+
+            <a href="{{ route('cart.index') }}" class="btn btn-dark w-100 mt-3">
+                Lihat Keranjang
+            </a>
+
+
         @endif
 
     </div>
 </div>
 <div class="container-fluid">
     <div class="row py-3">
-      <div class="d-flex  justify-content-center justify-content-sm-between align-items-center">
-        <nav class="main-menu d-flex navbar navbar-expand-lg">
+        <div class="d-flex  justify-content-center justify-content-sm-between align-items-center">
+            <nav class="main-menu d-flex navbar navbar-expand-lg">
 
-          <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
-            aria-controls="offcanvasNavbar">
-            <span class="navbar-toggler-icon"></span>
-          </button>
+                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-          <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+                <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar"
+                    aria-labelledby="offcanvasNavbarLabel">
 
-            <div class="offcanvas-header justify-content-center">
-              <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-            </div>
+                    <div class="offcanvas-header justify-content-center">
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
+                            aria-label="Close"></button>
+                    </div>
 
-            <div class="offcanvas-body">
-          
-              <select class="filter-categories border-0 mb-0 me-5">
-                <option>Shop by Departments</option>
-                <option>Groceries</option>
-                <option>Drinks</option>
-                <option>Chocolates</option>
-              </select>
-          
-              <ul class="navbar-nav justify-content-end menu-list list-unstyled d-flex gap-md-3 mb-0">
-                <li class="nav-item active">
-                  <a href="#women" class="nav-link">Women</a>
-                </li>
-                <li class="nav-item dropdown">
-                  <a href="#men" class="nav-link">Men</a>
-                </li>
-                <li class="nav-item">
-                  <a href="#kids" class="nav-link">Kids</a>
-                </li>
-                <li class="nav-item">
-                  <a href="#accessories" class="nav-link">Accessories</a>
-                </li>
-                <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" role="button" id="pages" data-bs-toggle="dropdown" aria-expanded="false">Pages</a>
-                  <ul class="dropdown-menu" aria-labelledby="pages">
-                    <li><a href="index.html" class="dropdown-item">About Us </a></li>
-                    <li><a href="index.html" class="dropdown-item">Shop </a></li>
-                    <li><a href="index.html" class="dropdown-item">Single Product </a></li>
-                    <li><a href="index.html" class="dropdown-item">Cart </a></li>
-                    <li><a href="index.html" class="dropdown-item">Checkout </a></li>
-                    <li><a href="index.html" class="dropdown-item">Blog </a></li>
-                    <li><a href="index.html" class="dropdown-item">Single Post </a></li>
-                    <li><a href="index.html" class="dropdown-item">Styles </a></li>
-                    <li><a href="index.html" class="dropdown-item">Contact </a></li>
-                    <li><a href="index.html" class="dropdown-item">Thank You </a></li>
-                    <li><a href="index.html" class="dropdown-item">My Account </a></li>
-                    <li><a href="index.html" class="dropdown-item">404 Error </a></li>
-                  </ul>
-                </li>
-                <li class="nav-item">
-                  <a href="#brand" class="nav-link">Brand</a>
-                </li>
-                <li class="nav-item">
-                  <a href="#sale" class="nav-link">Sale</a>
-                </li>
-                <li class="nav-item">
-                  <a href="#blog" class="nav-link">Blog</a>
-                </li>
-              </ul>
-            
-            </div>
+                    <div class="offcanvas-body">
 
-          </div>
-      </div>
+                        <select class="filter-categories border-0 mb-0 me-5">
+                            <option>Shop by Departments</option>
+                            <option>Groceries</option>
+                            <option>Drinks</option>
+                            <option>Chocolates</option>
+                        </select>
+
+                        <ul class="navbar-nav justify-content-end menu-list list-unstyled d-flex gap-md-3 mb-0">
+                            <li class="nav-item active">
+                                <a href="#women" class="nav-link">Women</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#men" class="nav-link">Men</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#kids" class="nav-link">Kids</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#accessories" class="nav-link">Accessories</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" role="button" id="pages"
+                                    data-bs-toggle="dropdown" aria-expanded="false">Pages</a>
+                                <ul class="dropdown-menu" aria-labelledby="pages">
+                                    <li><a href="index.html" class="dropdown-item">About Us </a></li>
+                                    <li><a href="index.html" class="dropdown-item">Shop </a></li>
+                                    <li><a href="index.html" class="dropdown-item">Single Product </a></li>
+                                    <li><a href="index.html" class="dropdown-item">Cart </a></li>
+                                    <li><a href="index.html" class="dropdown-item">Checkout </a></li>
+                                    <li><a href="index.html" class="dropdown-item">Blog </a></li>
+                                    <li><a href="index.html" class="dropdown-item">Single Post </a></li>
+                                    <li><a href="index.html" class="dropdown-item">Styles </a></li>
+                                    <li><a href="index.html" class="dropdown-item">Contact </a></li>
+                                    <li><a href="index.html" class="dropdown-item">Thank You </a></li>
+                                    <li><a href="index.html" class="dropdown-item">My Account </a></li>
+                                    <li><a href="index.html" class="dropdown-item">404 Error </a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#brand" class="nav-link">Brand</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#sale" class="nav-link">Sale</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#blog" class="nav-link">Blog</a>
+                            </li>
+                        </ul>
+
+                    </div>
+
+                </div>
+        </div>
     </div>
-  </div>
+</div>
 <script>
     function toggleWishlist(productId) {
         fetch(`/wishlist/toggle/${productId}`, {

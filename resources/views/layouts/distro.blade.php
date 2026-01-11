@@ -21,7 +21,7 @@
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/vendor.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('style.css') }}">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"> --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -112,7 +112,7 @@
     </div>
     <!-- End Loading Action -->
 
-
+    {{-- Keranjang --}}
     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasCart">
         <div class="offcanvas-header">
             <i class="bi bi-cart fs-5 me-3"></i>
@@ -149,13 +149,7 @@
                                 </small>
                             </div>
 
-                        <li class="list-group-item d-flex justify-content-end align-items-start">
-
-                        </li>
-
-
-
-
+                       
                         </li>
                     @endforeach
 
@@ -166,17 +160,17 @@
                     <span>Rp{{ number_format($cart->items->sum('subtotal'), 0) }}</span>
                 </div>
 
-                <a href="{{ route('checkout.index') }}" class="btn btn-dark w-100 mt-3">
+                <a href="{{ route('checkout.index') }}" class="btn btn-primary w-100 mt-3">
                     Checkout
                 </a>
-                <a href="{{ route('cart.index') }}" class="btn btn-primary w-100 mt-3">
+                <a href="{{ route('cart.index') }}" class="btn btn-dark w-100 mt-3">
                     Lihat Keranjang
                 </a>
             @else
                 <p class="text-center text-muted mt-4">
                     Keranjang masih kosong
                 </p>
-                <a href="{{ route('cart.index') }}" class="btn btn-warning w-100 mt-3">
+                <a href="{{ route('cart.index') }}" class="btn btn-dark w-100 mt-3">
                     Lihat Keranjang
                 </a>
             @endif
@@ -185,9 +179,12 @@
     </div>
 
     <!-- Navbar -->
+    @auth
     @include('layouts.template.navbar')
+    @endauth
     <!-- End Navbar -->
     @include('partials.flash-messages')
+    
     <main>
         @yield('content')
     </main>

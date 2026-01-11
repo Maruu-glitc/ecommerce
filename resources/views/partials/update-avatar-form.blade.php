@@ -92,9 +92,9 @@ FUNGSI: Form Update Foto Profil (Modern Foodmart Style)
             <div class="avatar-wrapper">
                 <img
                     id="avatar-preview"
-                    src="{{ $user->avatar
-                            ? asset('storage/' . $user->avatar)
-                            : asset('images/default-avatar.png') }}"
+                    src="{{ auth()->user()->avatar
+                            ? asset('storage/' . $user->avatar )
+                            : asset('images/imageUser2.jpg') }}"
                     alt="{{ $user->name }}">
 
                 @if ($user->avatar)

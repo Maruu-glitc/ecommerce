@@ -75,7 +75,7 @@ FUNGSI: Halaman detail produk (Refined Foodmart Style)
                     </div>
 
                     {{-- Action Area --}}
-                    <form action="{{ route('cart.add') }}" method="POST">
+                        <form action="{{ route('cart.add') }}" method="POST">
                         @csrf
                         <input type="hidden" name="product_id" value="{{ $product->id }}">
 
@@ -95,30 +95,31 @@ FUNGSI: Halaman detail produk (Refined Foodmart Style)
                                 Stock: {{ $product->stock }} {{ $product->stock > 0 ? 'Tersedia' : 'Habis' }}
                             </small>
                         </div>
+                        @auth
+                            <button type="button" onclick="toggleWishlist({{ $product->id }})"
+                                class="btn btn-danger  wishlist-btn-{{ $product->id }}" id="wishlist">
+                                <i class="bi {{ auth()->user()->hasInWishlist($product) ? 'bi-heart-fill' : 'bi-heart' }}"></i>
+                            </button>
+                        @endauth
 
                         {{-- Grid Tombol Aksi --}}
                         <div class="row g-2">
+
+                            {{-- Keranjang --}}
                             <div class="col-12">
                                 <button type="submit" class="btn btn-foodmart w-100 py-3 fw-bold text-uppercase"
                                     @if ($product->stock == 0) disabled @endif>
                                     <i class="bi bi-cart-plus me-2"></i> Tambah ke Keranjang
                                 </button>
                             </div>
-                            {{-- <div class="col-8">
-                            <a href="{{ route('checkout.index') }}" class="btn btn-dark w-100 py-3 fw-bold text-uppercase">
-                                <i class="bi bi-bag-check me-2"></i> Beli Sekarang
-                            </a>
-                        </div> --}}
-                            <div class="col-4 ">
-                                @auth
-                                    <button type="button" onclick="toggleWishlist({{ $product->id }})"
-                                        class="btn btn-outline-danger mb-4 wishlist-btn-{{ $product->id }}">
-                                        <i
-                                            class="bi {{ auth()->user()->hasInWishlist($product) ? 'bi-heart-fill' : 'bi-heart' }} me-2"></i>
-                                        {{ auth()->user()->hasInWishlist($product) ? 'Hapus dari Wishlist' : 'Tambah ke Wishlist' }}
-                                    </button>
-                                @endauth
+
+                            {{-- Wishlist --}}
+                            <div class="col-4 position-relative">
+                                {{-- Wishlist --}}
+
                             </div>
+
+
                         </div>
                     </form>
 
@@ -162,20 +163,24 @@ FUNGSI: Halaman detail produk (Refined Foodmart Style)
             /* Square with slight radius */
         }
 
-        /* .bi{
-                    transition: all 0.3s ease;
-                }
+       
 
-                .bi:hover {
-                    cursor: pointer;
-                    color: red;
+        #wishlist {
+            z-index: 2;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 9px;
+            background-color: #ff4757;
+            border: none;
+        }
 
-                }
-
-                .bi:hover::before {
-                    content: "\f415";
-                    /* bi-heart-fill */
-        /* } */
+        .product-item {
+            position: relative;
+        }
 
         .main-product-card {
             border-radius: var(--fm-border-radius);
@@ -248,8 +253,8 @@ FUNGSI: Halaman detail produk (Refined Foodmart Style)
         }
 
         .btn-foodmart:hover {
-            background-color: #8bb7c2;
-            border-color: #8bb7c2;
+            background-color: #ccad59;
+            border-color: #ccad59;
             color: #fff;
             transform: translateY(-2px);
         }
@@ -289,35 +294,35 @@ FUNGSI: Halaman detail produk (Refined Foodmart Style)
                 }
             }
 
-            function toggleWishlist(productId) {
-                fetch(`/wishlist/toggle/${productId}`, {
-                        method: 'POST',
-                        headers: {
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                            'Accept': 'application/json'
-                        }
-                    })
-                    .then(res => res.json())
-                    .then(data => {
-                        const btn = document.querySelector('.wishlist-btn-' + productId);
-                        const icon = btn.querySelector('i');
-                        const toastEl = document.getElementById('wishlistToast');
-                        const toastMsg = document.getElementById('wishlistToastMessage');
+            // function toggleWishlist(productId) {
+            // fetch(`/wishlist/toggle/${productId}`, {
+            // method: 'POST',
+            // headers: {
+            // 'X-CSRF-TOKEN': '{{ csrf_token() }}',
+            // 'Accept': 'application/json'
+            // }
+            // })
+            // .then(res => res.json())
+            // .then(data => {
+            // const btn = document.querySelector('.wishlist-btn-' + productId);
+            // const icon = btn.querySelector('i');
+            // const toastEl = document.getElementById('wishlistToast');
+            // const toastMsg = document.getElementById('wishlistToastMessage');
 
-                        if (data.status === 'added') {
-                            icon.classList.remove('bi-heart');
-                            icon.classList.add('bi-heart-fill');
-                            toastMsg.innerText = '❤️ Ditambahkan ke Wishlist';
-                        } else {
-                            icon.classList.remove('bi-heart-fill');
-                            icon.classList.add('bi-heart');
-                            toastMsg.innerText = '💔 Dihapus dari Wishlist';
-                        }
+            // if (data.status === 'added') {
+            // icon.classList.remove('bi-heart');
+            // icon.classList.add('bi-heart-fill');
+            // toastMsg.innerText = '❤️ Ditambahkan ke Wishlist';
+            // } else {
+            // icon.classList.remove('bi-heart-fill');
+            // icon.classList.add('bi-heart');
+            // toastMsg.innerText = '💔 Dihapus dari Wishlist';
+            // }
 
-                        const toast = new bootstrap.Toast(toastEl);
-                        toast.show();
-                    });
-            }
+            // const toast = new bootstrap.Toast(toastEl);
+            // toast.show();
+            // });
+            // }
         </script>
     @endpush
 
