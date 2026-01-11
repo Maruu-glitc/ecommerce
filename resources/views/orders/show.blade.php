@@ -151,7 +151,7 @@ FUNGSI: Detail Order & Pembayaran (Foodmart Style)
 
                     {{-- Summary Total (Grid 2 Kolom) --}}
                     <div class="row justify-content-end mt-4">
-                        <div class="col-md-5">
+                        <div class="col-md-6">
                             <div class="bg-light p-4 rounded-3">
                                 <div class="d-flex justify-content-between mb-2">
                                     <span class="text-muted">Ongkos Kirim</span>

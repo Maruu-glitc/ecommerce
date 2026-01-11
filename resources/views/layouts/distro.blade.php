@@ -21,13 +21,14 @@
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/vendor.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('style.css') }}">
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     {{-- Vite CSS --}}
     {{-- @vite(['resources/css/app.css', 'resources/js/app.js']) --}}
@@ -130,21 +131,21 @@
 
                             <div>
                                 <div class="fw-semibold">{{ $item->product->name }}</div>
-                                <small class="text-muted ">
-                                    {{ $item->quantity }} × Rp{{ number_format($item->product->final_price, 0) }}
+                                <small class="text-muted text-decoration-line-through " style="margin-left: 10px">
+                                    Rp{{ number_format($item->product->price , 0) }}
+
                                 </small>
                             </div>
 
                             <div>
                                 <div>
                                     <span class="fw-bold">
-                                        Rp{{ number_format($item->product->final_price * $item->quantity) }}
+                                        Rp{{ number_format($item->product->final_price) }}
                                     </span>
                                 </div>
 
-                                <small class="text-muted text-decoration-line-through " style="margin-left: 10px">
-                                    Rp{{ number_format($item->product->price * $item->quantity, 0) }}
-
+                                <small class="text-muted ">
+                                    {{ $item->quantity }} × Rp{{ number_format($item->product->final_price, 0) }}
                                 </small>
                             </div>
 

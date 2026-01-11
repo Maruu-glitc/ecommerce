@@ -358,13 +358,15 @@
 
                 <div class="col-md-6">
                     <div class="banner-ad bg-danger mb-3"
-                        style="background: url('images/ad-image-3.png');background-repeat: no-repeat;background-position: right bottom;">
+                        style="background: url('images/Tshirts.png');background-repeat: no-repeat;background-position: right bottom;  background-size: 280px auto;">
                         <div class="banner-content p-5">
 
-                            <div class="categories text-primary fs-3 fw-bold">Upto 25% Off</div>
-                            <h3 class="banner-title">Luxa Dark Chocolate</h3>
-                            <p>Very tasty & creamy vanilla flavour creamy muffins.</p>
-                            <a href="#" class="btn btn-dark text-uppercase">Show Now</a>
+                            <div class="categories text-primary fs-3 fw-bold">Diskon Hingga 25%</div>
+                            <h3 class="banner-title">Kaos Nyaman & Stylish</h3>
+                            <p class="text-dark">Cocok untuk aktivitas sehari-hari, tetap tampil percaya diri.</p>
+                            
+                            <a href="#" class="btn btn-dark text-uppercase">Lihat Produk</a>
+                            {{-- <img src="{{asset('images/Tshirts.png')}}" alt="" width="200" height="200" style="background-size: contain;"> --}}
 
                         </div>
 
@@ -372,13 +374,13 @@
                 </div>
                 <div class="col-md-6">
                     <div class="banner-ad bg-info"
-                        style="background: url('images/ad-image-4.png');background-repeat: no-repeat;background-position: right bottom;">
+                        style="background: url('images/kaosWhiteDark.png');background-repeat: no-repeat;background-position: right bottom;  background-size: 280px auto;">
                         <div class="banner-content p-5">
 
-                            <div class="categories text-primary fs-3 fw-bold">Upto 25% Off</div>
-                            <h3 class="banner-title">Creamy Muffins</h3>
-                            <p>Very tasty & creamy vanilla flavour creamy muffins.</p>
-                            <a href="#" class="btn btn-dark text-uppercase">Show Now</a>
+                            <div class="categories text-primary fs-3 fw-bold">Promo Hingga 50%</div>
+                            <h3 class="banner-title">Kaos Kekinian</h3>
+                            <p class="text-dark">Favorit pelanggan dengan bahan premium dan jahitan rapi.</p>
+                            <a href="#" class="btn btn-dark text-uppercase">Lihat Produk</a>
 
                         </div>
 
@@ -448,8 +450,8 @@
                             <div class="col-md-6 p-5">
                                 <div class="section-header">
                                     <h2 class="section-title display-4">
-                                        Get <span class="text-primary">25% Discount</span>
-                                        on your first purchase
+                                        Dapatkan <span class="text-primary">25% Diskon</span>
+                                        Untuk pembelian pertama
                                     </h2>
                                 </div>
                                 <p>

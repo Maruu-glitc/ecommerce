@@ -54,13 +54,13 @@
                 @include('partials.tombolKembali')
             </div>
 
-            {{-- Alert --}}
+            {{-- Alert
             @if (session('success'))
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
                     {{ session('success') }}
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
-            @endif
+            @endif --}}
 
             {{-- 1. Avatar --}}
             <div class="card profile-card mb-4">

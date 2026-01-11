@@ -75,7 +75,7 @@
                         {{-- USER --}}
                         <li class="dropdown">
                             <a class=" p-3 dropdown-toggle" data-bs-toggle="dropdown">
-                                <img src="{{ auth()->user()->avatar_url }}" width="40" height="40" class="rounded-circle">
+                                <img src="{{ auth()->user()->avatar_url }}" alt="{{auth()->user()->name}}" width="40" height="40" class="rounded-circle">
                             </a>
 
                             <ul class="dropdown-menu dropdown-menu-end shadow-sm">
@@ -157,8 +157,8 @@
                             class="px-3 py-2 rounded-pill bg-light fw-semibold hover-shadow text-decoration-none text-dark">
                             <i class="bi bi-box-arrow-in-right"></i> Masuk
                         </a>
-                        <a href="{{ route('register') }}" class="btn btn-primary rounded-pill px-4">
-                            <i class="bi bi-person-plus"></i> Daftar
+                        <a href="{{ route('register') }}" class="btn btn-primary rounded-pill px-4 ">
+                            <i class="bi bi-person-plus mt-2"></i> Daftar
                         </a>
                     </div>
                 @endauth

@@ -1,188 +1,262 @@
-@extends('layouts.app')
+
+@extends('layouts.distro')
 
 @section('content')
+
 <div class="login-wrapper">
-    <div class="login-card">
-        {{-- Header --}}
-        <div class="login-header">
-            <h3>Welcome Back</h3>
-            <p>Silakan login ke akun kamu</p>
+    <div class="container">
+        <div class="row justify-content-center align-items-center min-vh-100">
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="auth-card">
+                    {{-- Premium Brand Header --}}
+                    <div class="auth-header text-center">
+                        <div class="brand-logo">
+                            <i class="fa-solid fa-shirt"></i>
+                        </div>
+                        <h2 class="auth-title">Welcome Back</h2>
+                        <p class="auth-subtitle">Silahkan daftar untuk melihat kaos yang anda inginkan.</p>
+                    </div>
+
+                    <form method="POST" action="{{ route('login') }}" class="auth-form">
+                        @csrf
+
+                        <div class="input-group-custom">
+                            <label class="label-sm">Email Address</label>
+                            <input type="email" name="email" value="{{ old('email') }}"
+                                class="form-control-premium @error('email') is-invalid @enderror" 
+                                placeholder="e.g. user@distro.com" required autofocus>
+                            @error('email')
+                                <span class="error-msg">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="input-group-custom">
+                            <div class="d-flex justify-content-between">
+                                <label class="label-sm">Password</label>
+                                @if (Route::has('password.request'))
+                                    <a href="{{ route('password.request') }}" class="link-subtle">Lupa Password?</a>
+                                @endif
+                            </div>
+                            <input type="password" name="password" 
+                                class="form-control-premium @error('password') is-invalid @enderror"
+                                placeholder="••••••••" required>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <div class="form-check custom-check">
+                                <input type="checkbox" class="form-check-input" id="remember" name="remember">
+                                <label class="form-check-label label-sm" for="remember">Ingat saya</label>
+                            </div>
+                            
+                        </div>
+
+                        <button type="submit" class="btn-premium-action">
+                            SIGN IN
+                        </button>
+
+                        <div class="divider-text">
+                            <span>atau</span>
+                        </div>
+
+                        <a href="{{ url('auth/google') }}" class="btn-google-premium">
+                            <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" width="25">
+                            Google Account
+                        </a>
+
+                        <div class="auth-footer text-center">
+                            <p>Belum punya akun? <a href="{{ route('register') }}" class="link-primary-bold">Daftar</a></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-
-        {{-- Form --}}
-        <form method="POST" action="{{ route('login') }}">
-            @csrf
-
-            {{-- Email --}}
-            <div class="form-group">
-                <label>Email</label>
-                <input type="email" name="email" value="{{ old('email') }}"
-                    class="form-control @error('email') is-invalid @enderror" placeholder="nama@email.com" required
-                    autofocus>
-                @error('email')
-                <small class="text-danger">{{ $message }}</small>
-                @enderror
-            </div>
-
-            {{-- Password --}}
-            <div class="form-group mt-3">
-                <label>Password</label>
-                <input type="password" name="password" class="form-control @error('password') is-invalid @enderror"
-                    placeholder="••••••••" required>
-                @error('password')
-                <small class="text-danger">{{ $message }}</small>
-                @enderror
-            </div>
-
-            {{-- Remember --}}
-            <div class="remember-row">
-                <label>
-                    <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}>
-                    Ingat saya
-                </label>
-
-                @if (Route::has('password.request'))
-                <a href="{{ route('password.request') }}">Lupa password?</a>
-                @endif
-            </div>
-
-            {{-- Button --}}
-            <button class="btn-login">Login</button>
-
-            {{-- Divider --}}
-            <div class="divider"><hr>atau<hr></div>
-
-            {{-- Google --}}
-            <a href="{{ url('auth/google') }}" class="btn-google">
-                <img src="https://www.svgrepo.com/show/475656/google-color.svg">
-                Login dengan Google
-            </a>
-
-            {{-- Register --}}
-            <p class="register-text">
-                Belum punya akun?
-                <a href="{{ route('register') }}">Daftar Sekarang</a>
-            </p>
-        </form>
     </div>
 </div>
 @endsection
 
 <style>
-    /* Background */
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap');
+
+    :root {
+        --primary-accent: #FFD41D;
+        --dark-space: #121212;
+        --soft-gray: #fcfcfc;
+        --border-color: #f1f1f1;
+        --text-muted: #888888;
+    }
+
+    body {
+        background-color: var(--soft-gray);
+        font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
     .login-wrapper {
-        min-height: 100vh;
-        background: linear-gradient(135deg, #7faab6, #ffffff);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-family: 'Inter', sans-serif;
+        background: radial-gradient(circle at top right, #fff9e6 0%, #fcfcfc 40%);
     }
-    
-    /* Card */
-    .login-card {
-        width: 100%;
-        max-width: 420px;
+
+    /* Card Aesthetic */
+    .auth-card {
         background: #ffffff;
-        border-radius: 20px;
-        padding: 35px;
-        box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+        padding: 3rem 2.5rem;
+        border-radius: 2rem;
+        border: 1px solid rgba(0,0,0,0.02);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.04);
     }
-    
-    /* Header */
-    .login-header {
-        text-align: center;
-        margin-bottom: 25px;
-    }
-    .login-header h3 {
-        font-weight: 700;
-        color: #1f2937;
-    }
-    .login-header p {
-        color: #6b7280;
-        font-size: 14px;
-    }
-    
-    /* Form */
-    .form-control {
-        border-radius: 12px;
-        padding: 12px 14px;
-        border: 1px solid #e5e7eb;
-    }
-    .form-control:focus {
-        border-color: #7faab6;
-        box-shadow: 0 0 0 3px rgba(140,169,255,.25);
-    }
-    
-    /* Remember */
-    .remember-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        font-size: 14px;
-        margin: 15px 0;
-    }
-    .remember-row a {
-        color: #7faab6;
-        text-decoration: none;
-    }
-    
-    /* Login Button */
-    .btn-login {
-        width: 100%;
-        border: none;
-        padding: 12px;
-        border-radius: 14px;
-        background: linear-gradient(135deg, #a8d3df, #7faab6);
-        color: #fff;
-        font-weight: 600;
-        transition: .3s;
-    }
-    .btn-login:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 10px 20px #6c889045;
-    }
-    
-    /* Divider */
-    .divider {
-        text-align: center;
-        margin: 20px 0;
-        font-size: 13px;
-        color: #9ca3af;
-    }
-    
-    /* Google Button */
-    .btn-google {
+
+    /* Brand Section */
+    .brand-logo {
+        width: 64px;
+        height: 64px;
+        background: var(--primary-accent);
+        color: var(--dark-space);
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 10px;
-        border: 1px solid #e5e7eb;
-        padding: 11px;
-        border-radius: 14px;
+        border-radius: 1.25rem;
+        margin: 0 auto 1.5rem;
+        font-size: 1.8rem;
+        transform: rotate(-5deg); /* Slight tilt for streetwear vibe */
+    }
+
+    .auth-title {
+        font-weight: 800;
+        letter-spacing: -1px;
+        color: var(--dark-space);
+        margin-bottom: 0.5rem;
+        font-size: 1.75rem;
+    }
+
+    .auth-subtitle {
+        color: var(--text-muted);
+        font-size: 0.9rem;
+        margin-bottom: 2.5rem;
+    }
+
+    /* Form Styling */
+    .input-group-custom {
+        margin-bottom: 1.5rem;
+    }
+
+    .label-sm {
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: var(--dark-space);
+        margin-bottom: 0.6rem;
+        display: block;
+    }
+
+    .form-control-premium {
+        width: 100%;
+        padding: 0.85rem 1.2rem;
+        border-radius: .50rem;
+        border: 1px solid var(--border-color);
+        background: #f9f9f9;
+        transition: all 0.3s ease;
+        font-size: 0.95rem;
+    }
+
+    .form-control-premium:focus {
+        outline: none;
+        background: #fff;
+        border-color: var(--primary-accent);
+        box-shadow: 0 0 0 4px rgba(255, 212, 29, 0.1);
+    }
+
+    /* Buttons */
+    .btn-premium-action {
+        width: 100%;
+        background: var(--dark-space);
+        color: #fff;
+        border: none;
+        padding: .50rem;
+        border-radius: 1rem;
+        font-weight: 700;
+        letter-spacing: 2px;
+        margin-top: 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .btn-premium-action:hover {
+        background: var(--primary-accent);
+        color: var(--dark-space);
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(255, 212, 29, 0.3);
+    }
+
+    .btn-google-premium {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        width: 100%;
+        padding: 0.85rem;
+        border-radius: 1rem;
+        border: 1px solid var(--border-color);
         text-decoration: none;
-        color: #374151;
-        font-weight: 500;
-        transition: .3s;
-    }
-    .btn-google img {
-        width: 18px;
-    }
-    .btn-google:hover {
-        background: #f5f7ff;
-        border-color: #8CA9FF;
-    }
-    
-    /* Register */
-    .register-text {
-        margin-top: 20px;
-        text-align: center;
-        font-size: 14px;
-    }
-    .register-text a {
-        color: #a8d3df;
+        color: var(--dark-space);
         font-weight: 600;
+        font-size: 0.9rem;
+        transition: 0.3s;
+    }
+
+    .btn-google-premium:hover {
+        background: #f1f1f1;
+    }
+
+    /* Divider */
+    .divider-text {
+        text-align: center;
+        margin: 2rem 0;
+        position: relative;
+    }
+
+    .divider-text::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 0;
+        width: 100%;
+        height: 1px;
+        background: #eeeeee;
+        z-index: 1;
+    }
+
+    .divider-text span {
+        background: #fff;
+        padding: 0 15px;
+        position: relative;
+        z-index: 2;
+        color: #bbb;
+        font-size: 0.7rem;
+        font-weight: 700;
+        letter-spacing: 1px;
+    }
+
+    /* Links */
+    .link-subtle {
+        font-size: 0.75rem;
+        color: var(--text-muted);
         text-decoration: none;
     }
-    </style>
-    
+
+    .link-primary-bold {
+        color: var(--dark-space);
+        font-weight: 700;
+        text-decoration: none;
+        border-bottom: 2px solid var(--primary-accent);
+    }
+
+    .auth-footer {
+        margin-top: 2rem;
+        font-size: 0.9rem;
+    }
+
+    .error-msg {
+        color: #ff4d4d;
+        font-size: 0.75rem;
+        margin-top: 0.4rem;
+        display: block;
+    }
+</style>
